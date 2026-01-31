@@ -17,8 +17,8 @@
 
     <div class="chat-container">
         <ng-container *ngIf="gifts$ | async as gifts">
-            <div *ngFor="let gift of gifts" class="bubble" [class.bubble-given]="gift.type === 'given'"
-                [class.bubble-received]="gift.type === 'received'">
+            <div *ngFor="let gift of gifts; trackBy: trackByGiftId" class="bubble"
+                [class.bubble-given]="gift.type === 'given'" [class.bubble-received]="gift.type === 'received'">
 
                 <span class="gift-amount">
                     <ion-icon [name]="gift.type === 'given' ? 'arrow-up' : 'arrow-down'"

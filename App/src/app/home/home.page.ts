@@ -10,7 +10,7 @@ import { GiftService } from '../services/gift.service';
 import { AuthService } from '../services/auth.service';
 import { Contact } from '../models/data.models';
 import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { HighlightPipe } from '../pipes/highlight.pipe';
 
 @Component({
@@ -37,7 +37,10 @@ export class HomePage implements OnInit {
     // Combine contacts and search term for filtering
     this.filteredContacts$ = combineLatest([
       this.giftService.getContactsWithLastGift(),
-      this.searchTerm$
+      this.searchTerm$.pipe(
+        debounceTime(300), // Performance: Wait 300ms
+        distinctUntilChanged() // Performance: Ignore identical emissions
+      )
     ]).pipe(
       map(([contacts, term]) => {
         const lowerTerm = term.toLowerCase();

@@ -124,4 +124,8 @@ export class ChatDetailPage implements OnInit {
 
         this.scrollToBottom();
     }
+
+    trackByGiftId(index: number, gift: Gift): string {
+        return gift.id;
+    }
 }
