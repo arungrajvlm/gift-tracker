@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, IonContent, NavController } from '@ionic/angular';
+import { IonicModule, IonContent, NavController, AlertController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { arrowBack, arrowDownOutline, giftOutline, send, arrowUp, arrowDown } from 'ionicons/icons';
+import { arrowBack, arrowDownOutline, giftOutline, send, arrowUp, arrowDown, pencil } from 'ionicons/icons';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GiftService } from '../../services/gift.service';
 import { Contact, Gift } from '../../models/data.models';
@@ -33,13 +33,49 @@ export class ChatDetailPage implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private giftService: GiftService,
-        private navCtrl: NavController
+        private navCtrl: NavController,
+        private alertCtrl: AlertController
     ) {
-        addIcons({ arrowBack, arrowUp, arrowDown });
+        addIcons({ arrowBack, arrowUp, arrowDown, pencil });
     }
 
     goBack() {
         this.navCtrl.back();
+    }
+
+    async editName() {
+        if (!this.contact) return;
+
+        const alert = await this.alertCtrl.create({
+            header: 'Edit Name',
+            inputs: [
+                {
+                    name: 'name',
+                    type: 'text',
+                    value: this.contact.name,
+                    placeholder: 'Enter name'
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel'
+                },
+                {
+                    text: 'Save',
+                    handler: (data) => {
+                        if (data.name && data.name.trim() !== '') {
+                            this.giftService.updateContactName(this.contact!.id, data.name);
+                            // Refresh local contact reference
+                            this.contact = this.giftService.getContact(this.contact!.id);
+                        }
+                    }
+                }
+            ],
+            cssClass: 'custom-alert'
+        });
+
+        await alert.present();
     }
 
     openModal(type: 'given' | 'received') {

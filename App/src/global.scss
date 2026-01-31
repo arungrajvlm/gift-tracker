@@ -38,3 +38,72 @@ ion-list {
     background: transparent !important;
     padding: 0;
 }
+
+/* Custom Alert Styling */
+.custom-alert {
+    --background: #1E293B;
+    /* Card BG */
+    --backdrop-opacity: 0.6;
+
+    .alert-wrapper {
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .alert-head {
+        padding-bottom: 0;
+
+        h2 {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+        }
+    }
+
+    .alert-input-group {
+        padding-top: 12px;
+
+        .alert-input {
+            background: #0F172A;
+            /* Darker BG for input */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            padding: 12px;
+
+            &::placeholder {
+                color: #64748B;
+            }
+        }
+    }
+
+    .alert-button-group {
+        padding: 16px;
+        gap: 12px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        button {
+            flex: 1;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: none;
+            margin: 0;
+            height: 44px;
+        }
+
+        .alert-button-role-cancel {
+            background: #334155 !important;
+            color: white !important;
+        }
+
+        .alert-button-role-ok {
+            background: var(--ion-color-primary) !important;
+            color: white !important;
+            /* box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); */
+            /* Note: Ionic alerts might strip box-shadow or need deep selectors */
+        }
+    }
+}

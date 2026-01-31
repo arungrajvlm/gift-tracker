@@ -6,11 +6,27 @@
     padding: 16px;
     color: white;
 
-    h1 {
-        font-size: 20px;
-        font-weight: 700;
-        margin: 0;
-        color: white;
+    .name-container {
+        flex-grow: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            color: white;
+        }
+
+        .edit-icon {
+            font-size: 20px;
+            color: var(--ion-color-primary);
+            /* Sky Blue */
+            opacity: 1;
+            padding: 8px;
+            cursor: pointer;
+        }
     }
 }
 
