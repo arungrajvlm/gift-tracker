@@ -9,8 +9,11 @@ describe('HomePage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomePage],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot(), HomePage], // Import Standalone Component
+      providers: [
+        // Provide mocks if needed, or real services for simple unit tests
+        // In real app, mock Router, GiftService, AuthService
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomePage);
