@@ -19,13 +19,13 @@
 
         <!-- Toggle -->
         <div class="toggle-container">
-            <button class="toggle-btn" [class.active]="initialGiftType === 'given'"
-                [class.given-active]="initialGiftType === 'given'" (click)="initialGiftType = 'given'">
-                Given
-            </button>
             <button class="toggle-btn" [class.active]="initialGiftType === 'received'"
                 [class.received-active]="initialGiftType === 'received'" (click)="initialGiftType = 'received'">
-                Received
+                <span style="font-size: 18px; margin-right: 4px;">↓</span> Received
+            </button>
+            <button class="toggle-btn" [class.active]="initialGiftType === 'given'"
+                [class.given-active]="initialGiftType === 'given'" (click)="initialGiftType = 'given'">
+                <span style="font-size: 18px; margin-right: 4px;">↑</span> Given
             </button>
         </div>
 
@@ -41,7 +41,8 @@
         </div>
     </div>
 
-    <ion-button expand="block" class="save-btn" (click)="save()">
+    <ion-button expand="block" class="save-btn" [class.given]="initialGiftType === 'given'"
+        [class.received]="initialGiftType === 'received'" (click)="save()">
         Create Contact
     </ion-button>
 

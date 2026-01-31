@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { GiftService } from '../../services/gift.service';
 import { addIcons } from 'ionicons';
-import { close } from 'ionicons/icons';
+import { close, arrowUp, arrowDown } from 'ionicons/icons';
 
 @Component({
     selector: 'app-add-contact',
@@ -27,7 +27,7 @@ export class AddContactPage {
         private router: Router,
         private giftService: GiftService
     ) {
-        addIcons({ close });
+        addIcons({ close, arrowUp, arrowDown });
     }
 
     save() {

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, IonContent, NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { arrowBack, arrowDownOutline, giftOutline, send } from 'ionicons/icons';
+import { arrowBack, arrowDownOutline, giftOutline, send, arrowUp, arrowDown } from 'ionicons/icons';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GiftService } from '../../services/gift.service';
 import { Contact, Gift } from '../../models/data.models';
@@ -35,7 +35,7 @@ export class ChatDetailPage implements OnInit {
         private giftService: GiftService,
         private navCtrl: NavController
     ) {
-        addIcons({ arrowBack });
+        addIcons({ arrowBack, arrowUp, arrowDown });
     }
 
     goBack() {

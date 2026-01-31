@@ -75,7 +75,8 @@
 
 .bubble-received {
     align-self: flex-start;
-    background-color: #334155;
+    background-color: #10B981;
+    /* Emerald 500 */
     /* --received-bubble */
     border-bottom-left-radius: 4px;
     margin-right: auto;
@@ -125,7 +126,8 @@
 }
 
 .btn-received {
-    background: #334155;
+    background: #10B981;
+    /* Emerald 500 */
     /* --received-bubble */
     border: 1px solid rgba(255, 255, 255, 0.05);
     color: white;
@@ -209,20 +211,38 @@
 }
 
 .toggle-btn.received-active {
-    background: #334155;
-    /* Slate */
+    background: #10B981;
+    /* Emerald 500 */
     color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
+/* Save Button Dynamic Colors */
 .save-btn {
     width: 100%;
     margin-top: 8px;
-    --background: white;
-    --color: #0F172A;
     --border-radius: 16px;
     font-weight: 700;
     font-size: 16px;
     height: 54px;
-    --box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
     text-transform: none;
+    transition: --background 0.3s ease;
+
+    /* Default (will be overridden) */
+    --background: white;
+    --color: #0F172A;
+}
+
+.save-btn.given {
+    --background: var(--ion-color-primary);
+    /* Sky Blue */
+    --color: white;
+    --box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+}
+
+.save-btn.received {
+    --background: #10B981;
+    /* Emerald 500 */
+    --color: white;
+    --box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
