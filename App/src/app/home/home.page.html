@@ -62,7 +62,7 @@
 
     <div class="real-list" *ngIf="!isLoading">
 
-      <div class="contact-item ion-activatable" *ngFor="let contact of displayedContacts"
+      <div class="contact-item ion-activatable" *ngFor="let contact of displayedContacts; trackBy: trackByContact"
         (click)="openChat(contact.id)">
         <ion-ripple-effect></ion-ripple-effect>
         <div class="avatar" [style.background]="contact.avatarColor">
@@ -89,7 +89,7 @@
         <p class="empty-subtitle">Add a new person to start gifting!</p>
       </div>
 
-      <ion-infinite-scroll (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll threshold="25%" (ionInfinite)="loadData($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more...">
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>

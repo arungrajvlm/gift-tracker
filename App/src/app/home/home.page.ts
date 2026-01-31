@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -18,7 +18,8 @@ import { HighlightPipe } from '../pipes/highlight.pipe';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterModule, HighlightPipe]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule, HighlightPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePage implements OnInit {
   // pagination state
@@ -36,7 +37,8 @@ export class HomePage implements OnInit {
   constructor(
     private giftService: GiftService,
     private authService: AuthService,
-    public router: Router
+    public router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct });
 
@@ -61,9 +63,8 @@ export class HomePage implements OnInit {
       this.currentPage = 0;
       this.updateDisplayedContacts();
 
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 500);
+      this.isLoading = false;
+      this.cdr.markForCheck();
     });
   }
 
@@ -71,18 +72,18 @@ export class HomePage implements OnInit {
     const start = 0;
     const end = (this.currentPage + 1) * this.pageSize;
     this.displayedContacts = this.allFilteredContacts.slice(start, end);
+    this.cdr.markForCheck();
   }
 
   loadData(event: any) {
-    setTimeout(() => {
-      this.currentPage++;
-      this.updateDisplayedContacts();
-      event.target.complete();
+    this.currentPage++;
+    this.updateDisplayedContacts();
+    event.target.complete();
 
-      if (this.displayedContacts.length >= this.allFilteredContacts.length) {
-        event.target.disabled = true;
-      }
-    }, 500);
+    if (this.displayedContacts.length >= this.allFilteredContacts.length) {
+      event.target.disabled = true;
+    }
+    this.cdr.markForCheck();
   }
 
 
@@ -103,6 +104,11 @@ export class HomePage implements OnInit {
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+    this.cdr.markForCheck();
+  }
+
+  trackByContact(index: number, contact: Contact): string {
+    return contact.id;
   }
 
   logout() {
