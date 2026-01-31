@@ -19,12 +19,13 @@ export class LoginPage {
     ) { }
 
     async login(provider: 'google' | 'apple') {
-        // Simulate async auth
-        // In real app, this would call Ionic Auth / Firebase
-        this.authService.login(provider);
-
-        // Navigate home
-        this.router.navigate(['/home'], { replaceUrl: true });
+        try {
+            await this.authService.login(provider);
+            this.router.navigate(['/home'], { replaceUrl: true });
+        } catch (error) {
+            console.error('Login failed', error);
+            // Optionally show an alert here
+        }
     }
 
 }

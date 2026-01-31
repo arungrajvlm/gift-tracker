@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/data.models';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { isPlatform } from '@ionic/angular';
 
 @Injectable({
     providedIn: 'root'
@@ -13,6 +15,10 @@ export class AuthService {
 
     constructor() {
         this.init();
+        // Web initialization for Google Auth
+        if (!isPlatform('capacitor')) {
+            GoogleAuth.initialize();
+        }
     }
 
     private init() {
@@ -22,20 +28,31 @@ export class AuthService {
         }
     }
 
-    login(provider: 'google' | 'apple') {
-        // Mock Login
-        const mockUser: User = {
-            id: 'u1',
-            name: 'Arun Graj',
-            email: 'arun@example.com',
-            avatar: 'https://ui-avatars.com/api/?name=Arun+Graj&background=random'
-        };
+    async login(provider: 'google' | 'apple') {
+        if (provider === 'google') {
+            try {
+                const googleUser = await GoogleAuth.signIn();
+                const user: User = {
+                    id: googleUser.id,
+                    name: googleUser.name || googleUser.email,
+                    email: googleUser.email,
+                    avatar: googleUser.imageUrl
+                };
 
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(mockUser));
-        this.userSubject.next(mockUser);
+                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
+                this.userSubject.next(user);
+            } catch (err) {
+                console.error('Google Sign-In Error:', err);
+                throw err; // Propagate to component
+            }
+        } else {
+            // Mock Apple for now
+            console.warn('Apple Auth not yet implemented');
+        }
     }
 
-    logout() {
+    async logout() {
+        await GoogleAuth.signOut();
         localStorage.removeItem(this.STORAGE_KEY);
         this.userSubject.next(null);
     }
