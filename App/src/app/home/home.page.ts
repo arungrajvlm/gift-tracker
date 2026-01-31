@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { add, search, person, helpCircle, logOutOutline, close, menu } from 'ionicons/icons';
+import { add, search, person, helpCircle, logOutOutline, close, menu, construct } from 'ionicons/icons';
 import { Router, RouterModule } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { AuthService } from '../services/auth.service';
@@ -75,5 +75,12 @@ export class HomePage implements OnInit {
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  seedData() {
+    if (confirm('This will add 7000 records. App might lag. Continue?')) {
+      this.giftService.seedHighVolumeData();
+      this.isMenuOpen = false;
+    }
   }
 }

@@ -118,4 +118,79 @@ export class GiftService {
         localStorage.setItem(this.GIFTS_KEY, JSON.stringify(gifts));
         this.giftsSubject.next(gifts);
     }
+    private generateId(): string {
+        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    }
+
+    seedHighVolumeData() {
+        console.log('Starting seed...');
+        const firstNames = [
+            'അരുൺ', 'വിപിൻ', 'രാഹുൽ', 'അഞ്ജലി', 'ദിവ്യ', 'രമ്യ', 'സന്ദീപ്',
+            'നിതിൻ', 'കാവ്യ', 'ലക്ഷ്മി', 'ശരത്', 'അശ്വിൻ', 'മഞ്ജു', 'ബിജു',
+            'സുരേഷ്', 'രമേശ്', 'പ്രിയ', 'സ്നേഹ', 'അഖിൽ', 'വിഷ്ണു'
+        ];
+
+        const lastNames = [
+            'നായർ', 'മേനോൻ', 'പിള്ള', 'വാര്യർ', 'കുമാർ', 'രാജ്',
+            'വർമ്മ', 'ദേവി', 'നമ്പ്യാർ', 'കുറുപ്പ്', 'മാത്യു', 'ജോസഫ്'
+        ];
+
+        const gifts = ['Plex', 'Netflix', 'Lunch', 'Coffee', 'Book', 'Shirt', 'Watch', 'Pen', 'Cake'];
+
+        const newContacts: Contact[] = [];
+        const newGifts: Gift[] = [];
+
+        // Generate 7000 contacts
+        for (let i = 0; i < 7000; i++) {
+            const fName = firstNames[Math.floor(Math.random() * firstNames.length)];
+            const lName = lastNames[Math.floor(Math.random() * lastNames.length)];
+            const fullName = `${fName} ${lName} ${i}`; // Add index to ensure uniqueness if needed
+
+            const cid = this.generateId();
+
+            // Random Gradient
+            const colors = [['#6366f1', '#8b5cf6'], ['#14b8a6', '#2dd4bf'], ['#f43f5e', '#fb7185'], ['#f59e0b', '#fbbf24'], ['#10b981', '#34d399']];
+            const rand = colors[Math.floor(Math.random() * colors.length)];
+            const avatarColor = `linear-gradient(135deg, ${rand[0]}, ${rand[1]})`;
+
+            // Simple initial logic for Malayalam (take first char)
+            const initials = fName.substring(0, 1);
+
+            newContacts.push({
+                id: cid,
+                name: fullName,
+                initials: initials,
+                avatarColor
+            });
+
+            // Add 2 gifts per person
+            for (let j = 0; j < 2; j++) {
+                newGifts.push({
+                    id: this.generateId(),
+                    contactId: cid,
+                    type: Math.random() > 0.5 ? 'given' : 'received',
+                    item: gifts[Math.floor(Math.random() * gifts.length)],
+                    date: new Date().toISOString(),
+                    price: Math.floor(Math.random() * 100)
+                });
+            }
+        }
+
+        // Batch update to minimize IO (though localStorage is synchronous)
+        const currentContacts = this.contactsSubject.value;
+        const currentGifts = this.giftsSubject.value;
+
+        const allContacts = [...currentContacts, ...newContacts];
+        const allGifts = [...currentGifts, ...newGifts];
+
+        try {
+            this.saveContacts(allContacts);
+            this.saveGifts(allGifts);
+            console.log(`Seeded ${newContacts.length} contacts and ${newGifts.length} gifts.`);
+            alert('Seeding Complete! Check console/performance.');
+        } catch (e) {
+            console.error('Storage Quota Exceeded likely', e);
+            alert('Failed to seed: Storage Quota Exceeded');
+        }
+    }
 }
