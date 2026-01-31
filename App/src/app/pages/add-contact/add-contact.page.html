@@ -41,14 +41,16 @@
         </div>
     </div>
 
-    <ion-button expand="block" class="save-btn" [class.given]="initialGiftType === 'given'"
-        [class.received]="initialGiftType === 'received'" (click)="save()">
-        Create Contact
-    </ion-button>
+    <div class="action-group">
+        <ion-button class="save-btn" [class.given]="initialGiftType === 'given'"
+            [class.received]="initialGiftType === 'received'" (click)="save()">
+            Save
+        </ion-button>
 
-    <!-- Secondary Action -->
-    <ion-button expand="block" fill="clear" class="secondary-btn" (click)="saveAndNext()">
-        Save & Add Another
-    </ion-button>
+        <ion-button class="save-btn secondary-btn" [class.given]="initialGiftType === 'given'"
+            [class.received]="initialGiftType === 'received'" (click)="saveAndNext()">
+            Save & Next
+        </ion-button>
+    </div>
 
 </ion-content>

@@ -17,7 +17,7 @@ import { close, arrowUp, arrowDown } from 'ionicons/icons';
 })
 export class AddContactPage {
     name = '';
-    initialGiftType: 'given' | 'received' = 'given';
+    initialGiftType: 'given' | 'received' = 'received'; // Default to Received as requested
     initialGiftItem = '';
     initialGiftDate = new Date().toISOString();
     initialGiftPrice: number | null = null;
@@ -44,8 +44,8 @@ export class AddContactPage {
             this.initialGiftItem = '';
             this.initialGiftPrice = null;
             this.initialGiftNote = '';
-            this.initialGiftType = 'given'; // Reset to default
             this.initialGiftDate = new Date().toISOString();
+            // NOTE: We do NOT reset initialGiftType here, so it persists for the next entry.
 
             // Feedback
             const toast = await this.toastCtrl.create({

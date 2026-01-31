@@ -88,14 +88,27 @@ ion-content {
 
 /* Save Button */
 /* Save Button Dynamic Colors */
+/* Button Group */
+.action-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+
+    ion-button {
+        flex: 1;
+        margin: 0;
+        --border-radius: 16px;
+        height: 54px;
+        font-weight: 700;
+        font-size: 15px;
+        text-transform: none;
+    }
+}
+
 .save-btn {
     width: 100%;
-    margin-top: 32px;
-    --border-radius: 16px;
-    font-weight: 700;
-    font-size: 16px;
-    height: 54px;
-    text-transform: none;
+    /* Flex handles width now, but keep for fallback */
+    /* margin-top moved to group */
     transition: --background 0.3s ease;
 
     /* Default */
@@ -105,7 +118,6 @@ ion-content {
 
 .save-btn.given {
     --background: var(--ion-color-primary);
-    /* Sky Blue */
     --color: white;
     --box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
 }
@@ -118,15 +130,9 @@ ion-content {
 }
 
 .secondary-btn {
-    text-transform: none;
-    font-weight: 600;
-    margin-top: 12px;
-    --color: #94A3B8;
-    /* Slate 400 */
-    font-size: 15px;
-    height: 48px;
+    opacity: 0.85;
 
     &:active {
-        --color: white;
+        opacity: 1;
     }
 }
