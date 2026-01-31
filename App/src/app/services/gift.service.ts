@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Contact, Gift } from '../models/data.models';
+import { Storage } from '@ionic/storage-angular';
 
 @Injectable({
     providedIn: 'root'
@@ -16,14 +17,17 @@ export class GiftService {
     private readonly CONTACTS_KEY = 'ionic_demo_contacts';
     private readonly GIFTS_KEY = 'ionic_demo_gifts';
 
-    constructor() {
+    constructor(private storage: Storage) {
         this.init();
     }
 
-    private init() {
-        // Load data from Storage (Mock for now)
-        const storedContacts = localStorage.getItem(this.CONTACTS_KEY);
-        const storedGifts = localStorage.getItem(this.GIFTS_KEY);
+    private async init() {
+        const storage = await this.storage.create();
+        this.storage = storage;
+
+        // Load data from Storage
+        const storedContacts = await this.storage.get(this.CONTACTS_KEY);
+        const storedGifts = await this.storage.get(this.GIFTS_KEY);
 
         if (storedContacts) {
             this.contactsSubject.next(JSON.parse(storedContacts));
@@ -79,8 +83,8 @@ export class GiftService {
         return id;
     }
 
-    private saveContacts(contacts: Contact[]) {
-        localStorage.setItem(this.CONTACTS_KEY, JSON.stringify(contacts));
+    private async saveContacts(contacts: Contact[]) {
+        await this.storage.set(this.CONTACTS_KEY, JSON.stringify(contacts));
         this.contactsSubject.next(contacts);
     }
 
@@ -114,15 +118,15 @@ export class GiftService {
         this.saveGifts([...current, newGift]);
     }
 
-    private saveGifts(gifts: Gift[]) {
-        localStorage.setItem(this.GIFTS_KEY, JSON.stringify(gifts));
+    private async saveGifts(gifts: Gift[]) {
+        await this.storage.set(this.GIFTS_KEY, JSON.stringify(gifts));
         this.giftsSubject.next(gifts);
     }
     private generateId(): string {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 
-    seedHighVolumeData() {
+    async seedHighVolumeData() {
         console.log('Starting seed...');
         const firstNames = [
             'അരുൺ', 'വിപിൻ', 'രാഹുൽ', 'അഞ്ജലി', 'ദിവ്യ', 'രമ്യ', 'സന്ദീപ്',
@@ -176,7 +180,7 @@ export class GiftService {
             }
         }
 
-        // Batch update to minimize IO (though localStorage is synchronous)
+        // Batch update
         const currentContacts = this.contactsSubject.value;
         const currentGifts = this.giftsSubject.value;
 
@@ -184,13 +188,13 @@ export class GiftService {
         const allGifts = [...currentGifts, ...newGifts];
 
         try {
-            this.saveContacts(allContacts);
-            this.saveGifts(allGifts);
+            await this.saveContacts(allContacts);
+            await this.saveGifts(allGifts);
             console.log(`Seeded ${newContacts.length} contacts and ${newGifts.length} gifts.`);
             alert('Seeding Complete! Check console/performance.');
         } catch (e) {
-            console.error('Storage Quota Exceeded likely', e);
-            alert('Failed to seed: Storage Quota Exceeded');
+            console.error('Storage Error', e);
+            alert('Failed to seed: Storage Error');
         }
     }
 }
