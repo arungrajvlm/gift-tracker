@@ -47,37 +47,54 @@
 <ion-content>
   <div class="contact-list">
 
-    <div class="contact-item ion-activatable" *ngFor="let contact of displayedContacts" (click)="openChat(contact.id)">
-      <ion-ripple-effect></ion-ripple-effect>
-      <div class="avatar" [style.background]="contact.avatarColor">
-        {{ contact.initials }}
-      </div>
-      <div class="info">
-        <span class="name" [innerHTML]="contact.name | highlight:searchTerm"></span>
-        <div class="details">
-          <span *ngIf="contact.lastGift">
-            {{ contact.lastGift.type === 'given' ? 'Given' : 'Received' }}:
-            <span [innerHTML]="contact.lastGift.item | highlight:searchTerm"></span>
-          </span>
-          <span *ngIf="!contact.lastGift">No gifts yet</span>
-
-          <span *ngIf="contact.lastGift">{{ contact.lastGift.date | date:'MMM d' }}</span>
+    <!-- Skeleton Loader -->
+    <div class="skeleton-list" *ngIf="isLoading">
+      <div class="contact-item" *ngFor="let item of [1,2,3,4,5,6,7,8]">
+        <ion-skeleton-text animated
+          style="width: 48px; height: 48px; border-radius: 50%; margin-right: 16px;"></ion-skeleton-text>
+        <div style="flex: 1;">
+          <ion-skeleton-text animated
+            style="width: 60%; height: 20px; margin-bottom: 8px; border-radius: 4px;"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 40%; height: 16px; border-radius: 4px;"></ion-skeleton-text>
         </div>
       </div>
     </div>
 
-    <!-- Empty State -->
-    <div class="empty-state" *ngIf="allFilteredContacts.length === 0">
-      <div class="empty-icon">🎁</div>
-      <p class="empty-title">No contacts found</p>
-      <p class="empty-subtitle">Add a new person to start gifting!</p>
+    <div class="real-list" *ngIf="!isLoading">
+
+      <div class="contact-item ion-activatable" *ngFor="let contact of displayedContacts"
+        (click)="openChat(contact.id)">
+        <ion-ripple-effect></ion-ripple-effect>
+        <div class="avatar" [style.background]="contact.avatarColor">
+          {{ contact.initials }}
+        </div>
+        <div class="info">
+          <span class="name" [innerHTML]="contact.name | highlight:searchTerm"></span>
+          <div class="details">
+            <span *ngIf="contact.lastGift">
+              {{ contact.lastGift.type === 'given' ? 'Given' : 'Received' }}:
+              <span [innerHTML]="contact.lastGift.item | highlight:searchTerm"></span>
+            </span>
+            <span *ngIf="!contact.lastGift">No gifts yet</span>
+
+            <span *ngIf="contact.lastGift">{{ contact.lastGift.date | date:'MMM d' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="allFilteredContacts.length === 0">
+        <div class="empty-icon">🎁</div>
+        <p class="empty-title">No contacts found</p>
+        <p class="empty-subtitle">Add a new person to start gifting!</p>
+      </div>
+
+      <ion-infinite-scroll (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
     </div>
-
-    <ion-infinite-scroll (ionInfinite)="loadData($event)">
-      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more...">
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="design-fab">

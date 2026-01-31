@@ -24,6 +24,7 @@ export class HomePage implements OnInit {
   // pagination state
   allFilteredContacts: Contact[] = [];
   displayedContacts: Contact[] = [];
+  isLoading = true;
 
   searchTerm$ = new BehaviorSubject<string>('');
   searchTerm = '';
@@ -47,6 +48,7 @@ export class HomePage implements OnInit {
         distinctUntilChanged()
       )
     ]).subscribe(([contacts, term]) => {
+      this.isLoading = true;
       const lowerTerm = term.toLowerCase();
 
       this.allFilteredContacts = contacts.filter(contact => {
@@ -58,6 +60,10 @@ export class HomePage implements OnInit {
       // Reset pagination
       this.currentPage = 0;
       this.updateDisplayedContacts();
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 500);
     });
   }
 
