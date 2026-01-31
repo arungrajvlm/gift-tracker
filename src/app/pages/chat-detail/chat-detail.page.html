@@ -1,0 +1,60 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{ contact?.name }}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button>
+                <div class="header-avatar" [style.background]="contact?.avatarColor">
+                    {{ contact?.initials }}
+                </div>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-list lines="none" class="chat-list">
+        <ng-container *ngIf="gifts$ | async as gifts">
+            <ion-item *ngFor="let gift of gifts" [class.received]="gift.type === 'received'"
+                [class.given]="gift.type === 'given'">
+                <div class="chat-bubble" [class.bubble-received]="gift.type === 'received'"
+                    [class.bubble-given]="gift.type === 'given'">
+                    <ion-label>
+                        <h3>{{ gift.item }}</h3>
+                        <p *ngIf="gift.note">{{ gift.note }}</p>
+                        <p class="date">{{ gift.date | date:'shortDate' }}</p>
+                    </ion-label>
+                </div>
+            </ion-item>
+
+            <div *ngIf="gifts.length === 0" class="ion-text-center ion-padding">
+                <ion-text color="medium">No history yet</ion-text>
+            </div>
+        </ng-container>
+    </ion-list>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-segment [(ngModel)]="newGiftType" slot="start" style="width: 120px; margin-left: 8px;">
+            <ion-segment-button value="given">
+                <ion-icon name="gift-outline"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="received">
+                <ion-icon name="arrow-down-outline"></ion-icon>
+            </ion-segment-button>
+        </ion-segment>
+
+        <ion-input placeholder="Add gift..." [(ngModel)]="newGiftItem" (keyup.enter)="addGift()"
+            style="margin-left: 8px;">
+        </ion-input>
+
+        <ion-buttons slot="end">
+            <ion-button (click)="addGift()" [disabled]="!newGiftItem">
+                <ion-icon slot="icon-only" name="send"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

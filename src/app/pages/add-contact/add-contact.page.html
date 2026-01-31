@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title>New Person</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="save()" [disabled]="!name" strong="true">Save</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-input label="Name" labelPlacement="floating" [(ngModel)]="name" placeholder="Enter name">
+            </ion-input>
+        </ion-item>
+
+        <ion-item-divider>
+            <ion-label>Initial Gift (Optional)</ion-label>
+        </ion-item-divider>
+
+        <ion-item>
+            <ion-segment [(ngModel)]="initialGiftType">
+                <ion-segment-button value="given">
+                    <ion-label>Given</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="received">
+                    <ion-label>Received</ion-label>
+                </ion-segment-button>
+            </ion-segment>
+        </ion-item>
+
+        <ion-item>
+            <ion-input label="Gift Item" labelPlacement="floating" [(ngModel)]="initialGiftItem"
+                placeholder="What was the gift?">
+            </ion-input>
+        </ion-item>
+    </ion-list>
+</ion-content>
