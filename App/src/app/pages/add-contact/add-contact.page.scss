@@ -116,3 +116,17 @@ ion-content {
     --color: white;
     --box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
+
+.secondary-btn {
+    text-transform: none;
+    font-weight: 600;
+    margin-top: 12px;
+    --color: #94A3B8;
+    /* Slate 400 */
+    font-size: 15px;
+    height: 48px;
+
+    &:active {
+        --color: white;
+    }
+}

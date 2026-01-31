@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { GiftService } from '../../services/gift.service';
 import { addIcons } from 'ionicons';
@@ -25,17 +25,43 @@ export class AddContactPage {
 
     constructor(
         private router: Router,
-        private giftService: GiftService
+        private giftService: GiftService,
+        private toastCtrl: ToastController
     ) {
         addIcons({ close, arrowUp, arrowDown });
     }
 
     save() {
-        if (!this.name.trim()) return;
+        if (this.processSave()) {
+            this.router.navigate(['/home'], { replaceUrl: true });
+        }
+    }
 
-        // Generate random avatar gradient (simplified logic here or in service)
-        // We'll let service generate ID. UI generates color locally or service handles it?
-        // Service seed data had it. We need to generate it here.
+    async saveAndNext() {
+        if (this.processSave()) {
+            // Reset Form
+            this.name = '';
+            this.initialGiftItem = '';
+            this.initialGiftPrice = null;
+            this.initialGiftNote = '';
+            this.initialGiftType = 'given'; // Reset to default
+            this.initialGiftDate = new Date().toISOString();
+
+            // Feedback
+            const toast = await this.toastCtrl.create({
+                message: 'Contact saved. Ready for next.',
+                duration: 2000,
+                position: 'top',
+                color: 'success'
+            });
+            toast.present();
+        }
+    }
+
+    private processSave(): boolean {
+        if (!this.name.trim()) return false;
+
+        // Generate random avatar gradient
         const colors = [
             ['#6366f1', '#8b5cf6'], ['#14b8a6', '#2dd4bf'], ['#f43f5e', '#fb7185'],
             ['#f59e0b', '#fbbf24'], ['#10b981', '#34d399']
@@ -62,7 +88,7 @@ export class AddContactPage {
             });
         }
 
-        this.router.navigate(['/home'], { replaceUrl: true });
+        return true;
     }
 
     cancel() {
