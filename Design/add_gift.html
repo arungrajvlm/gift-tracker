@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Tracker - Add Gift</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-field {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        textarea.input-field {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Toggle Switch */
+        .toggle-container {
+            display: flex;
+            background: var(--card-bg);
+            padding: 4px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border: none;
+            background: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 1;
+            transition: color 0.2s;
+        }
+
+        .toggle-btn.active {
+            color: white;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            left: 4px;
+            /* default to left */
+            width: calc(50% - 4px);
+            background: var(--accent-color);
+            border-radius: 12px;
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Logic for slider position would be JS, but hardcoding for visual */
+
+        .save-btn {
+            width: 100%;
+            padding: 16px;
+            background: white;
+            color: var(--bg-color);
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: auto;
+            /* Push to bottom */
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="device-frame" style="padding: 20px; box-sizing: border-box;">
+        <div style="display: flex; align-items: center; margin-bottom: 24px;">
+            <a href="detail.html" class="back-btn">✕</a>
+            <h1 style="flex-grow: 1; text-align: center; margin-right: 24px; font-size: 18px;">Add New Gift</h1>
+        </div>
+
+        <div class="toggle-container">
+            <div class="toggle-slider"></div>
+            <button class="toggle-btn active">Given</button>
+            <button class="toggle-btn">Received</button>
+        </div>
+
+        <div class="form-group">
+            <label>Gift Name or Amount</label>
+            <input type="text" class="input-field" placeholder="e.g. Birthday Cake or $50" autofocus>
+        </div>
+
+        <div class="form-group">
+            <label>Note (Optional)</label>
+            <textarea class="input-field" placeholder="Add a few details..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Date</label>
+            <input type="date" class="input-field" value="2026-01-31" style="color-scheme: dark;">
+        </div>
+
+        <button class="save-btn">Save Gift</button>
+    </div>
+
+    <script>
+        // Simple interaction for the toggle
+        const btns = document.querySelectorAll('.toggle-btn');
+        const slider = document.querySelector('.toggle-slider');
+
+        btns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                btns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Move slider
+                if (index === 1) { // Received
+                    slider.style.transform = 'translateX(100%)';
+                    slider.style.background = '#334155'; // Use received color
+                } else { // Given
+                    slider.style.transform = 'translateX(0)';
+                    slider.style.background = '#38BDF8'; // Use given color
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

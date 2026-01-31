@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Tracker - Add Contact</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-field {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 16px;
+            background: white;
+            color: var(--bg-color);
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: auto;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+        }
+
+        .color-options {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .color-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+
+        .color-circle.selected {
+            border-color: white;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="device-frame" style="padding: 20px; box-sizing: border-box;">
+        <div style="display: flex; align-items: center; margin-bottom: 24px;">
+            <a href="index.html" class="back-btn">✕</a>
+            <h1 style="flex-grow: 1; text-align: center; margin-right: 24px; font-size: 18px;">New Person</h1>
+        </div>
+
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="nameInput" class="input-field" placeholder="e.g. John Doe" autofocus>
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin: 24px 0; padding-top: 24px;">
+            <label style="margin-bottom: 16px;">Initial Gift (Optional)</label>
+
+            <div class="toggle-container"
+                style="background: var(--card-bg); display: flex; padding: 4px; border-radius: 12px; margin-bottom: 16px;">
+                <button class="toggle-btn active" id="btnGiven"
+                    style="flex:1; padding:10px; border:none; background:var(--accent-color); color:white; border-radius:8px; font-weight:600; cursor:pointer;">Given</button>
+                <button class="toggle-btn" id="btnReceived"
+                    style="flex:1; padding:10px; border:none; background:transparent; color:#94A3B8; border-radius:8px; font-weight:600; cursor:pointer;">Received</button>
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="giftInput" class="input-field" placeholder="Gift Name or Amount">
+            </div>
+
+            <div class="form-group">
+                <input type="date" id="dateInput" class="input-field" style="color-scheme: dark;">
+            </div>
+        </div>
+
+        <button class="save-btn" id="saveBtn">Create Contact</button>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!Store.isAuthenticated()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Set Today
+            const dateInput = document.getElementById('dateInput');
+            dateInput.valueAsDate = new Date();
+
+            // Toggle Logic
+            let currentType = 'given';
+            const btnGiven = document.getElementById('btnGiven');
+            const btnReceived = document.getElementById('btnReceived');
+
+            btnGiven.onclick = () => {
+                currentType = 'given';
+                btnGiven.style.background = 'var(--accent-color)';
+                btnGiven.style.color = 'white';
+                btnReceived.style.background = 'transparent';
+                btnReceived.style.color = '#94A3B8';
+            };
+
+            btnReceived.onclick = () => {
+                currentType = 'received';
+                btnReceived.style.background = '#334155';
+                btnReceived.style.color = 'white';
+                btnGiven.style.background = 'transparent';
+                btnGiven.style.color = '#94A3B8';
+            };
+
+            document.getElementById('saveBtn').onclick = () => {
+                const name = document.getElementById('nameInput').value.trim();
+                if (!name) return alert('Please enter a name');
+
+                // Generate Initials
+                const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+                // Random Gradient
+                const gradients = [
+                    'linear-gradient(135deg, #FF6B6B, #EE5D5D)',
+                    'linear-gradient(135deg, #4ADE80, #22C55E)',
+                    'linear-gradient(135deg, #F472B6, #DB2777)',
+                    'linear-gradient(135deg, #60A5FA, #3B82F6)',
+                    'linear-gradient(135deg, #FBBF24, #D97706)'
+                ];
+                const randomColor = gradients[Math.floor(Math.random() * gradients.length)];
+
+                const newContact = {
+                    name,
+                    initials,
+                    avatarColor: randomColor
+                };
+
+                const contactId = Store.addContact(newContact);
+
+                // Add Gift if present
+                const giftItem = document.getElementById('giftInput').value.trim();
+                if (giftItem) {
+                    Store.addGift({
+                        contactId: contactId,
+                        type: currentType,
+                        item: giftItem,
+                        note: 'Initial Entry',
+                        date: dateInput.value
+                    });
+                }
+
+                window.location.href = `detail.html?id=${contactId}`;
+            };
+        });
+    </script>
+</body>
+
+</html>

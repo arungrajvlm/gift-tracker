@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Tracker - Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="device-frame">
+        <header>
+            <h1>GiftTracker</h1>
+            <button class="menu-btn" onclick="toggleMenu()">⋮</button>
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search people...">
+            </div>
+        </header>
+
+        <!-- Menu Overlay -->
+        <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()">
+            <div class="menu-content" onclick="event.stopPropagation()">
+                <div class="menu-item">
+                    <span>👤</span> Profile
+                </div>
+                <div class="menu-item" onclick="alert('GiftTracker v1.0.0\nCreated by Antigravity')">
+                    <span>ℹ️</span> About
+                </div>
+                <div class="menu-divider"></div>
+                <div class="menu-item danger" onclick="Store.logout()">
+                    <span>🚪</span> Exit
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-list" id="contactList">
+            <!-- Populated by JS -->
+        </div>
+
+        <button class="fab" onclick="window.location.href='add_contact.html'">+</button>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        function toggleMenu() {
+            document.getElementById('menuOverlay').classList.toggle('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const listEl = document.getElementById('contactList');
+            const contacts = Store.getContacts();
+
+            function highlightText(text, term) {
+                if (!term) return text;
+                const regex = new RegExp(`(${term})`, 'gi');
+                return text.replace(regex, '<span class="highlight">$1</span>');
+            }
+
+            function render(items, searchTerm = '') {
+                listEl.innerHTML = items.map(c => {
+                    const nameHtml = highlightText(c.name, searchTerm);
+                    let lastGiftHtml = 'No gifts yet';
+
+                    if (c.lastGift) {
+                        const type = c.lastGift.type === 'given' ? 'Given' : 'Received';
+                        const itemHtml = highlightText(c.lastGift.item, searchTerm);
+                        lastGiftHtml = `${type}: ${itemHtml}`;
+                    }
+
+                    return `
+                    <a href="detail.html?id=${c.id}" class="contact-item">
+                        <div class="avatar" style="background: ${c.avatarColor}">${c.initials}</div>
+                        <div class="contact-info">
+                            <span class="contact-name">${nameHtml}</span>
+                            <div class="last-interaction">
+                                <span>${lastGiftHtml}</span>
+                                ${c.lastGift ? `<span>${Utils.formatDate(c.lastGift.date)}</span>` : ''}
+                            </div>
+                        </div>
+                    </a>
+                `}).join('');
+            }
+
+            render(contacts);
+
+            // Search Filter
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = contacts.filter(c => {
+                    const matchName = c.name.toLowerCase().includes(term);
+                    const matchGift = c.lastGift && c.lastGift.item.toLowerCase().includes(term);
+                    return matchName || matchGift;
+                });
+                render(filtered, term);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Tracker - Alice Smith</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="device-frame">
+        <header>
+            <div class="header-nav">
+                <a href="index.html" class="back-btn">←</a>
+                <div class="avatar"
+                    style="width: 36px; height: 36px; font-size: 14px; background: linear-gradient(135deg, #FF6B6B, #EE5D5D)">
+                    A</div>
+                <div style="flex-grow:1">
+                    <h1 style="font-size: 20px;">Alice Smith</h1>
+                </div>
+            </div>
+        </header>
+
+        <div class="chat-container">
+            <!-- Received Gift (Left) -->
+            <div class="bubble bubble-received">
+                <span class="gift-amount">$50 Wedding Gift</span>
+                <span class="gift-note">Thanks for coming to our wedding!</span>
+                <span class="timestamp">Oct 12, 2025</span>
+            </div>
+
+            <!-- Given Gift (Right) -->
+            <div class="bubble bubble-given">
+                <span class="gift-amount">Espresso Machine</span>
+                <span class="gift-note">Happy Housewarming!</span>
+                <span class="timestamp">Jan 10, 2026</span>
+            </div>
+
+            <!-- Received Gift (Left) -->
+            <div class="bubble bubble-received">
+                <span class="gift-amount">Dinner Treat</span>
+                <span class="timestamp">Jan 15, 2026</span>
+            </div>
+
+            <!-- Given Gift (Right) -->
+            <div class="bubble bubble-given">
+                <span class="gift-amount">Birthday Flowers</span>
+                <span class="gift-note">Hope you have a great day.</span>
+                <span class="timestamp">Today 10:30 AM</span>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div
+            style="padding: 16px 20px; background: rgba(15, 23, 42, 0.95); border-top: 1px solid rgba(255,255,255,0.05); display: flex; gap: 12px; backdrop-filter: blur(10px);">
+            <button
+                style="flex: 1; padding: 16px; border-radius: 16px; background: var(--received-bubble); border: 1px solid rgba(255,255,255,0.05); color: white; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform 0.1s;">
+                <span style="font-size: 18px">↓</span> Received
+            </button>
+            <button
+                style="flex: 1; padding: 16px; border-radius: 16px; background: var(--given-bubble); border: none; color: white; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform 0.1s;">
+                <span style="font-size: 18px">↑</span> Given
+            </button>
+        </div>
+    </div>
+</body>
+
+</html>
