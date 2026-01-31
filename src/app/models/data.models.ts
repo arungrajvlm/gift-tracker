@@ -16,6 +16,7 @@ export interface Gift {
   type: 'given' | 'received';
   item: string;
   date: string;
+  price?: number;
   note?: string;
   image?: string; // Future proofing
 }

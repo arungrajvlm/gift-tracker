@@ -1,1 +1,100 @@
-/* Standard Ionic styling only */
+ion-content {
+    --background: #0F172A;
+}
+
+.ion-padding {
+    padding: 24px;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-label {
+    display: block;
+    color: #94A3B8;
+    /* --text-secondary */
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.custom-input {
+    width: 100%;
+    --background: #1E293B;
+    /* --card-bg */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    color: white;
+    font-size: 16px;
+    height: 56px;
+    --placeholder-color: #64748B;
+
+    &.has-focus {
+        border-color: var(--ion-color-primary);
+        --background: rgba(30, 41, 59, 0.8);
+    }
+}
+
+.date-input {
+    color-scheme: dark;
+    /* Force native calendar dark */
+}
+
+.initial-gift-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 24px 0;
+    padding-top: 24px;
+}
+
+/* Custom Toggle */
+.toggle-container {
+    background: #1E293B;
+    display: flex;
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+
+.toggle-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    color: #94A3B8;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.toggle-btn.given-active {
+    background: var(--ion-color-primary);
+    /* Sky Blue */
+    color: white;
+}
+
+.toggle-btn.received-active {
+    background: #334155;
+    /* Slate */
+    color: white;
+}
+
+/* Save Button */
+.save-btn {
+    width: 100%;
+    margin-top: 32px;
+    --background: white;
+    --color: #0F172A;
+    --border-radius: 16px;
+    font-weight: 700;
+    font-size: 16px;
+    height: 54px;
+    --box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    text-transform: none;
+}

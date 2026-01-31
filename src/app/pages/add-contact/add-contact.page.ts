@@ -1,8 +1,12 @@
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { GiftService } from '../../services/gift.service';
+import { addIcons } from 'ionicons';
+import { close } from 'ionicons/icons';
 
 @Component({
     selector: 'app-add-contact',
@@ -13,28 +17,35 @@ import { GiftService } from '../../services/gift.service';
 })
 export class AddContactPage {
     name = '';
-    initialGiftItem = '';
     initialGiftType: 'given' | 'received' = 'given';
+    initialGiftItem = '';
+    initialGiftDate = new Date().toISOString();
+    initialGiftPrice: number | null = null;
+    initialGiftNote = '';
 
     constructor(
-        private giftService: GiftService,
-        private navCtrl: NavController
-    ) { }
+        private router: Router,
+        private giftService: GiftService
+    ) {
+        addIcons({ close });
+    }
 
     save() {
         if (!this.name.trim()) return;
 
-        const initials = this.name.substring(0, 2).toUpperCase();
-        const gradients = [
-            'linear-gradient(135deg, #FF6B6B, #EE5D5D)',
-            'linear-gradient(135deg, #4ADE80, #22C55E)',
-            'linear-gradient(135deg, #F472B6, #DB2777)',
-            'linear-gradient(135deg, #60A5FA, #3B82F6)',
-            'linear-gradient(135deg, #FBBF24, #D97706)'
+        // Generate random avatar gradient (simplified logic here or in service)
+        // We'll let service generate ID. UI generates color locally or service handles it?
+        // Service seed data had it. We need to generate it here.
+        const colors = [
+            ['#6366f1', '#8b5cf6'], ['#14b8a6', '#2dd4bf'], ['#f43f5e', '#fb7185'],
+            ['#f59e0b', '#fbbf24'], ['#10b981', '#34d399']
         ];
-        const avatarColor = gradients[Math.floor(Math.random() * gradients.length)];
+        const rand = colors[Math.floor(Math.random() * colors.length)];
+        const avatarColor = `linear-gradient(135deg, ${rand[0]}, ${rand[1]})`;
 
-        const id = this.giftService.addContact({
+        const initials = this.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+        const contactId = this.giftService.addContact({
             name: this.name,
             initials,
             avatarColor
@@ -42,19 +53,19 @@ export class AddContactPage {
 
         if (this.initialGiftItem.trim()) {
             this.giftService.addGift({
-                contactId: id,
+                contactId,
                 item: this.initialGiftItem,
                 type: this.initialGiftType,
-                date: new Date().toISOString(),
-                note: 'Initial entry'
+                date: this.initialGiftDate,
+                price: this.initialGiftPrice || undefined,
+                note: this.initialGiftNote || undefined
             });
         }
 
-        // Navigate to Detail, replacing current view so Back goes to Home
-        this.navCtrl.navigateForward(['/detail', id], { animated: true });
+        this.router.navigate(['/home'], { replaceUrl: true });
     }
 
     cancel() {
-        this.navCtrl.back();
+        this.router.navigate(['/home']);
     }
 }

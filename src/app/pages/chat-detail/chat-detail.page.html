@@ -1,60 +1,91 @@
-<ion-header [translucent]="true">
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-back-button defaultHref="/home"></ion-back-button>
-        </ion-buttons>
-        <ion-title>{{ contact?.name }}</ion-title>
-        <ion-buttons slot="end">
-            <ion-button>
-                <div class="header-avatar" [style.background]="contact?.avatarColor">
-                    {{ contact?.initials }}
-                </div>
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
+<ion-header class="ion-no-border">
+    <div class="blur-header">
+        <div class="header-nav">
+            <ion-icon name="arrow-back" class="back-btn" (click)="goBack()"></ion-icon>
+            <div class="avatar-small" [style.background]="contact?.avatarColor">
+                {{ contact?.initials }}
+            </div>
+            <div>
+                <h1>{{ contact?.name }}</h1>
+            </div>
+        </div>
+    </div>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-    <ion-list lines="none" class="chat-list">
-        <ng-container *ngIf="gifts$ | async as gifts">
-            <ion-item *ngFor="let gift of gifts" [class.received]="gift.type === 'received'"
-                [class.given]="gift.type === 'given'">
-                <div class="chat-bubble" [class.bubble-received]="gift.type === 'received'"
-                    [class.bubble-given]="gift.type === 'given'">
-                    <ion-label>
-                        <h3>{{ gift.item }}</h3>
-                        <p *ngIf="gift.note">{{ gift.note }}</p>
-                        <p class="date">{{ gift.date | date:'shortDate' }}</p>
-                    </ion-label>
-                </div>
-            </ion-item>
+<ion-content class="ion-padding" style="--padding-bottom: 100px;">
 
-            <div *ngIf="gifts.length === 0" class="ion-text-center ion-padding">
-                <ion-text color="medium">No history yet</ion-text>
+    <div class="chat-container">
+        <ng-container *ngIf="gifts$ | async as gifts">
+            <div *ngFor="let gift of gifts" class="bubble" [class.bubble-given]="gift.type === 'given'"
+                [class.bubble-received]="gift.type === 'received'">
+
+                <span class="gift-amount">{{ gift.item }}</span>
+                <span class="gift-note" *ngIf="gift.note">{{ gift.note }}</span>
+                <span class="gift-note" *ngIf="gift.price">{{ gift.price | currency:'USD':'symbol':'1.0-0' }}</span>
+                <span class="timestamp">{{ gift.date | date:'MMM d, h:mm a' }}</span>
+            </div>
+
+            <div *ngIf="gifts.length === 0" class="empty-state">
+                <p>No history yet.</p>
             </div>
         </ng-container>
-    </ion-list>
+    </div>
+
+    <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" [initialBreakpoint]="0.6"
+        [breakpoints]="[0, 0.6, 0.9]">
+        <ng-template>
+            <ion-content class="modal-content">
+                <div class="modal-padding-wrapper">
+
+                    <!-- Toggle (Custom Buttons) -->
+                    <div class="toggle-container">
+                        <button class="toggle-btn" [class.active]="newGiftType === 'given'"
+                            [class.given-active]="newGiftType === 'given'" (click)="newGiftType = 'given'">
+                            Given
+                        </button>
+                        <button class="toggle-btn" [class.active]="newGiftType === 'received'"
+                            [class.received-active]="newGiftType === 'received'" (click)="newGiftType = 'received'">
+                            Received
+                        </button>
+                    </div>
+
+                    <!-- Inputs -->
+                    <div>
+                        <label class="form-label">Gift Name or Amount</label>
+                        <ion-input class="custom-input" placeholder="e.g. Birthday Cake or $50"
+                            [(ngModel)]="newGiftItem">
+                        </ion-input>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Note (Optional)</label>
+                        <ion-textarea class="custom-input" rows="4" placeholder="Add a few details..."
+                            [(ngModel)]="newGiftNote">
+                        </ion-textarea>
+                    </div>
+
+                    <!-- Date -->
+                    <div>
+                        <label class="form-label">Date</label>
+                        <ion-input type="date" class="custom-input date-input" [(ngModel)]="newGiftDate">
+                        </ion-input>
+                    </div>
+
+                    <ion-button expand="block" class="save-btn" (click)="addGift()" [disabled]="!newGiftItem">
+                        Save Gift
+                    </ion-button>
+                </div>
+            </ion-content>
+        </ng-template>
+    </ion-modal>
+
 </ion-content>
 
-<ion-footer>
-    <ion-toolbar>
-        <ion-segment [(ngModel)]="newGiftType" slot="start" style="width: 120px; margin-left: 8px;">
-            <ion-segment-button value="given">
-                <ion-icon name="gift-outline"></ion-icon>
-            </ion-segment-button>
-            <ion-segment-button value="received">
-                <ion-icon name="arrow-down-outline"></ion-icon>
-            </ion-segment-button>
-        </ion-segment>
-
-        <ion-input placeholder="Add gift..." [(ngModel)]="newGiftItem" (keyup.enter)="addGift()"
-            style="margin-left: 8px;">
-        </ion-input>
-
-        <ion-buttons slot="end">
-            <ion-button (click)="addGift()" [disabled]="!newGiftItem">
-                <ion-icon slot="icon-only" name="send"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
-</ion-footer>
+<div class="footer-actions">
+    <button class="footer-btn btn-received" (click)="openModal('received')">
+        <span style="font-size: 18px">↓</span> Received
+    </button>
+    <button class="footer-btn btn-given" (click)="openModal('given')">
+        <span style="font-size: 18px">↑</span> Given
+    </button>
+</div>

@@ -38,9 +38,9 @@ export class GiftService {
 
     private seedData() {
         const mockContacts: Contact[] = [
-            { id: '1', name: 'Sarah Johnson', initials: 'SJ', avatarColor: 'linear-gradient(135deg, #FF6B6B, #EE5D5D)' },
-            { id: '2', name: 'Mike Chen', initials: 'MC', avatarColor: 'linear-gradient(135deg, #4ADE80, #22C55E)' },
-            { id: '3', name: 'Emma Lee', initials: 'EL', avatarColor: 'linear-gradient(135deg, #60A5FA, #3B82F6)' }
+            { id: '1', name: 'Sarah Johnson', initials: 'SJ', avatarColor: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }, // Indigo -> Violet
+            { id: '2', name: 'Mike Chen', initials: 'MC', avatarColor: 'linear-gradient(135deg, #14b8a6, #2dd4bf)' }, // Teal -> Cyan
+            { id: '3', name: 'Emma Lee', initials: 'EL', avatarColor: 'linear-gradient(135deg, #f43f5e, #fb7185)' }  // Rose -> Pink
         ];
         this.saveContacts(mockContacts);
     }

@@ -1,1 +1,64 @@
-/* Standard Ionic styling only */
+ion-content {
+    --background: #0F172A;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding: 40px;
+    background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.1), transparent 40%);
+}
+
+.logo-area {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.logo-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.app-title {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(135deg, white, #94A3B8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+.tagline {
+    color: #94A3B8;
+    /* --text-secondary */
+    font-size: 16px;
+    margin-top: 8px;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-google {
+    background: white;
+    color: #0F172A;
+    margin-bottom: 16px;
+
+    &:active {
+        transform: scale(0.98);
+        background: #F1F5F9;
+    }
+}

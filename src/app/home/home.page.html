@@ -1,46 +1,68 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>GiftTracker</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="openProfile()">
-        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-  <ion-toolbar>
-    <ion-searchbar placeholder="Search" (ionInput)="handleSearch($event)" [debounce]="250"></ion-searchbar>
-  </ion-toolbar>
+<ion-header class="ion-no-border">
+  <div class="blur-header">
+    <div class="header-title-container">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 24px;">🎁</span>
+        <h1>GiftTracker</h1>
+      </div>
+      <div class="menu-btn" (click)="toggleMenu()">
+        <!-- Toggle Icon changed to Close when open -->
+        <ion-icon [name]="isMenuOpen ? 'close' : 'menu'"></ion-icon>
+      </div>
+
+      <!-- Custom Premium Menu -->
+      <div class="menu-overlay" *ngIf="isMenuOpen" (click)="toggleMenu()">
+        <div class="menu-content" (click)="$event.stopPropagation()">
+          <div class="menu-item">
+            <ion-icon name="person"></ion-icon>
+            <span>Profile</span>
+          </div>
+          <div class="menu-item">
+            <ion-icon name="help-circle"></ion-icon>
+            <span>About</span>
+          </div>
+          <div class="menu-divider"></div>
+          <div class="menu-item danger" (click)="logout()">
+            <ion-icon name="log-out-outline"></ion-icon>
+            <span>Log Out</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-container">
+      <div class="custom-search">
+        <ion-icon name="search"></ion-icon>
+        <input type="text" placeholder="Search people..." (input)="onSearch($event)" [value]="searchTerm">
+      </div>
+    </div>
+  </div>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!-- Removed condensed header for cleaner fixed look -->
+<ion-content>
+  <div class="contact-list" *ngIf="filteredContacts$ | async as contacts">
 
-  <ion-list *ngIf="filteredContacts$ | async as contacts" [inset]="true">
-    <ion-item *ngFor="let contact of contacts" [routerLink]="['/detail', contact.id]" detail="true" button lines="full">
-      <ion-avatar slot="start" [style.background]="contact.avatarColor">
-        <div class="avatar-text">{{ contact.initials }}</div>
-      </ion-avatar>
+    <div class="contact-item" *ngFor="let contact of contacts" (click)="openChat(contact.id)">
+      <div class="avatar" [style.background]="contact.avatarColor">
+        {{ contact.initials }}
+      </div>
+      <div class="info">
+        <span class="name" [innerHTML]="contact.name | highlight:searchTerm"></span>
+        <div class="details">
+          <span *ngIf="contact.lastGift">
+            {{ contact.lastGift.type === 'given' ? 'Given' : 'Received' }}:
+            <span [innerHTML]="contact.lastGift.item | highlight:searchTerm"></span>
+          </span>
+          <span *ngIf="!contact.lastGift">No gifts yet</span>
 
-      <ion-label>
-        <h2 [innerHTML]="contact.name | highlight:(searchTerm$ | async) || ''"></h2>
-        <p>
-          <ng-container *ngIf="contact.lastGift; else noActivity">
-            <span
-              [innerHTML]="(contact.lastGift.type === 'given' ? 'Given: ' : 'Received: ') + contact.lastGift.item | highlight:(searchTerm$ | async) || ''"></span>
-          </ng-container>
-          <ng-template #noActivity>No activity yet</ng-template>
-        </p>
-      </ion-label>
-    </ion-item>
+          <span *ngIf="contact.lastGift">{{ contact.lastGift.date | date:'MMM d' }}</span>
+        </div>
+      </div>
+    </div>
 
-    <ion-item *ngIf="contacts.length === 0">
-      <ion-label class="ion-text-center" color="medium">
-        <p>No results found</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  </div>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="design-fab">
     <ion-fab-button (click)="addContact()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

@@ -1,20 +1,22 @@
-<ion-content class="ion-padding">
-  <div class="ion-text-center ion-margin-top">
-    <div style="font-size: 64px;">🎁</div>
-    <h1>GiftTracker</h1>
-    <p>Simple Gift Tracking</p>
-  </div>
+<ion-content>
+  <div class="login-container">
+    <div class="logo-area">
+      <span class="logo-icon">🎁</span>
+      <h1 class="app-title">GiftTracker</h1>
+      <p class="tagline">Never forget a gift again.</p>
+    </div>
 
-  <div class="ion-padding-top ion-margin-top">
-    <ion-button expand="block" (click)="login('google')">
-      <!-- Standard Ionic icons don't always include logos in basic set, using text for reliability -->
-      <ion-icon slot="start" name="logo-google"></ion-icon>
-      Login with Google
-    </ion-button>
+    <button class="auth-btn btn-google" (click)="login('google')">
+      <!-- Simple Google G -->
+      <ion-icon name="logo-google" style="font-size: 20px; color: #DB4437;"></ion-icon>
+      Continue with Google
+    </button>
 
-    <ion-button expand="block" fill="outline" class="ion-margin-top" (click)="login('apple')">
-      <ion-icon slot="start" name="logo-apple"></ion-icon>
-      Login with Apple
-    </ion-button>
+    <!-- Apple Button (Optional, keeping consistent with design file comment) -->
+
+    <p style="text-align: center; color: #64748B; font-size: 13px; margin-top: 32px;">
+      By continuing, you agree to our Terms & Privacy Policy.<br>
+      (This is a demo, no real auth used)
+    </p>
   </div>
 </ion-content>

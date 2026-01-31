@@ -18,7 +18,7 @@ export class HighlightPipe implements PipeTransform {
 
         // Using inline style for "highlight" from global vars
         const match = text.replace(regex, (match) =>
-            `<span class="highlight-text">${match}</span>`
+            `<span class="highlight">${match}</span>`
         );
 
         return this.sanitizer.bypassSecurityTrustHtml(match);

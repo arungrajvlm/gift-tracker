@@ -1,41 +1,48 @@
-<ion-header [translucent]="true">
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-button (click)="cancel()">Cancel</ion-button>
-        </ion-buttons>
-        <ion-title>New Person</ion-title>
-        <ion-buttons slot="end">
-            <ion-button (click)="save()" [disabled]="!name" strong="true">Save</ion-button>
-        </ion-buttons>
-    </ion-toolbar>
+<ion-header class="ion-no-border">
+    <div class="blur-header" style="display: flex; align-items: center; padding: 16px;">
+        <ion-icon name="close" style="font-size: 24px; color: #94A3B8;" (click)="cancel()"></ion-icon>
+        <h1 style="flex-grow: 1; text-align: center; font-size: 18px; color: white; margin: 0;">New Person</h1>
+        <div style="width: 24px;"></div> <!-- Spacer -->
+    </div>
 </ion-header>
 
-<ion-content>
-    <ion-list>
-        <ion-item>
-            <ion-input label="Name" labelPlacement="floating" [(ngModel)]="name" placeholder="Enter name">
+<ion-content class="ion-padding">
+
+    <div class="form-group">
+        <label class="form-label">Name</label>
+        <ion-input class="custom-input" placeholder="e.g. John Doe" [(ngModel)]="name" autofocus="true">
+        </ion-input>
+    </div>
+
+    <div class="initial-gift-section">
+        <label class="form-label" style="margin-bottom: 16px;">Initial Gift (Optional)</label>
+
+        <!-- Toggle -->
+        <div class="toggle-container">
+            <button class="toggle-btn" [class.active]="initialGiftType === 'given'"
+                [class.given-active]="initialGiftType === 'given'" (click)="initialGiftType = 'given'">
+                Given
+            </button>
+            <button class="toggle-btn" [class.active]="initialGiftType === 'received'"
+                [class.received-active]="initialGiftType === 'received'" (click)="initialGiftType = 'received'">
+                Received
+            </button>
+        </div>
+
+        <div class="form-group">
+            <ion-input class="custom-input" placeholder="Gift Name or Amount" [(ngModel)]="initialGiftItem">
             </ion-input>
-        </ion-item>
+        </div>
 
-        <ion-item-divider>
-            <ion-label>Initial Gift (Optional)</ion-label>
-        </ion-item-divider>
-
-        <ion-item>
-            <ion-segment [(ngModel)]="initialGiftType">
-                <ion-segment-button value="given">
-                    <ion-label>Given</ion-label>
-                </ion-segment-button>
-                <ion-segment-button value="received">
-                    <ion-label>Received</ion-label>
-                </ion-segment-button>
-            </ion-segment>
-        </ion-item>
-
-        <ion-item>
-            <ion-input label="Gift Item" labelPlacement="floating" [(ngModel)]="initialGiftItem"
-                placeholder="What was the gift?">
+        <!-- Date Input (Native) -->
+        <div class="form-group">
+            <ion-input type="date" class="custom-input date-input" [(ngModel)]="initialGiftDate">
             </ion-input>
-        </ion-item>
-    </ion-list>
+        </div>
+    </div>
+
+    <ion-button expand="block" class="save-btn" (click)="save()">
+        Create Contact
+    </ion-button>
+
 </ion-content>

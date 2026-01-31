@@ -1,9 +1,10 @@
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, ActionSheetController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { ellipsisVertical, add, informationCircle, logOut, close } from 'ionicons/icons';
+import { add, search, person, helpCircle, logOutOutline, close, menu } from 'ionicons/icons';
 import { Router, RouterModule } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { AuthService } from '../services/auth.service';
@@ -17,72 +18,59 @@ import { HighlightPipe } from '../pipes/highlight.pipe';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, RouterModule, FormsModule, HighlightPipe],
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule, HighlightPipe]
 })
 export class HomePage implements OnInit {
+  contacts: Contact[] = [];
   searchTerm$ = new BehaviorSubject<string>('');
-  filteredContacts$: Observable<Contact[]>;
+  filteredContacts$: Observable<Contact[]> | undefined;
+  searchTerm = '';
+  isMenuOpen = false;
 
   constructor(
     private giftService: GiftService,
     private authService: AuthService,
-    private router: Router,
-    private actionSheetCtrl: ActionSheetController
+    public router: Router
   ) {
-    addIcons({ ellipsisVertical, add, informationCircle, logOut, close });
+    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu });
+
     // Combine contacts and search term for filtering
     this.filteredContacts$ = combineLatest([
       this.giftService.getContactsWithLastGift(),
       this.searchTerm$
     ]).pipe(
       map(([contacts, term]) => {
-        if (!term) return contacts;
-        const lower = term.toLowerCase();
-        return contacts.filter(c =>
-          c.name.toLowerCase().includes(lower) ||
-          (c.lastGift?.item.toLowerCase().includes(lower))
-        );
+        const lowerTerm = term.toLowerCase();
+        return contacts.filter(contact => {
+          const matchesName = contact.name.toLowerCase().includes(lowerTerm);
+          const matchesGift = contact.lastGift?.item.toLowerCase().includes(lowerTerm);
+          return matchesName || matchesGift;
+        });
       })
     );
   }
 
   ngOnInit() { }
 
-  handleSearch(event: any) {
-    this.searchTerm$.next(event.detail.value || '');
-  }
-
-  async openProfile() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Menu',
-      buttons: [
-        {
-          text: 'About GiftTracker',
-          icon: 'information-circle',
-          handler: () => {
-            alert('GiftTracker v1.0\nPremium Ionic Edition');
-          }
-        },
-        {
-          text: 'Logout',
-          icon: 'log-out',
-          role: 'destructive',
-          handler: () => {
-            this.authService.logout();
-            this.router.navigate(['/login'], { replaceUrl: true });
-          }
-        },
-        {
-          text: 'Cancel',
-          icon: 'close',
-          role: 'cancel'
-        }
-      ]
-    });
-    await actionSheet.present();
+  onSearch(event: any) {
+    this.searchTerm = event.target.value;
+    this.searchTerm$.next(this.searchTerm);
   }
 
   addContact() {
     this.router.navigate(['/add-contact']);
+  }
+
+  openChat(id: string) {
+    this.router.navigate(['/detail', id]);
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

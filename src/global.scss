@@ -1,4 +1,6 @@
-/* Global Styles */
+/* Global Design Match */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 @import "@ionic/angular/css/core.css";
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
@@ -10,10 +12,29 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/* Highlight Logic for Search */
-.highlight-text {
-    background-color: var(--ion-color-warning);
-    color: black;
-    padding: 0 2px;
-    border-radius: 2px;
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Remove default Ionic borders to use our custom ones */
+.ion-no-border {
+    --border-width: 0;
+}
+
+/* Blur Header Mixin */
+.blur-header {
+    --background: rgba(15, 23, 42, 0.95);
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+ion-content {
+    --background: #0F172A;
+}
+
+/* Reset Spacing for precise control */
+ion-list {
+    background: transparent !important;
+    padding: 0;
 }
