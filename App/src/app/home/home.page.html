@@ -42,7 +42,8 @@
 <ion-content>
   <div class="contact-list" *ngIf="filteredContacts$ | async as contacts">
 
-    <div class="contact-item" *ngFor="let contact of contacts" (click)="openChat(contact.id)">
+    <div class="contact-item ion-activatable" *ngFor="let contact of contacts" (click)="openChat(contact.id)">
+      <ion-ripple-effect></ion-ripple-effect>
       <div class="avatar" [style.background]="contact.avatarColor">
         {{ contact.initials }}
       </div>
@@ -58,6 +59,13 @@
           <span *ngIf="contact.lastGift">{{ contact.lastGift.date | date:'MMM d' }}</span>
         </div>
       </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="contacts.length === 0">
+      <div class="empty-icon">🎁</div>
+      <p class="empty-title">No contacts found</p>
+      <p class="empty-subtitle">Add a new person to start gifting!</p>
     </div>
 
   </div>

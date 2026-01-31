@@ -107,19 +107,19 @@
     margin-left: auto;
 }
 
+ion-footer {
+    --background: transparent;
+    padding-bottom: env(safe-area-inset-bottom);
+    /* iOS support */
+}
+
 .footer-actions {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 16px 20px 32px;
-    /* iOS Safe Area */
+    padding: 16px 20px 20px;
     background: rgba(15, 23, 42, 0.95);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     gap: 12px;
     backdrop-filter: blur(10px);
-    z-index: 100;
 }
 
 .footer-btn {

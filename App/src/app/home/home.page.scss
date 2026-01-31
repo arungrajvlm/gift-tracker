@@ -221,3 +221,48 @@ h1 {
     --color: white;
   }
 }
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  opacity: 0.7;
+  animation: fadeIn 0.5s ease;
+
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .empty-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    margin: 0 0 8px;
+  }
+
+  .empty-subtitle {
+    font-size: 14px;
+    color: #94A3B8;
+    margin: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 0.7;
+    transform: translateY(0);
+  }
+}
+
+/* Ensure ripple works */
+.contact-item {
+  position: relative;
+  overflow: hidden;
+}

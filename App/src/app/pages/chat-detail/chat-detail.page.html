@@ -13,7 +13,7 @@
     </div>
 </ion-header>
 
-<ion-content class="ion-padding" style="--padding-bottom: 100px;">
+<ion-content class="ion-padding">
 
     <div class="chat-container">
         <ng-container *ngIf="gifts$ | async as gifts">
@@ -88,11 +88,13 @@
 
 </ion-content>
 
-<div class="footer-actions">
-    <button class="footer-btn btn-received" (click)="openModal('received')">
-        <span style="font-size: 18px">↓</span> Received
-    </button>
-    <button class="footer-btn btn-given" (click)="openModal('given')">
-        <span style="font-size: 18px">↑</span> Given
-    </button>
-</div>
+<ion-footer class="ion-no-border">
+    <div class="footer-actions">
+        <button class="footer-btn btn-received" (click)="openModal('received')">
+            <span style="font-size: 18px">↓</span> Received
+        </button>
+        <button class="footer-btn btn-given" (click)="openModal('given')">
+            <span style="font-size: 18px">↑</span> Given
+        </button>
+    </div>
+</ion-footer>
