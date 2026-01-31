@@ -45,9 +45,9 @@
 </ion-header>
 
 <ion-content>
-  <div class="contact-list" *ngIf="filteredContacts$ | async as contacts">
+  <div class="contact-list">
 
-    <div class="contact-item ion-activatable" *ngFor="let contact of contacts" (click)="openChat(contact.id)">
+    <div class="contact-item ion-activatable" *ngFor="let contact of displayedContacts" (click)="openChat(contact.id)">
       <ion-ripple-effect></ion-ripple-effect>
       <div class="avatar" [style.background]="contact.avatarColor">
         {{ contact.initials }}
@@ -67,11 +67,16 @@
     </div>
 
     <!-- Empty State -->
-    <div class="empty-state" *ngIf="contacts.length === 0">
+    <div class="empty-state" *ngIf="allFilteredContacts.length === 0">
       <div class="empty-icon">🎁</div>
       <p class="empty-title">No contacts found</p>
       <p class="empty-subtitle">Add a new person to start gifting!</p>
     </div>
+
+    <ion-infinite-scroll (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
   </div>
 

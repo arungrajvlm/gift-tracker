@@ -21,37 +21,64 @@ import { HighlightPipe } from '../pipes/highlight.pipe';
   imports: [IonicModule, CommonModule, FormsModule, RouterModule, HighlightPipe]
 })
 export class HomePage implements OnInit {
-  contacts: Contact[] = [];
+  // pagination state
+  allFilteredContacts: Contact[] = [];
+  displayedContacts: Contact[] = [];
+
   searchTerm$ = new BehaviorSubject<string>('');
-  filteredContacts$: Observable<Contact[]> | undefined;
   searchTerm = '';
   isMenuOpen = false;
+
+  private pageSize = 20;
+  private currentPage = 0;
 
   constructor(
     private giftService: GiftService,
     private authService: AuthService,
     public router: Router
   ) {
-    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu });
+    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct });
 
     // Combine contacts and search term for filtering
-    this.filteredContacts$ = combineLatest([
+    combineLatest([
       this.giftService.getContactsWithLastGift(),
       this.searchTerm$.pipe(
-        debounceTime(300), // Performance: Wait 300ms
-        distinctUntilChanged() // Performance: Ignore identical emissions
+        debounceTime(300),
+        distinctUntilChanged()
       )
-    ]).pipe(
-      map(([contacts, term]) => {
-        const lowerTerm = term.toLowerCase();
-        return contacts.filter(contact => {
-          const matchesName = contact.name.toLowerCase().includes(lowerTerm);
-          const matchesGift = contact.lastGift?.item.toLowerCase().includes(lowerTerm);
-          return matchesName || matchesGift;
-        });
-      })
-    );
+    ]).subscribe(([contacts, term]) => {
+      const lowerTerm = term.toLowerCase();
+
+      this.allFilteredContacts = contacts.filter(contact => {
+        const matchesName = contact.name.toLowerCase().includes(lowerTerm);
+        const matchesGift = contact.lastGift?.item.toLowerCase().includes(lowerTerm);
+        return matchesName || matchesGift;
+      });
+
+      // Reset pagination
+      this.currentPage = 0;
+      this.updateDisplayedContacts();
+    });
   }
+
+  private updateDisplayedContacts() {
+    const start = 0;
+    const end = (this.currentPage + 1) * this.pageSize;
+    this.displayedContacts = this.allFilteredContacts.slice(start, end);
+  }
+
+  loadData(event: any) {
+    setTimeout(() => {
+      this.currentPage++;
+      this.updateDisplayedContacts();
+      event.target.complete();
+
+      if (this.displayedContacts.length >= this.allFilteredContacts.length) {
+        event.target.disabled = true;
+      }
+    }, 500);
+  }
+
 
   ngOnInit() { }
 
