@@ -55,7 +55,7 @@ export class HomePage implements OnInit {
         const matchesName = contact.name.toLowerCase().includes(lowerTerm);
         const matchesGift = contact.lastGift?.item.toLowerCase().includes(lowerTerm);
         return matchesName || matchesGift;
-      });
+      }).sort((a, b) => a.name.localeCompare(b.name));
 
       // Reset pagination
       this.currentPage = 0;
