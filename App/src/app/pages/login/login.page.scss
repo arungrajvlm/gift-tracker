@@ -6,7 +6,7 @@ ion-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100%;
+    min-height: 100vh;
     padding: 40px;
     background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.1), transparent 40%);
 }
