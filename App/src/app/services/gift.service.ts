@@ -126,6 +126,20 @@ export class GiftService {
         this.saveGifts([...current, newGift]);
     }
 
+    updateGift(gift: Gift) {
+        const gifts = this.giftsSubject.value;
+        const index = gifts.findIndex(g => g.id === gift.id);
+        if (index > -1) {
+            gifts[index] = gift;
+            this.saveGifts(gifts);
+        }
+    }
+
+    deleteGift(id: string) {
+        const gifts = this.giftsSubject.value.filter(g => g.id !== id);
+        this.saveGifts(gifts);
+    }
+
     private async saveGifts(gifts: Gift[]) {
         await this.storage.set(this.GIFTS_KEY, JSON.stringify(gifts));
         this.giftsSubject.next(gifts);

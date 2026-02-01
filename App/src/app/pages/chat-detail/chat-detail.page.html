@@ -21,7 +21,8 @@
     <div class="chat-container">
         <ng-container *ngIf="gifts$ | async as gifts">
             <div *ngFor="let gift of gifts; trackBy: trackByGiftId" class="bubble"
-                [class.bubble-given]="gift.type === 'given'" [class.bubble-received]="gift.type === 'received'">
+                [class.bubble-given]="gift.type === 'given'" [class.bubble-received]="gift.type === 'received'"
+                (click)="onGiftClick(gift)">
 
                 <span class="gift-amount">
                     <ion-icon [name]="gift.type === 'given' ? 'arrow-up' : 'arrow-down'"
@@ -82,7 +83,12 @@
 
                     <ion-button expand="block" class="save-btn" [class.given]="newGiftType === 'given'"
                         [class.received]="newGiftType === 'received'" (click)="addGift()" [disabled]="!newGiftItem">
-                        Save Gift
+                        {{ editingGiftId ? 'Update Gift' : 'Save Gift' }}
+                    </ion-button>
+
+                    <ion-button *ngIf="editingGiftId" expand="block" fill="clear" color="danger"
+                        style="margin-top: 8px;" (click)="deleteGiftFromModal()">
+                        Delete Gift
                     </ion-button>
                 </div>
             </ion-content>
