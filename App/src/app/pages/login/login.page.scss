@@ -16,10 +16,11 @@ ion-content {
     margin-bottom: 60px;
 }
 
-.logo-icon {
-    font-size: 64px;
-    margin-bottom: 16px;
-    display: block;
+.app-logo-img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 24px;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
 }
 
 .app-title {

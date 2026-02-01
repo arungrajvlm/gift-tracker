@@ -15,11 +15,12 @@ ion-content.splash-content {
         margin-bottom: 60px;
         animation: fadeScale 0.8s ease-out;
 
-        .app-logo {
-            font-size: 80px;
-            color: #38BDF8;
-            margin-bottom: 16px;
-            filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.4));
+        .app-logo-img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 24px;
+            filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.3));
+            animation: float 6s ease-in-out infinite;
         }
 
         h1 {
@@ -74,5 +75,19 @@ ion-content.splash-content {
 @keyframes fadeIn {
     to {
         opacity: 1;
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
     }
 }
