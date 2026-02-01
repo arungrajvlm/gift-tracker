@@ -1,5 +1,5 @@
 ion-content {
-    --background: #0F172A;
+    /* --background: #0F172A; Removed to match Home/Detail Gradient */
 }
 
 /* Header Matches Home/Detail (Global .header-nav) */
@@ -9,7 +9,8 @@ ion-content {
 }
 
 .form-group {
-    margin-bottom: 24px;
+    /* Margin handled by .custom-input globally */
+    margin-bottom: 0;
 }
 
 /* Divider Section */

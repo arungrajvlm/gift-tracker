@@ -1,78 +1,5 @@
 /* Header Matches Home */
-.header-nav {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px 24px;
-    background: rgba(2, 6, 23, 0.85);
-    /* Onyx Blur */
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-
-    .back-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.05);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 20px;
-        cursor: pointer;
-    }
-
-    .header-content {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-left: 12px;
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-
-            h1 {
-                font-size: 18px;
-                font-weight: 700;
-                margin: 0;
-                color: white;
-                letter-spacing: -0.5px;
-                line-height: 1.2;
-            }
-
-            .status-text {
-                margin: 0;
-                font-size: 12px;
-                color: #94A3B8;
-                font-weight: 500;
-            }
-        }
-    }
-
-    .action-btn {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 20px;
-        /* Smaller than menu dots */
-        cursor: pointer;
-        border-radius: 50%;
-        transition: background 0.2s;
-        background: rgba(255, 255, 255, 0.05);
-
-        &:active {
-            background: rgba(255, 255, 255, 0.1);
-        }
-    }
-}
+/* Global .header-nav styles apply */
 
 /* Chat Layout */
 .chat-container {
@@ -108,7 +35,6 @@
 
     .gift-amount {
         font-size: 24px;
-        /* Larger typography */
         font-weight: 800;
         display: block;
         letter-spacing: -1px;
@@ -135,9 +61,7 @@
 .bubble-received {
     align-self: flex-start;
     background: rgba(30, 41, 59, 0.4);
-    /* Slate Glass */
     border: 1px solid rgba(16, 185, 129, 0.2);
-    /* Emerald Tint */
     border-bottom-left-radius: 4px;
     color: #F8FAFC;
 
@@ -150,7 +74,6 @@
 .bubble-given {
     align-self: flex-end;
     background: rgba(99, 102, 241, 0.15);
-    /* Indigo Glass */
     border: 1px solid rgba(99, 102, 241, 0.3);
     border-bottom-right-radius: 4px;
     color: white;
@@ -171,40 +94,8 @@ ion-footer {
     gap: 16px;
 }
 
-.footer-btn {
-    flex: 1;
-    height: 56px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
-
-    ion-icon {
-        font-size: 20px;
-    }
-}
-
-.btn-received {
-    background: rgba(16, 185, 129, 0.1);
-    color: #10B981;
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.3);
-    /* Emerald Glow */
-}
-
-.btn-given {
-    background: rgba(99, 102, 241, 0.2);
-    /* Indigo tint */
-    color: #818CF8;
-    border: 1px solid rgba(99, 102, 241, 0.3);
-    box-shadow: 0 8px 24px -6px rgba(99, 102, 241, 0.3);
-}
+/* Global Buttons applied here */
+/* .footer-btn, .btn-given, .btn-received are in global.scss */
 
 /* Modals */
 .modal-content {
@@ -215,62 +106,8 @@ ion-footer {
     padding: 24px;
 }
 
-.form-label {
-    color: #94A3B8;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    margin-left: 4px;
-}
-
-.custom-input {
-    width: 100%;
-    --background: #1E293B;
-    border-radius: 16px;
-    --padding-start: 20px;
-    color: white;
-    height: 60px;
-    font-size: 18px;
-    margin-bottom: 24px;
-    border: 1px solid transparent;
-
-    &.has-focus {
-        border-color: var(--ion-color-primary);
-        --background: rgba(30, 41, 59, 1);
-    }
-}
-
-.toggle-container {
-    background: #1E293B;
-    padding: 6px;
-    border-radius: 16px;
-    display: flex;
-    margin-bottom: 32px;
-}
-
-.toggle-btn {
-    flex: 1;
-    padding: 12px;
-    background: transparent;
-    color: #64748B;
-    border: none;
-    font-weight: 600;
-    border-radius: 12px;
-
-    &.given-active {
-        background: var(--ion-color-primary);
-        color: white;
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-    }
-
-    &.received-active {
-        background: #10B981;
-        color: white;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-    }
-}
+/* Inputs & Form Elements - Global Styles Apply */
+/* .form-label, .custom-input, .toggle-container */
 
 .save-btn {
     width: 100%;

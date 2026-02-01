@@ -159,21 +159,47 @@ ion-content {
     margin-left: 4px;
 }
 
+/* Default Input Padding Global (High Specificity) */
+body ion-input,
+body ion-textarea {
+    --padding-start: 17px !important;
+    --padding-end: 17px !important;
+}
+
 .custom-input {
     width: 100%;
-    --background: #1E293B;
+    --background: #1E293B !important;
     border-radius: 16px;
-    --padding-start: 20px;
+    --border-radius: 16px;
+    /* Force Ionic internal radius */
+    overflow: hidden;
+    /* Clip contents to radius */
+    /* Padding is now global default */
     color: white;
     height: 60px;
     font-size: 18px;
     margin-bottom: 24px;
-    border: 1px solid transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    /* Remove default Ionic highlight line */
+    --highlight-color-focused: transparent;
+    --highlight-height: 0;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
 
     &.has-focus {
         border-color: var(--ion-color-primary);
         --background: rgba(30, 41, 59, 1);
+        /* SoftGlow matching corner radius */
+        box-shadow: 0 0 0 1px var(--ion-color-primary), 0 8px 20px -5px rgba(99, 102, 241, 0.4);
     }
+}
+
+ion-textarea.custom-input {
+    height: auto;
+    min-height: 120px;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
 }
 
 .date-input {
