@@ -3,7 +3,9 @@ ion-content.splash-content {
 }
 
 .splash-container {
-    height: 100%;
+    height: 100vh;
+    /* Explicit Viewport Height */
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
