@@ -104,6 +104,11 @@ export class HomePage implements OnInit {
 
   ngOnInit() { }
 
+  ionViewWillLeave() {
+    this.isMenuOpen = false;
+    this.cdr.markForCheck();
+  }
+
   onSearch(event: any) {
     this.searchTerm = event.target.value;
     this.searchTerm$.next(this.searchTerm);
@@ -128,6 +133,8 @@ export class HomePage implements OnInit {
 
   logout() {
     this.authService.logout();
+    this.isMenuOpen = false;
+    this.cdr.markForCheck();
     this.router.navigate(['/login']);
   }
 
@@ -155,11 +162,13 @@ export class HomePage implements OnInit {
 
   openProfile() {
     this.isMenuOpen = false;
+    this.cdr.markForCheck();
     this.router.navigate(['/profile']);
   }
 
   openAbout() {
     this.isMenuOpen = false;
+    this.cdr.markForCheck();
     this.router.navigate(['/about']);
   }
 }
