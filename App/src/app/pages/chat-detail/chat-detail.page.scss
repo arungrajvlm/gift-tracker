@@ -4,6 +4,8 @@
 /* Chat Layout */
 .chat-container {
     padding: 24px;
+    padding-bottom: 120px;
+    /* Clear Footer */
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -104,6 +106,8 @@ ion-footer {
 
 .modal-padding-wrapper {
     padding: 24px;
+    padding-bottom: 60px;
+    /* Ensure Delete btn is visible */
 }
 
 /* Inputs & Form Elements - Global Styles Apply */
@@ -126,11 +130,47 @@ ion-footer {
     }
 }
 
-.delete-btn {
-    margin-top: 12px;
-    --color: #EF4444;
-    --background: transparent;
-    font-size: 14px;
-    height: auto;
-    --box-shadow: none;
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+    }
+
+    .delete-icon-btn {
+        width: 44px;
+        height: 44px;
+        background: rgba(239, 68, 68, 0.2);
+        /* Stronger Red Background */
+        color: #F87171;
+        /* Brighter Red Icon */
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+        /* Prevent squishing */
+        margin-left: 16px;
+
+        ion-icon {
+            pointer-events: none;
+            /* Click pass-through */
+            --ionicon-stroke-width: 40px;
+        }
+
+        &:active {
+            background: #EF4444;
+            color: white;
+            transform: scale(0.95);
+        }
+    }
 }

@@ -42,11 +42,19 @@
         </ng-container>
     </div>
 
-    <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" [initialBreakpoint]="0.6"
-        [breakpoints]="[0, 0.6, 0.9]">
+    <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" [initialBreakpoint]="0.75"
+        [breakpoints]="[0, 0.75, 1]">
         <ng-template>
             <ion-content class="modal-content">
                 <div class="modal-padding-wrapper">
+
+                    <!-- Modal Header with Delete Action -->
+                    <div class="modal-header">
+                        <h2>{{ editingGiftId ? 'Edit Transaction' : 'New Transaction' }}</h2>
+                        <div *ngIf="editingGiftId" class="delete-icon-btn" (click)="deleteGiftFromModal()">
+                            <ion-icon name="trash"></ion-icon>
+                        </div>
+                    </div>
 
                     <!-- Toggle (Custom Buttons) -->
                     <div class="toggle-container">
@@ -86,11 +94,8 @@
                         [class.received]="newGiftType === 'received'" (click)="addGift()" [disabled]="!newGiftItem">
                         {{ editingGiftId ? 'Update Gift' : 'Save Gift' }}
                     </ion-button>
+                    <!-- Delete button removed from here -->
 
-                    <ion-button *ngIf="editingGiftId" expand="block" fill="flat" class="delete-btn"
-                        (click)="deleteGiftFromModal()">
-                        DELETE GIFT
-                    </ion-button>
                 </div>
             </ion-content>
         </ng-template>
