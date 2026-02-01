@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -14,16 +14,23 @@ export class LoginPage {
 
     constructor(
         private authService: AuthService,
-        private router: Router
+        private router: Router,
+        private alertController: AlertController
     ) { }
 
     async login(provider: 'google' | 'apple') {
         try {
             await this.authService.login(provider);
             this.router.navigate(['/home'], { replaceUrl: true });
-        } catch (error) {
+        } catch (error: any) {
             console.error('Login failed', error);
-            // Optionally show an alert here
+
+            const alert = await this.alertController.create({
+                header: 'Sign In Failed',
+                message: 'Could not sign in with Google. Please check your network or configuration. ' + (error.error?.message || error.message || JSON.stringify(error)),
+                buttons: ['OK']
+            });
+            await alert.present();
         }
     }
 
