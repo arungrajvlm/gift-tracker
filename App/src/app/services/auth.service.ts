@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { User } from '../models/data.models';
-import { Auth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, user, authState, User as FirebaseUser } from '@angular/fire/auth';
+import { Auth, signInWithPopup, GoogleAuthProvider, signOut, user, authState, User as FirebaseUser } from '@angular/fire/auth';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -17,15 +17,6 @@ export class AuthService {
     private authSubscription: Subscription;
 
     constructor() {
-        // Handle Redirect Result (useful for error handling)
-        getRedirectResult(this.auth).then((result) => {
-            if (result) {
-                console.log('Redirect Login Success:', result.user);
-            }
-        }).catch((error) => {
-            console.error('Redirect Login Error:', error);
-        });
-
         // Subscribe to Firebase Auth State changes
         this.authSubscription = authState(this.auth).subscribe((firebaseUser: FirebaseUser | null) => {
             if (firebaseUser) {
@@ -46,8 +37,8 @@ export class AuthService {
         if (provider === 'google') {
             try {
                 const provider = new GoogleAuthProvider();
-                await signInWithRedirect(this.auth, provider);
-                // Redirect will happen, code execution stops here usually
+                await signInWithPopup(this.auth, provider);
+                // State update handled by authState subscription
             } catch (error) {
                 console.error('Firebase Login Error:', error);
                 throw error;
