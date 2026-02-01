@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Contact, Gift } from '../models/data.models';
 import { Storage } from '@ionic/storage-angular';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -17,9 +19,11 @@ export class GiftService {
     private readonly CONTACTS_KEY = 'ionic_demo_contacts';
     private readonly GIFTS_KEY = 'ionic_demo_gifts';
 
-    constructor(private storage: Storage) {
+    constructor(private storage: Storage, private http: HttpClient) {
         this.init();
     }
+    // ... (rest of methods until seedCustomData)
+
 
     private async init() {
         const storage = await this.storage.create();
@@ -31,6 +35,8 @@ export class GiftService {
 
         if (storedContacts) {
             this.contactsSubject.next(JSON.parse(storedContacts));
+        } else {
+            this.seedCustomData(); // Auto-seed on first run
         }
 
         if (storedGifts) {
@@ -115,75 +121,92 @@ export class GiftService {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 
-    async seedHighVolumeData() {
-        console.log('Starting seed...');
-        const firstNames = [
-            'അരുൺ', 'വിപിൻ', 'രാഹുൽ', 'അഞ്ജലി', 'ദിവ്യ', 'രമ്യ', 'സന്ദീപ്',
-            'നിതിൻ', 'കാവ്യ', 'ലക്ഷ്മി', 'ശരത്', 'അശ്വിൻ', 'മഞ്ജു', 'ബിജു',
-            'സുരേഷ്', 'രമേശ്', 'പ്രിയ', 'സ്നേഹ', 'അഖിൽ', 'വിഷ്ണു'
-        ];
+    async seedCustomData() {
+        console.log('Seeding Custom Data from Remote...');
 
-        const lastNames = [
-            'നായർ', 'മേനോൻ', 'പിള്ള', 'വാര്യർ', 'കുമാർ', 'രാജ്',
-            'വർമ്മ', 'ദേവി', 'നമ്പ്യാർ', 'കുറുപ്പ്', 'മാത്യു', 'ജോസഫ്'
-        ];
+        let response: any = null;
+        try {
+            response = await firstValueFrom(this.http.get<any>(environment.seedUrl));
+        } catch (err) {
+            console.error('Failed to fetch seed data', err);
+            alert('Failed to download seed data. Check internet connection.');
+            return;
+        }
 
-        const gifts = ['Plex', 'Netflix', 'Lunch', 'Coffee', 'Book', 'Shirt', 'Watch', 'Pen', 'Cake'];
+        const rawData = Array.isArray(response) ? response : (response.data || []);
+        console.log(`Fetched ${rawData.length} items from remote.`);
 
         const newContacts: Contact[] = [];
         const newGifts: Gift[] = [];
 
-        // Generate 7000 contacts
-        for (let i = 0; i < 7000; i++) {
-            const fName = firstNames[Math.floor(Math.random() * firstNames.length)];
-            const lName = lastNames[Math.floor(Math.random() * lastNames.length)];
-            const fullName = `${fName} ${lName} ${i}`; // Add index to ensure uniqueness if needed
-
+        for (const item of rawData) {
+            // Skip if name is empty
+            if (!item.person_full_name || !item.person_full_name.trim()) {
+                continue;
+            }
             const cid = this.generateId();
 
-            // Random Gradient
+            // Generate Avatar Color
             const colors = [['#6366f1', '#8b5cf6'], ['#14b8a6', '#2dd4bf'], ['#f43f5e', '#fb7185'], ['#f59e0b', '#fbbf24'], ['#10b981', '#34d399']];
             const rand = colors[Math.floor(Math.random() * colors.length)];
             const avatarColor = `linear-gradient(135deg, ${rand[0]}, ${rand[1]})`;
 
-            // Simple initial logic for Malayalam (take first char)
-            const initials = fName.substring(0, 1);
+            // Initials
+            const trimmedName = item.person_full_name.trim();
+            const initials = trimmedName.substring(0, 1).toUpperCase();
 
             newContacts.push({
                 id: cid,
-                name: fullName,
+                name: trimmedName,
                 initials: initials,
                 avatarColor
             });
 
-            // Add 2 gifts per person
-            for (let j = 0; j < 2; j++) {
-                newGifts.push({
-                    id: this.generateId(),
-                    contactId: cid,
-                    type: Math.random() > 0.5 ? 'given' : 'received',
-                    item: gifts[Math.floor(Math.random() * gifts.length)],
-                    date: new Date().toISOString(),
-                    price: Math.floor(Math.random() * 100)
-                });
+            // Parse Gifts
+            // Parse Gifts
+            // Received
+            for (let i = 1; i <= 5; i++) {
+                const key = `rcvd_amt${i}` as keyof typeof item;
+                const amountStr = item[key] as string;
+                // Ignore if empty, null, or "000" (value is 0)
+                if (amountStr && parseInt(amountStr) > 0) {
+                    newGifts.push({
+                        id: this.generateId(),
+                        contactId: cid,
+                        type: 'received',
+                        item: amountStr, // Gift Name = Amount
+                        price: parseInt(amountStr),
+                        date: new Date().toISOString(),
+                        note: item.notes // Note = JSON Note
+                    });
+                }
+            }
+
+            // Given (Paid)
+            for (let i = 1; i <= 5; i++) {
+                const key = `paid_amt${i}` as keyof typeof item;
+                const amountStr = item[key] as string;
+                // Ignore if empty, null, or "000" (value is 0)
+                if (amountStr && parseInt(amountStr) > 0) {
+                    newGifts.push({
+                        id: this.generateId(),
+                        contactId: cid,
+                        type: 'given',
+                        item: amountStr, // Gift Name = Amount
+                        price: parseInt(amountStr),
+                        date: new Date().toISOString(),
+                        note: item.notes // Note = JSON Note
+                    });
+                }
             }
         }
 
-        // Batch update
-        const currentContacts = this.contactsSubject.value;
-        const currentGifts = this.giftsSubject.value;
-
-        const allContacts = [...currentContacts, ...newContacts];
-        const allGifts = [...currentGifts, ...newGifts];
-
         try {
-            await this.saveContacts(allContacts);
-            await this.saveGifts(allGifts);
-            console.log(`Seeded ${newContacts.length} contacts and ${newGifts.length} gifts.`);
-            alert('Seeding Complete! Check console/performance.');
+            await this.saveContacts(newContacts);
+            await this.saveGifts(newGifts);
+            console.log(`Seeded ${newContacts.length} contacts and ${newGifts.length} gifts from custom JSON.`);
         } catch (e) {
-            console.error('Storage Error', e);
-            alert('Failed to seed: Storage Error');
+            console.error('Seeding Error', e);
         }
     }
 }

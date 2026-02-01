@@ -9,11 +9,14 @@ import { importProvidersFrom } from '@angular/core';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Drivers } from '@ionic/storage';
 
+import { provideHttpClient } from '@angular/common/http';
+
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideHttpClient(),
     importProvidersFrom(IonicStorageModule.forRoot({
       driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage]
     })),

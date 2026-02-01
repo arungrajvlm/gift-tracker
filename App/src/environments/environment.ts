@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  seedUrl: 'https://raw.githubusercontent.com/arungrajvlm/aws-amplify-samples/master/03march2023.txt'
 };
 
 /*

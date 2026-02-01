@@ -27,7 +27,7 @@
                     {{ gift.item }}
                 </span>
                 <span class="gift-note" *ngIf="gift.note">{{ gift.note }}</span>
-                <span class="gift-note" *ngIf="gift.price">{{ gift.price | currency:'USD':'symbol':'1.0-0' }}</span>
+
                 <span class="timestamp">{{ gift.date | date:'MMM d, h:mm a' }}</span>
             </div>
 

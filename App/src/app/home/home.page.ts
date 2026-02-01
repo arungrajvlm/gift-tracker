@@ -2,7 +2,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { add, search, person, helpCircle, logOutOutline, close, menu, construct } from 'ionicons/icons';
 import { Router, RouterModule } from '@angular/router';
@@ -38,6 +38,7 @@ export class HomePage implements OnInit {
     private giftService: GiftService,
     private authService: AuthService,
     public router: Router,
+    private alertController: AlertController,
     private cdr: ChangeDetectorRef
   ) {
     addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct });
@@ -116,10 +117,25 @@ export class HomePage implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  seedData() {
-    if (confirm('This will add 7000 records. App might lag. Continue?')) {
-      this.giftService.seedHighVolumeData();
-      this.isMenuOpen = false;
-    }
+  async seedData() {
+    const alert = await this.alertController.create({
+      header: 'Seed Data',
+      message: 'This will populate the app with your custom dataset from the remote server. Continue?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Seed',
+          handler: () => {
+            this.giftService.seedCustomData();
+            this.isMenuOpen = false;
+            this.cdr.markForCheck();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }
