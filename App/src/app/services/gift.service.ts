@@ -36,7 +36,8 @@ export class GiftService {
         if (storedContacts) {
             this.contactsSubject.next(JSON.parse(storedContacts));
         } else {
-            this.seedCustomData(); // Auto-seed on first run
+            // Start fresh for new users
+            this.saveContacts([]);
         }
 
         if (storedGifts) {

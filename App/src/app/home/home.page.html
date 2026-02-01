@@ -85,8 +85,8 @@
       <!-- Empty State -->
       <div class="empty-state" *ngIf="allFilteredContacts.length === 0">
         <img src="assets/logo.png" alt="Zero" class="empty-state-logo">
-        <p class="empty-title">Zero.</p>
-        <p class="empty-subtitle">Start your collection.</p>
+        <p class="empty-title">No Gifts Yet</p>
+        <p class="empty-subtitle">Tap + to add your first entry.</p>
       </div>
 
       <ion-infinite-scroll threshold="25%" (ionInfinite)="loadData($event)">
