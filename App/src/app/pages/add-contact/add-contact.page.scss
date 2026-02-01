@@ -2,54 +2,7 @@ ion-content {
     --background: #0F172A;
 }
 
-/* Header Matches Home/Detail */
-.header-nav {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px 24px;
-    background: rgba(2, 6, 23, 0.85);
-    /* Onyx Blur */
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-
-    .close-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.05);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 24px;
-        cursor: pointer;
-    }
-
-    .header-content {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        /* Center Title for Add Screen */
-        align-items: center;
-
-        h1 {
-            font-size: 18px;
-            font-weight: 700;
-            margin: 0;
-            color: white;
-            letter-spacing: -0.5px;
-        }
-    }
-
-    /* Spacer to balance Close button for perfect centering */
-    .header-spacer {
-        width: 40px;
-    }
-}
+/* Header Matches Home/Detail (Global .header-nav) */
 
 .ion-padding {
     padding: 24px;
@@ -59,125 +12,16 @@ ion-content {
     margin-bottom: 24px;
 }
 
-.form-label {
-    display: block;
-    color: #94A3B8;
-    /* --text-secondary */
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.custom-input {
-    width: 100%;
-    --background: #1E293B;
-    /* --card-bg */
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    --padding-start: 16px;
-    --padding-end: 16px;
-    color: white;
-    font-size: 16px;
-    height: 56px;
-    --placeholder-color: #64748B;
-
-    &.has-focus {
-        border-color: var(--ion-color-primary);
-        --background: rgba(30, 41, 59, 0.8);
-    }
-}
-
-.date-input {
-    color-scheme: dark;
-    /* Force native calendar dark */
-}
-
+/* Divider Section */
 .initial-gift-section {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     margin: 24px 0;
     padding-top: 24px;
 }
 
-/* Custom Toggle */
-.toggle-container {
-    background: #1E293B;
-    padding: 6px;
-    border-radius: 16px;
-    display: flex;
-    margin-bottom: 32px;
-}
-
-.toggle-btn {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    background: transparent;
-    color: #64748B;
-    border: none;
-    font-weight: 600;
-    border-radius: 12px;
-    transition: all 0.2s;
-    cursor: pointer;
-}
-
-.toggle-btn.given-active {
-    background: var(--ion-color-primary);
-    color: white;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-}
-
-.toggle-btn.received-active {
-    background: #10B981;
-    color: white;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-}
-
-/* Save Button */
-/* Save Button Dynamic Colors */
-/* Button Group */
-/* Action Buttons - Matches Detail Page logic */
+/* Action Buttons (Global .footer-btn) */
 .action-group {
     display: flex;
     gap: 16px;
     margin-top: 32px;
-}
-
-.footer-btn {
-    flex: 1;
-    height: 60px;
-    /* Match Detail */
-    border-radius: 20px;
-    /* Match Detail */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
-    transition: transform 0.1s;
-    text-transform: none;
-    /* Ensure no uppercase */
-
-    &:active {
-        transform: scale(0.98);
-    }
-}
-
-.btn-received {
-    background: rgba(16, 185, 129, 0.1);
-    color: #10B981;
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.3);
-}
-
-.btn-given {
-    background: rgba(99, 102, 241, 0.2);
-    color: #818CF8;
-    border: 1px solid rgba(99, 102, 241, 0.3);
-    box-shadow: 0 8px 24px -6px rgba(99, 102, 241, 0.3);
 }

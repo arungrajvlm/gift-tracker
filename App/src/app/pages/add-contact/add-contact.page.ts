@@ -49,7 +49,7 @@ export class AddContactPage {
 
             // Feedback
             const toast = await this.toastCtrl.create({
-                message: 'Contact saved. Ready for next.',
+                message: 'Person saved. Ready for next.',
                 duration: 2000,
                 position: 'top',
                 color: 'success'
