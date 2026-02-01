@@ -138,4 +138,14 @@ export class HomePage implements OnInit {
     });
     await alert.present();
   }
+
+  openProfile() {
+    this.isMenuOpen = false;
+    this.router.navigate(['/profile']);
+  }
+
+  openAbout() {
+    this.isMenuOpen = false;
+    this.router.navigate(['/about']);
+  }
 }

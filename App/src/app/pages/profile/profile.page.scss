@@ -1,0 +1,114 @@
+ion-content {
+    --background: #0F172A;
+}
+
+.profile-container {
+    padding: 20px;
+}
+
+.user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 24px;
+    margin-bottom: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+
+    .avatar-placeholder {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: rgba(56, 189, 248, 0.1);
+        color: #38BDF8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        margin-bottom: 16px;
+    }
+
+    h2 {
+        margin: 0;
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    p {
+        margin: 4px 0 0;
+        color: #94A3B8;
+        font-size: 14px;
+    }
+}
+
+.section-title {
+    color: #94A3B8;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-left: 4px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+
+    .stat-card {
+        background: rgba(30, 41, 59, 0.5);
+        padding: 20px;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+
+        &.full-width {
+            grid-column: span 2;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .icon-bg {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        &.given .icon-bg {
+            background: rgba(56, 189, 248, 0.1);
+            color: #38BDF8;
+        }
+
+        &.received .icon-bg {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+
+            .label {
+                font-size: 13px;
+                color: #94A3B8;
+                margin-bottom: 4px;
+            }
+
+            .value {
+                font-size: 24px;
+                font-weight: 700;
+                color: white;
+            }
+        }
+    }
+}

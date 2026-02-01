@@ -13,11 +13,11 @@
       <!-- Custom Premium Menu -->
       <div class="menu-overlay" *ngIf="isMenuOpen" (click)="toggleMenu()">
         <div class="menu-content" (click)="$event.stopPropagation()">
-          <div class="menu-item">
+          <div class="menu-item" (click)="openProfile()">
             <ion-icon name="person"></ion-icon>
             <span>Profile</span>
           </div>
-          <div class="menu-item">
+          <div class="menu-item" (click)="openAbout()">
             <ion-icon name="help-circle"></ion-icon>
             <span>About</span>
           </div>

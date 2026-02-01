@@ -1,0 +1,59 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar style="--background: #0F172A; --color: white;">
+        <ion-buttons slot="start">
+            <ion-button (click)="goBack()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Profile</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #0F172A;">
+    <div class="profile-container">
+        <!-- User Info Card -->
+        <div class="user-card">
+            <div class="avatar-placeholder">
+                <ion-icon name="person"></ion-icon>
+            </div>
+            <h2 *ngIf="user$ | async as user; else guestUser">{{ user.email || 'User' }}</h2>
+            <ng-template #guestUser>
+                <h2>Guest User</h2>
+                <p>Local Access</p>
+            </ng-template>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="section-title">Statistics</div>
+
+        <div class="stats-grid" *ngIf="stats$ | async as stats">
+            <div class="stat-card given">
+                <div class="icon-bg">
+                    <ion-icon name="gift"></ion-icon>
+                </div>
+                <div class="stat-info">
+                    <span class="label">Given</span>
+                    <span class="value">{{ stats.given }}</span>
+                </div>
+            </div>
+
+            <div class="stat-card received">
+                <div class="icon-bg">
+                    <ion-icon name="gift"></ion-icon>
+                </div>
+                <div class="stat-info">
+                    <span class="label">Received</span>
+                    <span class="value">{{ stats.received }}</span>
+                </div>
+            </div>
+
+            <div class="stat-card full-width">
+                <div class="stat-info">
+                    <span class="label">Total Value Traded</span>
+                    <span class="value">Wait, priceless! ({{ stats.totalValue | currency:'USD' }})</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</ion-content>

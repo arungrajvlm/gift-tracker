@@ -134,6 +134,10 @@ export class GiftService {
         }
     }
 
+    getAllGifts(): Observable<Gift[]> {
+        return this.gifts$;
+    }
+
     deleteGift(id: string) {
         const gifts = this.giftsSubject.value.filter(g => g.id !== id);
         this.saveGifts(gifts);

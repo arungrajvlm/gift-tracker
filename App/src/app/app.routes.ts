@@ -18,6 +18,14 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/add-contact/add-contact.page').then(m => m.AddContactPage)
     },
     {
+        path: 'profile',
+        loadComponent: () => import('./pages/profile/profile.page').then(m => m.ProfilePage)
+    },
+    {
+        path: 'about',
+        loadComponent: () => import('./pages/about/about.page').then(m => m.AboutPage)
+    },
+    {
         path: '',
         redirectTo: 'login',
         pathMatch: 'full',
