@@ -113,6 +113,8 @@ ion-alert {
     align-items: center;
     gap: 16px;
     padding: 16px 24px;
+    padding-top: calc(16px + var(--ion-safe-area-top, 0px));
+    /* Respect Notch */
     background: rgba(2, 6, 23, 0.85);
     /* Onyx Blur */
     backdrop-filter: blur(20px);

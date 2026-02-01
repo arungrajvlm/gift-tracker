@@ -27,9 +27,7 @@ export class AddContactPage {
         private router: Router,
         private giftService: GiftService,
         private toastCtrl: ToastController
-    ) {
-        addIcons({ close, arrowUp, arrowDown });
-    }
+    ) { }
 
     save() {
         if (this.processSave()) {

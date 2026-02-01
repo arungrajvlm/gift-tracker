@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "232283150109",
+    "project_id": "gifttrackerapp",
+    "storage_bucket": "gifttrackerapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232283150109:android:ef1ae61617bf9cded033f4",
+        "android_client_info": {
+          "package_name": "com.gifttracker.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "232283150109-odcmtmruo86m4tsodltdjh4upruj3bbt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gifttracker.app",
+            "certificate_hash": "8766b957e042a2039f22ffc70f63876fcee800cd"
+          }
+        },
+        {
+          "client_id": "232283150109-fl0vmtve0r82rco630qfdk1h8cabdup8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVknu_1aUJiTG4RBfwXPnHWZ1gT02XDqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "232283150109-fl0vmtve0r82rco630qfdk1h8cabdup8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
