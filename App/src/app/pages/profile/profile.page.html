@@ -15,18 +15,32 @@
         <div class="hero-section">
             <div class="avatar-container">
                 <div class="avatar-ring">
-                    <div class="avatar-inner">
-                        <span class="initials">AG</span>
+                    <div class="avatar-inner" *ngIf="user$ | async as user; else guestAvatar">
+                        <img *ngIf="user.avatar" [src]="user.avatar" alt="Profile" />
+                        <span *ngIf="!user.avatar" class="initials">{{ user.name.substring(0,2).toUpperCase() }}</span>
                     </div>
+                    <ng-template #guestAvatar>
+                        <div class="avatar-inner">
+                            <span class="initials">GU</span>
+                        </div>
+                    </ng-template>
                 </div>
-                <div class="premium-badge">
-                    <ion-icon name="star"></ion-icon>
-                    <span>PRO</span>
+                <div class="google-verified-badge" *ngIf="user$ | async">
+                    <ion-icon name="logo-google"></ion-icon>
+                    <span>GOOGLE</span>
                 </div>
             </div>
 
             <div class="user-info">
-                <h2 *ngIf="user$ | async as user; else guestUser">{{ user.email || 'Arun G Raj' }}</h2>
+                <ng-container *ngIf="user$ | async as user; else guestUser">
+                    <h2>{{ user.name }}</h2>
+                    <div class="email-badge-container">
+                        <p class="email">{{ user.email }}</p>
+                        <div class="google-badge">
+                            <ion-icon name="logo-google"></ion-icon>
+                        </div>
+                    </div>
+                </ng-container>
                 <ng-template #guestUser>
                     <h2>Guest User</h2>
                 </ng-template>
