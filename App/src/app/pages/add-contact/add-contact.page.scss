@@ -2,6 +2,55 @@ ion-content {
     --background: #0F172A;
 }
 
+/* Header Matches Home/Detail */
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    background: rgba(2, 6, 23, 0.85);
+    /* Onyx Blur */
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    .close-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .header-content {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        /* Center Title for Add Screen */
+        align-items: center;
+
+        h1 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+    }
+
+    /* Spacer to balance Close button for perfect centering */
+    .header-spacer {
+        width: 40px;
+    }
+}
+
 .ion-padding {
     padding: 24px;
 }
@@ -54,34 +103,33 @@ ion-content {
 /* Custom Toggle */
 .toggle-container {
     background: #1E293B;
+    padding: 6px;
+    border-radius: 16px;
     display: flex;
-    padding: 4px;
-    border-radius: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 32px;
 }
 
 .toggle-btn {
     flex: 1;
-    padding: 10px;
+    padding: 12px;
     border: none;
     background: transparent;
-    color: #94A3B8;
-    border-radius: 8px;
+    color: #64748B;
+    border: none;
     font-weight: 600;
-    cursor: pointer;
-    font-size: 14px;
+    border-radius: 12px;
     transition: all 0.2s;
+    cursor: pointer;
 }
 
 .toggle-btn.given-active {
     background: var(--ion-color-primary);
-    /* Sky Blue */
     color: white;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .toggle-btn.received-active {
     background: #10B981;
-    /* Emerald 500 */
     color: white;
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
@@ -89,50 +137,47 @@ ion-content {
 /* Save Button */
 /* Save Button Dynamic Colors */
 /* Button Group */
+/* Action Buttons - Matches Detail Page logic */
 .action-group {
     display: flex;
-    gap: 12px;
+    gap: 16px;
     margin-top: 32px;
-
-    ion-button {
-        flex: 1;
-        margin: 0;
-        --border-radius: 16px;
-        height: 54px;
-        font-weight: 700;
-        font-size: 15px;
-        text-transform: none;
-    }
 }
 
-.save-btn {
-    width: 100%;
-    /* Flex handles width now, but keep for fallback */
-    /* margin-top moved to group */
-    transition: --background 0.3s ease;
-
-    /* Default */
-    --background: white;
-    --color: #0F172A;
-}
-
-.save-btn.given {
-    --background: var(--ion-color-primary);
-    --color: white;
-    --box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
-}
-
-.save-btn.received {
-    --background: #10B981;
-    /* Emerald 500 */
-    --color: white;
-    --box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-}
-
-.secondary-btn {
-    opacity: 0.85;
+.footer-btn {
+    flex: 1;
+    height: 60px;
+    /* Match Detail */
+    border-radius: 20px;
+    /* Match Detail */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: transform 0.1s;
+    text-transform: none;
+    /* Ensure no uppercase */
 
     &:active {
-        opacity: 1;
+        transform: scale(0.98);
     }
+}
+
+.btn-received {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.3);
+}
+
+.btn-given {
+    background: rgba(99, 102, 241, 0.2);
+    color: #818CF8;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 24px -6px rgba(99, 102, 241, 0.3);
 }

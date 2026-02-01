@@ -1,8 +1,12 @@
 <ion-header class="ion-no-border">
-    <div class="blur-header" style="display: flex; align-items: center; padding: 16px;">
-        <ion-icon name="close" style="font-size: 24px; color: #94A3B8;" (click)="cancel()"></ion-icon>
-        <h1 style="flex-grow: 1; text-align: center; font-size: 18px; color: white; margin: 0;">New Person</h1>
-        <div style="width: 24px;"></div> <!-- Spacer -->
+    <div class="header-nav">
+        <ion-icon name="close" class="close-btn" (click)="cancel()"></ion-icon>
+
+        <div class="header-content">
+            <h1>New Person</h1>
+        </div>
+
+        <div class="header-spacer"></div> <!-- Balance for centering -->
     </div>
 </ion-header>
 
@@ -15,7 +19,7 @@
     </div>
 
     <div class="initial-gift-section">
-        <label class="form-label" style="margin-bottom: 16px;">Initial Gift (Optional)</label>
+        <label class="form-label">Initial Gift (Optional)</label>
 
         <!-- Toggle -->
         <div class="toggle-container">
@@ -30,27 +34,35 @@
         </div>
 
         <div class="form-group">
-            <ion-input class="custom-input" placeholder="Gift Name or Amount" [(ngModel)]="initialGiftItem">
+            <label class="form-label">Gift Name or Amount</label>
+            <ion-input class="custom-input" placeholder="e.g. 8g Gold Ring, 2000rs, TV" [(ngModel)]="initialGiftItem">
             </ion-input>
         </div>
 
-        <!-- Date Input (Native) -->
         <div class="form-group">
+            <label class="form-label">Note (Optional)</label>
+            <ion-textarea class="custom-input" rows="4" placeholder="Add a few details..."
+                [(ngModel)]="initialGiftNote">
+            </ion-textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Date</label>
             <ion-input type="date" class="custom-input date-input" [(ngModel)]="initialGiftDate">
             </ion-input>
         </div>
     </div>
 
     <div class="action-group">
-        <ion-button class="save-btn" [class.given]="initialGiftType === 'given'"
-            [class.received]="initialGiftType === 'received'" (click)="save()">
+        <button class="footer-btn" [class.btn-given]="initialGiftType === 'given'"
+            [class.btn-received]="initialGiftType === 'received'" (click)="save()">
             Save
-        </ion-button>
+        </button>
 
-        <ion-button class="save-btn secondary-btn" [class.given]="initialGiftType === 'given'"
-            [class.received]="initialGiftType === 'received'" (click)="saveAndNext()">
+        <button class="footer-btn" [class.btn-given]="initialGiftType === 'given'"
+            [class.btn-received]="initialGiftType === 'received'" (click)="saveAndNext()">
             Save & Next
-        </ion-button>
+        </button>
     </div>
 
 </ion-content>
