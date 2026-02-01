@@ -142,6 +142,7 @@ export class HomePage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Seed Data',
       message: 'This will populate the app with your custom dataset from the remote server. Continue?',
+      cssClass: 'seed-alert-class',
       buttons: [
         {
           text: 'Cancel',
