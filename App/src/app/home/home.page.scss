@@ -278,5 +278,20 @@ ion-content {
 
   .empty-subtitle {
     color: #64748B;
+    margin-bottom: 24px;
+  }
+
+  .empty-action-btn {
+    --background: var(--ion-color-primary);
+    --border-radius: 20px;
+    --padding-start: 24px;
+    --padding-end: 24px;
+    height: 48px;
+    font-weight: 700;
+    --box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+
+    ion-icon {
+      font-size: 20px;
+    }
   }
 }
