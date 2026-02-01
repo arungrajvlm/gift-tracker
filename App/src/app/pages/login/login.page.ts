@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, isDevMode } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, AlertController } from '@ionic/angular';
 import { Router, RouterModule } from '@angular/router';
@@ -11,6 +11,7 @@ import { AuthService } from '../../services/auth.service';
     imports: [IonicModule, CommonModule, RouterModule]
 })
 export class LoginPage {
+    public isDev = isDevMode();
 
     constructor(
         private authService: AuthService,

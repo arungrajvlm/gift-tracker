@@ -15,6 +15,12 @@ ion-content {
   justify-content: space-between;
   align-items: center;
 
+  .header-logo {
+    width: 36px;
+    height: 36px;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+  }
+
   h1 {
     margin: 0;
     font-size: 28px;
@@ -255,10 +261,12 @@ ion-content {
   padding-top: 60px;
   opacity: 0.5;
 
-  .empty-icon {
-    font-size: 64px;
+  .empty-state-logo {
+    width: 80px;
+    height: 80px;
     margin-bottom: 16px;
-    grayscale: 100%;
+    opacity: 0.4;
+    filter: grayscale(100%);
   }
 
   .empty-title {

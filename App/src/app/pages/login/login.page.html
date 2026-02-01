@@ -8,13 +8,13 @@
 
     <button class="auth-btn btn-google" (click)="login('google')">
       <!-- Simple Google G -->
-      <ion-icon name="logo-google" style="font-size: 20px; color: #DB4437;"></ion-icon>
+      <img src="assets/google-logo.svg" alt="G" style="width: 20px; height: 20px;">
       Continue with Google
     </button>
 
-    <div style="margin-top: 16px; display: flex; justify-content: center;">
+    <div style="margin-top: 16px; display: flex; justify-content: center;" *ngIf="isDev">
       <a routerLink="/home" style="color: #64748B; text-decoration: none; font-size: 14px;">
-        Skip to Home (Dev Bypass)
+        Skip Sign In
       </a>
     </div>
 
