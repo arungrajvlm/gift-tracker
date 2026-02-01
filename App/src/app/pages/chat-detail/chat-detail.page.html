@@ -24,10 +24,13 @@
                 [class.bubble-given]="gift.type === 'given'" [class.bubble-received]="gift.type === 'received'"
                 (click)="onGiftClick(gift)">
 
-                <span class="gift-amount">
+                <div class="bubble-label">
                     <ion-icon [name]="gift.type === 'given' ? 'arrow-up' : 'arrow-down'"
-                        style="font-size: 14px; margin-right: 4px; vertical-align: middle;">
+                        style="font-size: 10px; margin-right: 2px; vertical-align: middle;">
                     </ion-icon>
+                    {{ gift.type === 'given' ? 'GIVEN' : 'RECEIVED' }}
+                </div>
+                <span class="gift-amount">
                     {{ gift.item }}
                 </span>
                 <span class="gift-note" *ngIf="gift.note">{{ gift.note }}</span>
@@ -62,7 +65,7 @@
                     <!-- Inputs -->
                     <div>
                         <label class="form-label">Gift Name or Amount</label>
-                        <ion-input class="custom-input" placeholder="e.g. Birthday Cake or $50"
+                        <ion-input class="custom-input" placeholder="e.g. 8g Gold Ring, 2000rs, TV"
                             [(ngModel)]="newGiftItem">
                         </ion-input>
                     </div>
@@ -86,9 +89,9 @@
                         {{ editingGiftId ? 'Update Gift' : 'Save Gift' }}
                     </ion-button>
 
-                    <ion-button *ngIf="editingGiftId" expand="block" fill="clear" color="danger"
-                        style="margin-top: 8px;" (click)="deleteGiftFromModal()">
-                        Delete Gift
+                    <ion-button *ngIf="editingGiftId" expand="block" fill="flat" class="delete-btn"
+                        (click)="deleteGiftFromModal()">
+                        DELETE GIFT
                     </ion-button>
                 </div>
             </ion-content>
@@ -100,10 +103,16 @@
 <ion-footer class="ion-no-border">
     <div class="footer-actions">
         <button class="footer-btn btn-received" (click)="openModal('received')">
-            <span style="font-size: 18px">↓</span> Received
+            <span class="badge-icon">
+                <ion-icon name="add"></ion-icon>
+            </span>
+            Received
         </button>
         <button class="footer-btn btn-given" (click)="openModal('given')">
-            <span style="font-size: 18px">↑</span> Given
+            <span class="badge-icon">
+                <ion-icon name="add"></ion-icon>
+            </span>
+            Given
         </button>
     </div>
 </ion-footer>

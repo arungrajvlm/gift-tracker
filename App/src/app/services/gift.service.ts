@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Contact, Gift } from '../models/data.models';
 import { Storage } from '@ionic/storage-angular';
@@ -47,9 +47,8 @@ export class GiftService {
     // --- Contacts ---
 
     getContactsWithLastGift(): Observable<Contact[]> {
-        return this.gifts$.pipe(
-            map(gifts => {
-                const contacts = this.contactsSubject.value;
+        return combineLatest([this.contacts$, this.gifts$]).pipe(
+            map(([contacts, gifts]) => {
                 return contacts.map(contact => {
                     const contactGifts = gifts
                         .filter(g => g.contactId === contact.id)

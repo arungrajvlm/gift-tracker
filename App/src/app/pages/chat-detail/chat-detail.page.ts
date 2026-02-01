@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, IonContent, NavController, AlertController, ActionSheetController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { arrowBack, arrowDownOutline, giftOutline, send, arrowUp, arrowDown, pencil, trash, close } from 'ionicons/icons';
+import { arrowBack, arrowDownOutline, giftOutline, send, arrowUp, arrowDown, pencil, trash, close, add } from 'ionicons/icons';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GiftService } from '../../services/gift.service';
 import { Contact, Gift } from '../../models/data.models';
@@ -38,7 +38,7 @@ export class ChatDetailPage implements OnInit {
         private alertCtrl: AlertController,
         private actionSheetCtrl: ActionSheetController
     ) {
-        addIcons({ arrowBack, arrowUp, arrowDown, pencil, trash, close });
+        addIcons({ arrowBack, arrowUp, arrowDown, pencil, trash, close, add });
     }
 
     goBack() {
