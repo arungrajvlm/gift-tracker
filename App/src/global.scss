@@ -14,8 +14,8 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/* Premium Font Import */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* Premium Font Import - Moved to index.html for better loading */
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap'); */
 
 body {
     font-family: 'Inter', sans-serif;
@@ -208,7 +208,7 @@ body ion-textarea {
     border-radius: 16px;
     --border-radius: 16px;
     /* Force Ionic internal radius */
-    overflow: hidden;
+    /* overflow: hidden;  <-- REMOVED: Caused clipping issues on some devices */
     /* Clip contents to radius */
     /* Padding is now global default */
     color: white;
