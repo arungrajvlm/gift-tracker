@@ -1,6 +1,8 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { RouteReuseStrategy, provideRouter, withPreloading, PreloadAllModules, withHashLocation } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, trash, trashOutline, pencil, createOutline, arrowBack, arrowUp, arrowDown, send, giftOutline, arrowDownOutline } from 'ionicons/icons';
 
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
@@ -17,11 +19,20 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { environment } from './environments/environment';
 
+// Register Icons Globally (Entry Point)
+addIcons({
+  add, search, person, helpCircle, logOutOutline, close, menu, construct,
+  arrowUpCircle, arrowDownCircle, chevronForward, trash, trashOutline,
+  pencil, createOutline, arrowBack, arrowUp, arrowDown, send,
+  giftOutline, arrowDownOutline
+});
+
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular({
-      navAnimation: fancyAnimation
+      navAnimation: fancyAnimation,
+      mode: 'ios' // Unify look
     }),
     provideRouter(routes, withPreloading(PreloadAllModules), withHashLocation()),
     provideHttpClient(),

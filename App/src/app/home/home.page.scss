@@ -258,8 +258,16 @@ ion-content {
 
 .empty-state {
   text-align: center;
-  padding-top: 60px;
-  opacity: 0.5;
+  padding-top: 0;
+  /* Removing top padding */
+  opacity: 1;
+  /* Make fully visible */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  /* Vertical Center */
 
   .empty-state-logo {
     width: 80px;
