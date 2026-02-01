@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, NavController } from '@ionic/angular';
-import { arrowBack, person, gift, statsChart } from 'ionicons/icons';
+import { arrowBack, person, gift, statsChart, star, notifications, shieldCheckmark, chevronForward, chatbubbleEllipses } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { GiftService } from '../../services/gift.service';
 import { AuthService } from '../../services/auth.service';
@@ -23,7 +23,7 @@ export class ProfilePage implements OnInit {
         private giftService: GiftService,
         private authService: AuthService
     ) {
-        addIcons({ arrowBack, person, gift, statsChart });
+        addIcons({ arrowBack, person, gift, statsChart, star, notifications, shieldCheckmark, chevronForward, chatbubbleEllipses });
         this.user$ = this.authService.user$;
 
         // Calculate stats from all contacts
