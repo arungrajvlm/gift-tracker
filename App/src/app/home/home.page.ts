@@ -12,6 +12,7 @@ import { Contact } from '../models/data.models';
 import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { HighlightPipe } from '../pipes/highlight.pipe';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -34,6 +35,9 @@ export class HomePage implements OnInit {
   private pageSize = 20;
   private currentPage = 0;
 
+  loader: any;
+  canSeed = false;
+
   constructor(
     private giftService: GiftService,
     private authService: AuthService,
@@ -42,6 +46,16 @@ export class HomePage implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward });
+
+    // Check Admin Status
+    this.authService.user$.subscribe(user => {
+      if (user && user.email && environment.adminEmails.includes(user.email)) {
+        this.canSeed = true;
+      } else {
+        this.canSeed = false;
+      }
+      this.cdr.markForCheck();
+    });
 
     // Combine contacts and search term for filtering
     combineLatest([

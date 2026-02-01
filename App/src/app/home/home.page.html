@@ -2,7 +2,6 @@
   <div class="blur-header">
     <div class="header-title-container">
       <div style="display: flex; align-items: center; gap: 12px;">
-        <img src="assets/logo.png" alt="Logo" class="header-logo">
         <h1>GiftTracker</h1>
       </div>
       <div class="menu-btn" (click)="toggleMenu()">
@@ -27,7 +26,7 @@
             <span>Log Out</span>
           </div>
           <div class="menu-divider"></div>
-          <div class="menu-item" (click)="seedData()" style="color: #FBBF24;">
+          <div class="menu-item" (click)="seedData()" style="color: #FBBF24;" *ngIf="canSeed">
             <ion-icon name="construct" style="color: #FBBF24;"></ion-icon>
             <span>Seed Data</span>
           </div>
