@@ -1,199 +1,212 @@
-/* Header Match */
+/* Header Matches Home */
 .header-nav {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 16px;
-    color: white;
+    padding: 16px 24px;
+    background: rgba(2, 6, 23, 0.85);
+    /* Onyx Blur */
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 
-    .name-container {
-        flex-grow: 1;
+    .back-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+    }
 
-        h1 {
-            font-size: 20px;
-            font-weight: 700;
-            margin: 0;
-            color: white;
-        }
+    .header-content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-left: 12px;
 
-        .edit-icon {
-            font-size: 20px;
-            color: var(--ion-color-primary);
-            /* Sky Blue */
-            opacity: 1;
-            padding: 8px;
-            cursor: pointer;
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+
+            h1 {
+                font-size: 18px;
+                font-weight: 700;
+                margin: 0;
+                color: white;
+                letter-spacing: -0.5px;
+                line-height: 1.2;
+            }
+
+            .status-text {
+                margin: 0;
+                font-size: 12px;
+                color: #94A3B8;
+                font-weight: 500;
+            }
         }
     }
-}
 
-.back-btn {
-    font-size: 24px;
-    color: white !important;
-    cursor: pointer;
-    z-index: 10;
-}
+    .action-btn {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 20px;
+        /* Smaller than menu dots */
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background 0.2s;
+        background: rgba(255, 255, 255, 0.05);
 
-.avatar-small {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 600;
-    color: white;
+        &:active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
 }
 
 /* Chat Layout */
 .chat-container {
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding-top: 16px;
+    gap: 24px;
+    /* More spacing between bubbles */
 }
 
+/* Base Bubble */
 .bubble {
-    max-width: 80%;
-    min-width: 100px;
-    padding: 12px 16px;
-    padding-top: 12px;
-    /* Reset, using flex instead if needed, but for absolute we need space if it overlaps. Let's try simpler: just absolute top right */
-    padding-top: 28px;
-    /* Make room for badge */
+    max-width: 85%;
+    padding: 16px 20px;
     border-radius: 20px;
     position: relative;
-    font-size: 16px;
-    line-height: 1.4;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    color: white;
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s;
+
+    &:active {
+        transform: scale(0.99);
+    }
 
     .bubble-label {
-        position: absolute;
-        top: 8px;
-        right: 12px;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        font-size: 9px;
+        font-size: 10px;
         text-transform: uppercase;
         font-weight: 800;
-        letter-spacing: 0.5px;
-        background: rgba(0, 0, 0, 0.15);
-        padding: 4px 8px;
-        border-radius: 8px;
-        color: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(4px);
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+        opacity: 0.7;
+        display: block;
     }
 
     .gift-amount {
-        font-weight: 700;
+        font-size: 24px;
+        /* Larger typography */
+        font-weight: 800;
         display: block;
+        letter-spacing: -1px;
+        line-height: 1.1;
         margin-bottom: 4px;
-        font-size: 16px;
     }
 
     .gift-note {
-        font-size: 14px;
-        opacity: 0.9;
-        display: block;
+        font-size: 15px;
+        opacity: 0.8;
+        line-height: 1.5;
     }
 
     .timestamp {
-        font-size: 10px;
-        opacity: 0.7;
-        margin-top: 6px;
-        display: block;
+        font-size: 11px;
+        margin-top: 12px;
+        opacity: 0.5;
         text-align: right;
+        font-weight: 500;
     }
 }
 
+/* Received (Left) - Glass/Subtle */
 .bubble-received {
     align-self: flex-start;
-    background-color: #10B981;
-    /* Emerald 500 */
-    /* --received-bubble */
+    background: rgba(30, 41, 59, 0.4);
+    /* Slate Glass */
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    /* Emerald Tint */
     border-bottom-left-radius: 4px;
-    margin-right: auto;
+    color: #F8FAFC;
+
+    .bubble-label {
+        color: #10B981;
+    }
 }
 
+/* Given (Right) - Solid/Primary to stand out OR Glass Primary */
 .bubble-given {
     align-self: flex-end;
-    background-color: #0EA5E9;
-    /* --given-bubble */
-    color: white;
+    background: rgba(99, 102, 241, 0.15);
+    /* Indigo Glass */
+    border: 1px solid rgba(99, 102, 241, 0.3);
     border-bottom-right-radius: 4px;
-    margin-left: auto;
+    color: white;
+
+    .bubble-label {
+        color: #818CF8;
+    }
 }
 
+/* Footer Actions */
 ion-footer {
     --background: transparent;
-    padding-bottom: env(safe-area-inset-bottom);
-    /* iOS support */
 }
 
 .footer-actions {
-    padding: 16px 20px 20px;
-    background: rgba(15, 23, 42, 0.95);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0 24px 32px;
     display: flex;
-    gap: 12px;
-    backdrop-filter: blur(10px);
+    gap: 16px;
 }
 
 .footer-btn {
     flex: 1;
-    padding: 16px;
-    border-radius: 16px;
-    font-weight: 600;
-    cursor: pointer;
+    height: 56px;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     font-size: 16px;
+    font-weight: 600;
     border: none;
-    transition: transform 0.1s;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
 
-    .badge-icon {
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(4px);
-        padding: 4px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        ion-icon {
-            font-size: 16px;
-        }
-    }
-
-    &:active {
-        transform: scale(0.98);
+    ion-icon {
+        font-size: 20px;
     }
 }
 
 .btn-received {
-    background: #10B981;
-    /* Emerald 500 */
-    /* --received-bubble */
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    color: white;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.3);
+    /* Emerald Glow */
 }
 
 .btn-given {
-    background: #0EA5E9;
-    /* --given-bubble */
-    color: white;
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+    background: rgba(99, 102, 241, 0.2);
+    /* Indigo tint */
+    color: #818CF8;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 24px -6px rgba(99, 102, 241, 0.3);
 }
 
-/* Modal Styling MATCHING Add Contact */
+/* Modals */
 .modal-content {
     --background: #0F172A;
 }
@@ -203,110 +216,84 @@ ion-footer {
 }
 
 .form-label {
-    display: block;
     color: #94A3B8;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 8px;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    margin-left: 4px;
 }
 
 .custom-input {
     width: 100%;
     --background: #1E293B;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    --padding-start: 16px;
-    --padding-end: 16px;
+    border-radius: 16px;
+    --padding-start: 20px;
     color: white;
-    font-size: 16px;
-    height: 56px;
-    --placeholder-color: #64748B;
+    height: 60px;
+    font-size: 18px;
     margin-bottom: 24px;
+    border: 1px solid transparent;
 
     &.has-focus {
         border-color: var(--ion-color-primary);
-        --background: rgba(30, 41, 59, 0.8);
+        --background: rgba(30, 41, 59, 1);
     }
 }
 
-.date-input {
-    color-scheme: dark;
-}
-
-/* Custom Toggle - EXACT COPY */
 .toggle-container {
     background: #1E293B;
+    padding: 6px;
+    border-radius: 16px;
     display: flex;
-    padding: 4px;
-    border-radius: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
 }
 
 .toggle-btn {
     flex: 1;
-    padding: 10px;
-    border: none;
+    padding: 12px;
     background: transparent;
-    color: #94A3B8;
-    border-radius: 8px;
+    color: #64748B;
+    border: none;
     font-weight: 600;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.2s;
+    border-radius: 12px;
+
+    &.given-active {
+        background: var(--ion-color-primary);
+        color: white;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    &.received-active {
+        background: #10B981;
+        color: white;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
 }
 
-.toggle-btn.given-active {
-    background: var(--ion-color-primary);
-    /* Sky Blue */
-    color: white;
-}
-
-.toggle-btn.received-active {
-    background: #10B981;
-    /* Emerald 500 */
-    color: white;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-}
-
-/* Save Button Dynamic Colors */
 .save-btn {
     width: 100%;
-    margin-top: 8px;
-    --border-radius: 16px;
+    height: 60px;
+    --border-radius: 20px;
     font-weight: 700;
-    font-size: 16px;
-    height: 54px;
-    text-transform: none;
-    transition: --background 0.3s ease;
+    font-size: 18px;
+    --box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 
-    /* Default (will be overridden) */
-    --background: white;
-    --color: #0F172A;
-}
+    &.given {
+        --background: var(--ion-color-primary);
+    }
 
-.save-btn.given {
-    --background: var(--ion-color-primary);
-    /* Sky Blue */
-    --color: white;
-    --box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
-}
-
-.save-btn.received {
-    --background: #10B981;
-    /* Emerald 500 */
-    --color: white;
-    --box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    &.received {
+        --background: #10B981;
+    }
 }
 
 .delete-btn {
-    width: 100%;
-    margin-top: 16px;
-    --color: #ef4444;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    --background: rgba(239, 68, 68, 0.1);
-    --border-radius: 12px;
-    height: 48px;
+    margin-top: 12px;
+    --color: #EF4444;
+    --background: transparent;
+    font-size: 14px;
+    height: auto;
+    --box-shadow: none;
 }

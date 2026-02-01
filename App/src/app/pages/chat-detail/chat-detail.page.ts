@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, IonContent, NavController, AlertController, ActionSheetController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { arrowBack, arrowDownOutline, giftOutline, send, arrowUp, arrowDown, pencil, trash, close, add } from 'ionicons/icons';
+import { arrowBack, arrowDownOutline, giftOutline, send, arrowUp, arrowDown, pencil, trash, close, add, createOutline } from 'ionicons/icons';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GiftService } from '../../services/gift.service';
 import { Contact, Gift } from '../../models/data.models';
@@ -38,7 +38,7 @@ export class ChatDetailPage implements OnInit {
         private alertCtrl: AlertController,
         private actionSheetCtrl: ActionSheetController
     ) {
-        addIcons({ arrowBack, arrowUp, arrowDown, pencil, trash, close, add });
+        addIcons({ arrowBack, arrowUp, arrowDown, pencil, trash, close, add, createOutline });
     }
 
     goBack() {
@@ -49,7 +49,7 @@ export class ChatDetailPage implements OnInit {
         if (!this.contact) return;
 
         const alert = await this.alertCtrl.create({
-            header: 'Edit Name',
+            header: 'Edit Contact',
             inputs: [
                 {
                     name: 'name',
@@ -60,6 +60,15 @@ export class ChatDetailPage implements OnInit {
             ],
             buttons: [
                 {
+                    text: 'Delete',
+                    role: 'destructive',
+                    cssClass: 'alert-delete-btn',
+                    handler: () => {
+                        // Close this alert and open delete confirmation
+                        this.deletePerson();
+                    }
+                },
+                {
                     text: 'Cancel',
                     role: 'cancel'
                 },
@@ -68,7 +77,6 @@ export class ChatDetailPage implements OnInit {
                     handler: (data) => {
                         if (data.name && data.name.trim() !== '') {
                             this.giftService.updateContactName(this.contact!.id, data.name);
-                            // Refresh local contact reference
                             this.contact = this.giftService.getContact(this.contact!.id);
                         }
                     }

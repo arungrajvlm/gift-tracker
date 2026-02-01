@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, AlertController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { add, search, person, helpCircle, logOutOutline, close, menu, construct } from 'ionicons/icons';
+import { add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward } from 'ionicons/icons';
 import { Router, RouterModule } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { AuthService } from '../services/auth.service';
@@ -41,7 +41,7 @@ export class HomePage implements OnInit {
     private alertController: AlertController,
     private cdr: ChangeDetectorRef
   ) {
-    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct });
+    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward });
 
     // Combine contacts and search term for filtering
     combineLatest([

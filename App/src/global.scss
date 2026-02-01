@@ -1,109 +1,67 @@
-/* Global Design Match */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
+/* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-* {
+/* Premium Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+body {
     font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: var(--app-gradient-bg);
 }
 
-/* Remove default Ionic borders to use our custom ones */
-.ion-no-border {
-    --border-width: 0;
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    /* Tight editorial tracking */
+    color: var(--ion-text-color);
 }
 
-/* Blur Header Mixin */
-.blur-header {
-    --background: rgba(15, 23, 42, 0.95);
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
+/* Global Content Styling */
 ion-content {
-    --background: #0F172A;
+    --background: transparent;
+    /* Allow body gradient to show */
 }
 
-/* Reset Spacing for precise control */
-ion-list {
-    background: transparent !important;
-    padding: 0;
+/* Hide Scrollbars but keep functionality */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* Highlight Style */
+.highlight {
+    background: var(--ion-color-primary);
+    /* Indigo */
+    color: white;
+    font-weight: 700;
+    border-radius: 4px;
+    padding: 0 4px;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
 }
 
 /* Custom Alert Styling */
-.custom-alert {
-    --background: #1E293B;
-    /* Card BG */
-    --backdrop-opacity: 0.6;
-
-    .alert-wrapper {
-        border-radius: 16px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .alert-head {
-        padding-bottom: 0;
-
-        h2 {
-            color: white;
-            font-size: 18px;
-            font-weight: 700;
-        }
-    }
-
-    .alert-input-group {
-        padding-top: 12px;
-
-        .alert-input {
-            background: #0F172A;
-            /* Darker BG for input */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: white;
-            padding: 12px;
-
-            &::placeholder {
-                color: #64748B;
-            }
-        }
-    }
-
-    .alert-button-group {
-        padding: 16px;
-        gap: 12px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-
-        button {
-            flex: 1;
-            border-radius: 8px;
-            font-weight: 600;
-            text-transform: none;
-            margin: 0;
-            height: 44px;
-        }
-
-        .alert-button-role-cancel {
-            background: #334155 !important;
-            color: white !important;
-        }
-
-        .alert-button-role-ok {
-            background: var(--ion-color-primary) !important;
-            color: white !important;
-            /* box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); */
-            /* Note: Ionic alerts might strip box-shadow or need deep selectors */
-        }
-    }
+.alert-delete-btn {
+    color: #EF4444 !important;
+    /* Red 500 */
+    font-weight: 700 !important;
 }

@@ -45,39 +45,40 @@
 </ion-header>
 
 <ion-content>
-  <div class="contact-list">
+  <div class="premium-list-container">
 
     <!-- Skeleton Loader -->
     <div class="skeleton-list" *ngIf="isLoading">
-      <div class="contact-item" *ngFor="let item of [1,2,3,4,5,6,7,8]">
-        <ion-skeleton-text animated
-          style="width: 48px; height: 48px; border-radius: 50%; margin-right: 16px;"></ion-skeleton-text>
-        <div style="flex: 1;">
-          <ion-skeleton-text animated
-            style="width: 60%; height: 20px; margin-bottom: 8px; border-radius: 4px;"></ion-skeleton-text>
-          <ion-skeleton-text animated style="width: 40%; height: 16px; border-radius: 4px;"></ion-skeleton-text>
-        </div>
+      <div class="premium-card-loader" *ngFor="let item of [1,2,3,4,5]">
+        <ion-skeleton-text animated style="width: 100%; height: 80px; border-radius: 24px;"></ion-skeleton-text>
       </div>
     </div>
 
     <div class="real-list" *ngIf="!isLoading">
 
-      <div class="contact-item ion-activatable" *ngFor="let contact of displayedContacts; trackBy: trackByContact"
+      <div class="premium-card" *ngFor="let contact of displayedContacts; trackBy: trackByContact"
         (click)="openChat(contact.id)">
-        <ion-ripple-effect></ion-ripple-effect>
-        <div class="avatar" [style.background]="contact.avatarColor">
-          {{ contact.initials }}
-        </div>
-        <div class="info">
-          <span class="name" [innerHTML]="contact.name | highlight:searchTerm"></span>
-          <div class="details">
-            <span *ngIf="contact.lastGift">
-              {{ contact.lastGift.type === 'given' ? 'Given' : 'Received' }}:
-              <span [innerHTML]="contact.lastGift.item | highlight:searchTerm"></span>
-            </span>
-            <span *ngIf="!contact.lastGift">No gifts yet</span>
+        <div class="card-content">
+          <div class="avatar-large" [style.background]="contact.avatarColor">
+            {{ contact.initials }}
+          </div>
 
-            <span *ngIf="contact.lastGift">{{ contact.lastGift.date | date:'MMM d' }}</span>
+          <div class="card-info">
+            <div class="top-row">
+              <span class="name" [innerHTML]="contact.name | highlight:searchTerm"></span>
+              <span class="date" *ngIf="contact.lastGift">{{ contact.lastGift.date | date:'MMM d' }}</span>
+            </div>
+
+            <div class="bottom-row">
+              <div class="gift-preview" *ngIf="contact.lastGift">
+                <ion-icon [name]="contact.lastGift.type === 'given' ? 'arrow-up-circle' : 'arrow-down-circle'"
+                  [class]="contact.lastGift.type"></ion-icon>
+                <span [innerHTML]="contact.lastGift.item | highlight:searchTerm"></span>
+              </div>
+              <span class="empty-text" *ngIf="!contact.lastGift">No history</span>
+
+              <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+            </div>
           </div>
         </div>
       </div>
@@ -85,13 +86,12 @@
       <!-- Empty State -->
       <div class="empty-state" *ngIf="allFilteredContacts.length === 0">
         <div class="empty-icon">🎁</div>
-        <p class="empty-title">No contacts found</p>
-        <p class="empty-subtitle">Add a new person to start gifting!</p>
+        <p class="empty-title">Zero.</p>
+        <p class="empty-subtitle">Start your collection.</p>
       </div>
 
       <ion-infinite-scroll threshold="25%" (ionInfinite)="loadData($event)">
-        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more...">
-        </ion-infinite-scroll-content>
+        <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
       </ion-infinite-scroll>
 
     </div>

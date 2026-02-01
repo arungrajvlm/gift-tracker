@@ -1,42 +1,47 @@
-/* Design/styles.css Match */
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/theming/
 
+/** Ionic CSS Variables **/
 :root {
-  /* --bg-color: #0F172A; */
-  --ion-background-color: #0F172A;
-  --ion-background-color-rgb: 15, 23, 42;
+  /* Primary - Indigo 500 (Vibrant) */
+  --ion-color-primary: #6366F1;
+  --ion-color-primary-rgb: 99, 102, 241;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #575ACF;
+  --ion-color-primary-tint: #7375F2;
 
-  /* --card-bg: #1E293B; */
-  --ion-item-background: #1E293B;
-  --ion-card-background: #1E293B;
+  /* Secondary - Slate 500 (Subtle) */
+  --ion-color-secondary: #64748B;
+  --ion-color-secondary-rgb: 100, 116, 139;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #58667A;
+  --ion-color-secondary-tint: #748297;
 
-  /* --text-primary: #F8FAFC; */
+  /* Background - Slate 950 (Ultra Dark / Onyx) */
+  --ion-background-color: #020617;
+  --ion-background-color-rgb: 2, 6, 23;
+
+  /* Text - Slate 50 (Almost White) */
   --ion-text-color: #F8FAFC;
   --ion-text-color-rgb: 248, 250, 252;
 
-  /* --accent-color: #38BDF8; Sky Blue */
-  --ion-color-primary: #38BDF8;
-  --ion-color-primary-rgb: 56, 189, 248;
-  --ion-color-primary-contrast: #0F172A;
-  --ion-color-primary-contrast-rgb: 15, 23, 42;
-  --ion-color-primary-shade: #0ea5e9;
-  --ion-color-primary-tint: #7dd3fc;
+  /* Surface - Slate 900 (Deep) */
+  --ion-item-background: #0F172A;
+  --ion-card-background: #0F172A;
 
-  /* Secondary Text */
-  --ion-color-medium: #94A3B8;
-  --ion-color-medium-rgb: 148, 163, 184;
+  /* Status Bar */
+  --ion-status-bar-change: 0.2s;
 
-  /* Bubbles */
-  --received-bubble: #334155;
-  --given-bubble: #0EA5E9;
-
-  --ion-font-family: 'Inter', sans-serif;
-
-  /* Borders */
-  --ion-border-color: rgba(255, 255, 255, 0.05);
+  /* Premium Radii */
+  --ion-border-radius: 20px;
 }
 
-/* Force Dark Mode everywhere since the design is dark-only */
+/* Custom Premium Utilities */
 body {
-  background-color: var(--ion-background-color);
-  color: var(--ion-text-color);
+  --app-gradient-bg: linear-gradient(180deg, #020617 0%, #0F172A 100%);
+  --glass-surface: rgba(30, 41, 59, 0.4);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.05);
+  --glass-blur: blur(12px);
 }

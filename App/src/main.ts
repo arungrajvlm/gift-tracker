@@ -11,10 +11,14 @@ import { Drivers } from '@ionic/storage';
 
 import { provideHttpClient } from '@angular/common/http';
 
+import { fancyAnimation } from './app/animations/nav.animation';
+
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular(),
+    provideIonicAngular({
+      navAnimation: fancyAnimation
+    }),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(),
     importProvidersFrom(IonicStorageModule.forRoot({
