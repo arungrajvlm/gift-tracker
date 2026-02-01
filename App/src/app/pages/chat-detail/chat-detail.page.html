@@ -5,9 +5,12 @@
             <div class="avatar-small" [style.background]="contact?.avatarColor">
                 {{ contact?.initials }}
             </div>
-            <div class="name-container">
-                <h1>{{ contact?.name }}</h1>
-                <ion-icon name="pencil" class="edit-icon" (click)="editName()"></ion-icon>
+            <h1>{{ contact?.name }}</h1>
+            <ion-icon name="pencil" class="edit-icon" (click)="editName()"></ion-icon>
+
+            <div style="margin-left: auto;">
+                <ion-icon name="trash" class="delete-icon" (click)="deletePerson()"
+                    style="font-size: 20px; color: #ef4444; margin-left: 8px;"></ion-icon>
             </div>
         </div>
     </div>

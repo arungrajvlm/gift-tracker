@@ -83,12 +83,25 @@ export class GiftService {
         this.contactsSubject.next(contacts);
     }
 
+    deleteContact(id: string) {
+        const contacts = this.contactsSubject.value.filter(c => c.id !== id);
+        const gifts = this.giftsSubject.value.filter(g => g.contactId !== id);
+
+        this.saveContacts(contacts);
+        this.saveGifts(gifts);
+    }
+
     updateContactName(id: string, name: string) {
         const contacts = this.contactsSubject.value;
         const contactIndex = contacts.findIndex(c => c.id === id);
         if (contactIndex > -1) {
             // Update name and regenerate initials
-            const updatedContact = { ...contacts[contactIndex], name, initials: name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() };
+            const trimmedName = name.trim();
+            const updatedContact = {
+                ...contacts[contactIndex],
+                name: trimmedName,
+                initials: trimmedName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
+            };
             contacts[contactIndex] = updatedContact;
             this.saveContacts(contacts);
         }

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, IonContent, NavController, AlertController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { arrowBack, arrowDownOutline, giftOutline, send, arrowUp, arrowDown, pencil } from 'ionicons/icons';
+import { arrowBack, arrowDownOutline, giftOutline, send, arrowUp, arrowDown, pencil, trash } from 'ionicons/icons';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GiftService } from '../../services/gift.service';
 import { Contact, Gift } from '../../models/data.models';
@@ -36,7 +36,7 @@ export class ChatDetailPage implements OnInit {
         private navCtrl: NavController,
         private alertCtrl: AlertController
     ) {
-        addIcons({ arrowBack, arrowUp, arrowDown, pencil });
+        addIcons({ arrowBack, arrowUp, arrowDown, pencil, trash });
     }
 
     goBack() {
@@ -73,6 +73,32 @@ export class ChatDetailPage implements OnInit {
                 }
             ],
             cssClass: 'custom-alert'
+        });
+
+        await alert.present();
+        await alert.present();
+    }
+
+    async deletePerson() {
+        if (!this.contact) return;
+
+        const alert = await this.alertCtrl.create({
+            header: 'Delete Person',
+            message: 'Are you sure you want to delete this person and all their history? This cannot be undone.',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel'
+                },
+                {
+                    text: 'Delete',
+                    role: 'destructive',
+                    handler: () => {
+                        this.giftService.deleteContact(this.contact!.id);
+                        this.navCtrl.navigateBack('/home');
+                    }
+                }
+            ]
         });
 
         await alert.present();
