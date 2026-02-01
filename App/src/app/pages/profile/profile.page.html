@@ -70,15 +70,15 @@
         <div class="settings-group">
             <div class="group-title">Account Settings</div>
 
-            <div class="setting-item">
+            <div class="setting-item" (click)="showComingSoon('Notifications')">
                 <div class="setting-icon notifications">
                     <ion-icon name="notifications"></ion-icon>
                 </div>
                 <div class="setting-label">Notifications</div>
-                <ion-toggle checked class="custom-toggle"></ion-toggle>
+                <ion-toggle checked class="custom-toggle" (click)="$event.stopPropagation()"></ion-toggle>
             </div>
 
-            <div class="setting-item">
+            <div class="setting-item" (click)="showComingSoon('Security Settings')">
                 <div class="setting-icon security">
                     <ion-icon name="shield-checkmark"></ion-icon>
                 </div>
@@ -90,7 +90,7 @@
         <div class="settings-group">
             <div class="group-title">Support</div>
 
-            <div class="setting-item">
+            <div class="setting-item" (click)="showComingSoon('Help Center')">
                 <div class="setting-icon help">
                     <ion-icon name="chatbubble-ellipses"></ion-icon>
                 </div>

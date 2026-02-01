@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, NavController } from '@ionic/angular';
-import { arrowBack, person, gift, statsChart, star, notifications, shieldCheckmark, chevronForward, chatbubbleEllipses, logoGoogle } from 'ionicons/icons';
+import { IonicModule, NavController, ToastController } from '@ionic/angular';
+import { arrowBack, person, gift, statsChart, star, notifications, shieldCheckmark, chevronForward, chatbubbleEllipses, logoGoogle, construct } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { GiftService } from '../../services/gift.service';
 import { AuthService } from '../../services/auth.service';
@@ -21,9 +21,10 @@ export class ProfilePage implements OnInit {
     constructor(
         private navCtrl: NavController,
         private giftService: GiftService,
-        private authService: AuthService
+        private authService: AuthService,
+        private toastCtrl: ToastController
     ) {
-        addIcons({ arrowBack, person, gift, statsChart, star, notifications, shieldCheckmark, chevronForward, chatbubbleEllipses, logoGoogle });
+        addIcons({ arrowBack, person, gift, statsChart, star, notifications, shieldCheckmark, chevronForward, chatbubbleEllipses, logoGoogle, construct });
         this.user$ = this.authService.user$;
 
         // Calculate stats from all contacts
@@ -41,5 +42,16 @@ export class ProfilePage implements OnInit {
 
     goBack() {
         this.navCtrl.back();
+    }
+
+    async showComingSoon(feature: string) {
+        const toast = await this.toastCtrl.create({
+            message: `${feature} is coming soon!`,
+            duration: 2000,
+            position: 'bottom',
+            color: 'medium',
+            icon: 'construct'
+        });
+        await toast.present();
     }
 }
