@@ -2,7 +2,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, AlertController, LoadingController } from '@ionic/angular';
+import { IonicModule, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync } from 'ionicons/icons';
 import { Router, RouterModule } from '@angular/router';
@@ -47,6 +47,7 @@ export class HomePage implements OnInit {
     public router: Router,
     private alertController: AlertController,
     private loadingController: LoadingController,
+    private toastController: ToastController,
     private cdr: ChangeDetectorRef
   ) {
     addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync });
@@ -181,6 +182,24 @@ export class HomePage implements OnInit {
 
   // Sync Logic
   async triggerSync() {
+    // Check current state first
+
+    let state = 'unknown';
+    this.syncState$.subscribe(s => state = s).unsubscribe();
+
+    if (state === 'synced') {
+      const toast = await this.toastController.create({
+        message: 'All data is already backed up to the cloud.',
+        duration: 2000,
+        position: 'top',
+        color: 'success',
+        icon: 'cloud-done',
+        cssClass: 'custom-toast'
+      });
+      await toast.present();
+      return;
+    }
+
     // Show Full Screen Loader
     const loading = await this.loadingController.create({
       message: 'Backing up to Cloud...',
