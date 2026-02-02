@@ -14,8 +14,9 @@
           [class.spin]="state === 'syncing'"></ion-icon>
 
         <span class="status-label">
-          {{ state === 'synced' ? 'Saved' : (state === 'modified' ? 'Not Synced' : (state === 'error' ? 'Failed' :
-          'Syncing...')) }}
+          {{ state === 'synced' ? 'Backed Up' : (state === 'modified' ? 'Pending Backup' : (state === 'error' ? 'Sync
+          Failed' :
+          'Backing Up...')) }}
         </span>
       </div>
 
