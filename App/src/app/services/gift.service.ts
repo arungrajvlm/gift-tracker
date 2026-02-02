@@ -158,9 +158,11 @@ export class GiftService {
         let response: any = null;
         try {
             response = await firstValueFrom(this.http.get<any>(environment.seedUrl));
-        } catch (err) {
+        } catch (err: any) {
             console.error('Failed to fetch seed data', err);
-            alert('Failed to download seed data. Check internet connection.');
+            const errorMessage = err.message || JSON.stringify(err);
+            const status = err.status || 'Unknown';
+            alert(`Failed to download seed data.\nURL: ${environment.seedUrl}\nStatus: ${status}\nError: ${errorMessage}`);
             return;
         }
 
