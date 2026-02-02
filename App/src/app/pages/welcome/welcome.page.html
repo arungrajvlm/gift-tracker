@@ -1,0 +1,68 @@
+<ion-content>
+    <div class="welcome-container">
+
+        <!-- Logo / Icon Area -->
+        <div class="logo-area">
+            <div class="icon-circle" [class.has-image]="userPhoto">
+                <img *ngIf="userPhoto" [src]="userPhoto" alt="Profile" />
+                <ion-icon *ngIf="!userPhoto" name="gift-outline"></ion-icon>
+            </div>
+            <h1>GiftTracker</h1>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-state" *ngIf="isLoading">
+            <ion-spinner name="crescent" color="primary"></ion-spinner>
+            <p>Checking for backups...</p>
+        </div>
+
+        <!-- Content State -->
+        <div class="content-state" *ngIf="!isLoading">
+
+            <!-- Backup Found UI -->
+            <div class="backup-found-container" *ngIf="backupFound">
+                <h2>Backup found</h2>
+                <p class="subtitle">Restore your gift history from the cloud.</p>
+
+                <!-- Info Card (WhatsApp Style) -->
+                <div class="info-card">
+                    <div class="info-row">
+                        <ion-icon name="logo-google"></ion-icon>
+                        <div class="info-text">
+                            <span class="label">Account</span>
+                            <span class="value">{{ userEmail }}</span>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="info-row">
+                        <ion-icon name="cloud-done"></ion-icon>
+                        <div class="info-text">
+                            <span class="label">Last Backup</span>
+                            <span class="value">{{ backupFound.date | date:'mediumDate' }} • {{ backupFound.date |
+                                date:'shortTime' }}</span>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="info-row">
+                        <ion-icon name="gift"></ion-icon>
+                        <div class="info-text">
+                            <span class="label">Size</span>
+                            <span class="value">{{ backupFound.count }} Gifts Saved</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spacer"></div>
+
+                <button class="restore-btn" (click)="restore()">
+                    RESTORE
+                </button>
+
+                <div class="skip-link" (click)="startFresh()">
+                    Skip Restore
+                </div>
+            </div>
+        </div>
+
+    </div>
+</ion-content>

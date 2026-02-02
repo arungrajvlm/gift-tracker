@@ -22,7 +22,7 @@ export class LoginPage {
     async login(provider: 'google' | 'apple') {
         try {
             await this.authService.login(provider);
-            this.router.navigate(['/home'], { replaceUrl: true });
+            this.router.navigate(['/welcome'], { replaceUrl: true });
         } catch (error: any) {
             console.error('Login failed', error);
 

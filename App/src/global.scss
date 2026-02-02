@@ -336,3 +336,32 @@ ion-loading.custom-loading {
         font-size: 16px;
     }
 }
+
+/* 6. Danger Alert (WhatsApp Style) */
+.custom-alert {
+    --backdrop-opacity: 0.8 !important;
+
+    .alert-wrapper {
+        border: 1px solid #EF4444 !important;
+        box-shadow: 0 0 30px rgba(239, 68, 68, 0.3) !important;
+    }
+
+    .alert-head h2 {
+        color: #EF4444 !important;
+        /* Red Header */
+        font-size: 20px !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .alert-message {
+        color: #E2E8F0 !important;
+        font-size: 15px !important;
+        line-height: 1.5;
+        font-weight: 500;
+        border-left: 3px solid #EF4444;
+        /* Red accent line */
+        padding-left: 12px;
+        margin-top: 8px;
+    }
+}

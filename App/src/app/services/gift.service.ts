@@ -195,6 +195,30 @@ export class GiftService {
         }
     }
 
+    async checkCloudBackup(): Promise<{ exists: boolean; date?: string; count?: number; version?: string } | null> {
+        const user = this.auth.currentUser;
+        if (!user) return null;
+
+        try {
+            const userDocRef = doc(this.firestore, `users/${user.uid}/backups/data`);
+            const docSnap = await getDoc(userDocRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                return {
+                    exists: true,
+                    date: data['updatedAt'],
+                    count: data['recordCount'],
+                    version: '1.0' // Can fetch from content if needed, but this is simpler
+                };
+            }
+            return { exists: false };
+        } catch (error) {
+            console.error('Check backup failed', error);
+            return null; // Treat error as no backup for safety, or handle UI side
+        }
+    }
+
     async restoreDataFromCloud() {
         const user = this.auth.currentUser;
         if (!user) return;

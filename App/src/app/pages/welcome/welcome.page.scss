@@ -1,0 +1,184 @@
+ion-content {
+    --background: #0f172a;
+    /* Dark Slate BG */
+}
+
+.welcome-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    align-items: center;
+}
+
+.logo-area {
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+    .icon-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+        color: white;
+        overflow: hidden;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        ion-icon {
+            font-size: 48px;
+        }
+    }
+
+    h1 {
+        display: none;
+        /* Hide title for cleaner look, or keep small */
+    }
+}
+
+.content-state {
+    width: 100%;
+    max-width: 400px;
+    animation: slideUp 0.4s ease-out;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.backup-found-container {
+    text-align: left;
+    color: white;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        color: #94A3B8;
+        font-size: 15px;
+        margin-bottom: 32px;
+    }
+}
+
+.info-card {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 0 16px;
+    margin-bottom: 24px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    padding: 16px 0;
+    gap: 16px;
+
+    ion-icon {
+        font-size: 24px;
+        color: #94A3B8;
+        min-width: 24px;
+    }
+
+    .info-text {
+        display: flex;
+        flex-direction: column;
+
+        .label {
+            font-size: 13px;
+            color: #64748B;
+            margin-bottom: 2px;
+        }
+
+        .value {
+            font-size: 16px;
+            color: white;
+            font-weight: 500;
+        }
+    }
+}
+
+.divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-left: 40px;
+    /* Indent past icon */
+}
+
+.spacer {
+    flex: 1;
+}
+
+.restore-btn {
+    width: 100%;
+    height: 56px;
+    background: #10B981;
+    /* WhatsApp Green */
+    color: white;
+    border: none;
+    border-radius: 28px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    margin-bottom: 20px;
+    cursor: pointer;
+
+    &:active {
+        transform: scale(0.98);
+        background: #059669;
+    }
+}
+
+.skip-link {
+    text-align: center;
+    color: #64748B;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+
+    &:active {
+        color: white;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 20px;
+
+    p {
+        color: #94a3b8;
+    }
+}
