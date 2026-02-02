@@ -204,17 +204,7 @@ body ion-textarea {
     --padding-end: 17px !important;
 }
 
-/* Force Input Interaction */
-ion-input,
-input,
-.native-input,
-.input-wrapper {
-    pointer-events: auto !important;
-    user-select: text !important;
-    -webkit-user-select: text !important;
-    z-index: 100 !important;
-    cursor: text !important;
-}
+
 
 .custom-input {
     width: 100%;
