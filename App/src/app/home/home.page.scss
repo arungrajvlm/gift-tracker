@@ -125,6 +125,8 @@ ion-content {
 
 .premium-list-container {
   padding: 24px;
+  padding-bottom: calc(88px + var(--ion-safe-area-bottom, 20px));
+  /* Clear FAB + Safe Area */
 }
 
 .premium-card {

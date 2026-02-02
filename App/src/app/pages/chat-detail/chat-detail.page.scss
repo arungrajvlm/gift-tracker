@@ -85,19 +85,27 @@
     }
 }
 
-/* Footer Actions */
+/* Footer Actions - Native Bar Style */
 ion-footer {
     --background: transparent;
+    position: absolute;
+    /* Ensures it overlays content if needed, or stick to bottom */
+    bottom: 0;
+    width: 100%;
 }
 
 .footer-actions {
-    padding: 0 24px calc(32px + var(--ion-safe-area-bottom, 20px));
+    padding: 16px 24px calc(16px + var(--ion-safe-area-bottom, 20px));
     display: flex;
     gap: 16px;
+    background: rgba(2, 6, 23, 0.85);
+    /* Dark Onyx Blur */
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    /* Subtle separator */
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+    /* Lift it up */
 }
-
-/* Global Buttons applied here */
-/* .footer-btn, .btn-given, .btn-received are in global.scss */
 
 /* Modals */
 .modal-content {
