@@ -238,7 +238,7 @@ ion-content {
 
 /* Design FAB */
 .design-fab {
-  margin-bottom: calc(10px + env(safe-area-inset-bottom));
+  margin-bottom: calc(24px + var(--ion-safe-area-bottom, 20px));
   margin-right: 16px;
 }
 

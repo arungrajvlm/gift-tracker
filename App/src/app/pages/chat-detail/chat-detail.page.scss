@@ -91,7 +91,7 @@ ion-footer {
 }
 
 .footer-actions {
-    padding: 0 24px 32px;
+    padding: 0 24px calc(32px + var(--ion-safe-area-bottom, 20px));
     display: flex;
     gap: 16px;
 }
