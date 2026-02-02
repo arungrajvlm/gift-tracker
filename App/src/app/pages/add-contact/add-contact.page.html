@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
     <div class="header-nav">
-        <ion-icon name="close" class="close-btn" (click)="cancel()"></ion-icon>
+        <ion-icon [icon]="closeIcon" class="close-btn" (click)="cancel()"></ion-icon>
 
         <div class="header-content">
             <h1>New Person</h1>
@@ -14,6 +14,10 @@
 
     <div class="form-group">
         <label class="form-label">Name</label>
+        <!-- DEBUG: Standard Input -->
+        <ion-input label="Debug Name" label-placement="floating" fill="outline"
+            placeholder="Debug Input (No Class)"></ion-input>
+
         <ion-input class="custom-input" placeholder="e.g. John Doe" [(ngModel)]="name">
         </ion-input>
     </div>
@@ -25,11 +29,13 @@
         <div class="toggle-container">
             <button class="toggle-btn" [class.active]="initialGiftType === 'received'"
                 [class.received-active]="initialGiftType === 'received'" (click)="initialGiftType = 'received'">
-                <span style="font-size: 18px; margin-right: 4px;">↓</span> Received
+                <ion-icon [icon]="receviedIcon"
+                    style="font-size: 18px; margin-right: 4px; vertical-align: middle;"></ion-icon> Received
             </button>
             <button class="toggle-btn" [class.active]="initialGiftType === 'given'"
                 [class.given-active]="initialGiftType === 'given'" (click)="initialGiftType = 'given'">
-                <span style="font-size: 18px; margin-right: 4px;">↑</span> Given
+                <ion-icon [icon]="givenIcon"
+                    style="font-size: 18px; margin-right: 4px; vertical-align: middle;"></ion-icon> Given
             </button>
         </div>
 

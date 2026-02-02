@@ -35,4 +35,9 @@ export class LoginPage {
         }
     }
 
+    async loginDev() {
+        await this.authService.loginDev();
+        this.router.navigate(['/home'], { replaceUrl: true });
+    }
+
 }

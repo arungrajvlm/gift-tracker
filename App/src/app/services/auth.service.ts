@@ -65,6 +65,19 @@ export class AuthService {
         }
     }
 
+    // Dev Bypass
+    async loginDev() {
+        const dummyUser: User = {
+            id: 'dev-user-id',
+            email: 'dev@example.com',
+            name: 'Dev User',
+            avatar: ''
+        };
+        this.userSubject.next(dummyUser);
+        // We don't interact with Firebase/Google here, just internal state
+        return dummyUser;
+    }
+
     async logout() {
         await signOut(this.auth);
         if (Capacitor.isNativePlatform()) {

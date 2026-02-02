@@ -23,6 +23,11 @@ export class AddContactPage {
     initialGiftPrice: number | null = null;
     initialGiftNote = '';
 
+    // Expose icons for direct binding
+    closeIcon = close;
+    receviedIcon = arrowDown;
+    givenIcon = arrowUp;
+
     constructor(
         private router: Router,
         private giftService: GiftService,
