@@ -156,6 +156,11 @@ ion-content {
 }
 
 /* Design FAB */
+.design-fab {
+  margin-bottom: calc(10px + env(safe-area-inset-bottom));
+  margin-right: 16px;
+}
+
 .design-fab ion-fab-button {
   --background: #6366F1;
   --color: white;
@@ -177,7 +182,7 @@ ion-content {
 .menu-overlay {
   /* ... same as before but maybe darker backdrop ... */
   position: fixed;
-  top: 60px;
+  top: calc(60px + env(safe-area-inset-top));
   right: 24px;
   z-index: 1000;
 }
