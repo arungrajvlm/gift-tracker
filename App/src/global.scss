@@ -317,3 +317,22 @@ ion-textarea.custom-input {
     border: 1px solid rgba(99, 102, 241, 0.3);
     box-shadow: 0 8px 24px -6px rgba(99, 102, 241, 0.3);
 }
+
+/* 5. Custom Loading Overlay */
+ion-loading.custom-loading {
+    --background: #1E293B;
+    --spinner-color: var(--ion-color-primary);
+    color: white !important;
+
+    .loading-wrapper {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .loading-content {
+        color: white !important;
+        font-weight: 600;
+        font-size: 16px;
+    }
+}

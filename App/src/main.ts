@@ -2,7 +2,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { RouteReuseStrategy, provideRouter, withPreloading, PreloadAllModules, withHashLocation } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, trash, trashOutline, pencil, createOutline, arrowBack, arrowUp, arrowDown, send, giftOutline, arrowDownOutline } from 'ionicons/icons';
+import { add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, trash, trashOutline, pencil, createOutline, arrowBack, arrowUp, arrowDown, send, giftOutline, arrowDownOutline, cloudDone, cloudUpload, cloudOffline, sync } from 'ionicons/icons';
 
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
@@ -17,6 +17,7 @@ import { fancyAnimation } from './app/animations/nav.animation';
 
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from './environments/environment';
 
 // Register Icons Globally (Entry Point)
@@ -24,7 +25,7 @@ addIcons({
   add, search, person, helpCircle, logOutOutline, close, menu, construct,
   arrowUpCircle, arrowDownCircle, chevronForward, trash, trashOutline,
   pencil, createOutline, arrowBack, arrowUp, arrowDown, send,
-  giftOutline, arrowDownOutline
+  giftOutline, arrowDownOutline, cloudDone, cloudUpload, cloudOffline, sync
 });
 
 bootstrapApplication(AppComponent, {
@@ -42,5 +43,7 @@ bootstrapApplication(AppComponent, {
     // Firebase Providers
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
 });
+

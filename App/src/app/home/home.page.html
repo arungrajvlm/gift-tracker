@@ -4,12 +4,19 @@
       <div style="display: flex; align-items: center; gap: 12px;">
         <h1>GiftTracker</h1>
       </div>
-      <!-- Sync Status Icon -->
-      <div class="sync-status" (click)="triggerSync()" *ngIf="syncState$ | async as state">
+      <!-- Sync Status Pill -->
+      <div class="sync-pill" (click)="triggerSync()" *ngIf="syncState$ | async as state"
+        [class.st-synced]="state === 'synced'" [class.st-modified]="state === 'modified'"
+        [class.st-syncing]="state === 'syncing'" [class.st-error]="state === 'error'">
+
         <ion-icon
-          [name]="state === 'synced' ? 'cloud-done' : (state === 'modified' ? 'cloud-upload' : (state === 'error' ? 'cloud-offline' : 'cloud-sync'))"
-          [style.color]="state === 'synced' ? '#10B981' : (state === 'modified' ? '#FBBF24' : (state === 'error' ? '#EF4444' : '#3B82F6'))"
+          [name]="state === 'synced' ? 'cloud-done' : (state === 'modified' ? 'cloud-upload' : (state === 'error' ? 'cloud-offline' : 'sync'))"
           [class.spin]="state === 'syncing'"></ion-icon>
+
+        <span class="status-label">
+          {{ state === 'synced' ? 'Saved' : (state === 'modified' ? 'Not Synced' : (state === 'error' ? 'Failed' :
+          'Syncing...')) }}
+        </span>
       </div>
 
       <div class="menu-btn" (click)="toggleMenu()">

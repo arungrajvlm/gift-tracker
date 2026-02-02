@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, AlertController, LoadingController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, cloudSync } from 'ionicons/icons';
+import { add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync } from 'ionicons/icons';
 import { Router, RouterModule } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { AuthService } from '../services/auth.service';
@@ -49,7 +49,7 @@ export class HomePage implements OnInit {
     private loadingController: LoadingController,
     private cdr: ChangeDetectorRef
   ) {
-    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, cloudSync });
+    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync });
 
     this.syncState$ = this.giftService.syncState$;
 
@@ -185,7 +185,8 @@ export class HomePage implements OnInit {
     const loading = await this.loadingController.create({
       message: 'Backing up to Cloud...',
       spinner: 'circles',
-      duration: 10000 // Timeout safety
+      duration: 10000, // Timeout safety
+      cssClass: 'custom-loading'
     });
     await loading.present();
 
