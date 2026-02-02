@@ -10,7 +10,7 @@ ion-content {
 }
 
 .header-title-container {
-  padding: 24px 24px 0;
+  padding: calc(24px + var(--ion-safe-area-top)) 24px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
