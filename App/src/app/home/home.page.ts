@@ -2,9 +2,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, AlertController } from '@ionic/angular';
+import { IonicModule, AlertController, LoadingController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward } from 'ionicons/icons';
+import { add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, cloudSync } from 'ionicons/icons';
 import { Router, RouterModule } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { AuthService } from '../services/auth.service';
@@ -38,14 +38,20 @@ export class HomePage implements OnInit {
   loader: any;
   canSeed = false;
 
+  // Sync State
+  syncState$: Observable<string>;
+
   constructor(
     private giftService: GiftService,
     private authService: AuthService,
     public router: Router,
     private alertController: AlertController,
+    private loadingController: LoadingController,
     private cdr: ChangeDetectorRef
   ) {
-    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward });
+    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, cloudSync });
+
+    this.syncState$ = this.giftService.syncState$;
 
     // Check Admin Status
     this.authService.user$.subscribe(user => {
@@ -171,5 +177,30 @@ export class HomePage implements OnInit {
     this.isMenuOpen = false;
     this.cdr.markForCheck();
     this.router.navigate(['/about']);
+  }
+
+  // Sync Logic
+  async triggerSync() {
+    // Show Full Screen Loader
+    const loading = await this.loadingController.create({
+      message: 'Backing up to Cloud...',
+      spinner: 'circles',
+      duration: 10000 // Timeout safety
+    });
+    await loading.present();
+
+    try {
+      await this.giftService.saveDataToCloud();
+    } catch (error) {
+      // Error handled in service state
+      const alert = await this.alertController.create({
+        header: 'Backup Failed',
+        message: 'Could not connect to the cloud. Please try again.',
+        buttons: ['OK']
+      });
+      await alert.present();
+    } finally {
+      await loading.dismiss();
+    }
   }
 }

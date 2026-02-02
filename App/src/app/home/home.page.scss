@@ -23,6 +23,36 @@ ion-content {
     letter-spacing: -1px;
   }
 
+  .sync-status {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    margin-right: 8px;
+
+    ion-icon {
+      font-size: 24px;
+    }
+
+    .spin {
+      animation: spin 2s linear infinite;
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
   .menu-btn {
     width: 48px;
     height: 48px;

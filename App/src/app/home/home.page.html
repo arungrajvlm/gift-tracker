@@ -4,6 +4,14 @@
       <div style="display: flex; align-items: center; gap: 12px;">
         <h1>GiftTracker</h1>
       </div>
+      <!-- Sync Status Icon -->
+      <div class="sync-status" (click)="triggerSync()" *ngIf="syncState$ | async as state">
+        <ion-icon
+          [name]="state === 'synced' ? 'cloud-done' : (state === 'modified' ? 'cloud-upload' : (state === 'error' ? 'cloud-offline' : 'cloud-sync'))"
+          [style.color]="state === 'synced' ? '#10B981' : (state === 'modified' ? '#FBBF24' : (state === 'error' ? '#EF4444' : '#3B82F6'))"
+          [class.spin]="state === 'syncing'"></ion-icon>
+      </div>
+
       <div class="menu-btn" (click)="toggleMenu()">
         <!-- Toggle Icon changed to Close when open -->
         <ion-icon [name]="isMenuOpen ? 'close' : 'menu'"></ion-icon>
