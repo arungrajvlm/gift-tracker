@@ -46,9 +46,8 @@ export class WelcomePage implements OnInit {
 
             if (backupMetadata && backupMetadata.exists) {
                 this.backupFound = backupMetadata;
-            } else {
                 // New User (or no backup) -> Auto-redirect
-                this.router.navigate(['/home']);
+                this.router.navigate(['/home'], { replaceUrl: true });
             }
         }, Math.max(0, minDelay - elapsedTime));
     }
@@ -56,7 +55,7 @@ export class WelcomePage implements OnInit {
     async restore() {
         this.isLoading = true;
         await this.giftService.restoreDataFromCloud();
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home'], { replaceUrl: true });
     }
 
     async startFresh() {
@@ -70,7 +69,7 @@ export class WelcomePage implements OnInit {
                         text: 'Start Fresh',
                         role: 'destructive',
                         handler: () => {
-                            this.router.navigate(['/home']);
+                            this.router.navigate(['/home'], { replaceUrl: true });
                         }
                     }
                 ],
@@ -78,7 +77,7 @@ export class WelcomePage implements OnInit {
             });
             await alert.present();
         } else {
-            this.router.navigate(['/home']);
+            this.router.navigate(['/home'], { replaceUrl: true });
         }
     }
 }

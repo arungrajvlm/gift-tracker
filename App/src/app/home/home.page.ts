@@ -2,7 +2,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { IonicModule, AlertController, LoadingController, ToastController, Platform } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { add, search, close, menu, person, helpCircle, logOutOutline, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync, book } from 'ionicons/icons';
 import { Router, RouterModule } from '@angular/router';
@@ -13,6 +13,7 @@ import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { HighlightPipe } from '../pipes/highlight.pipe';
 import { environment } from 'src/environments/environment';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-home',
@@ -48,11 +49,31 @@ export class HomePage implements OnInit {
     private alertController: AlertController,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private platform: Platform
   ) {
     addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync, book });
 
     this.syncState$ = this.giftService.syncState$;
+
+    // Handle android hardware back button
+    this.platform.backButton.subscribeWithPriority(10, async () => {
+      // If menu is open, close it
+      if (this.isMenuOpen) {
+        this.isMenuOpen = false;
+        this.cdr.markForCheck();
+        return;
+      }
+
+      // Check if there are other modals or overlays if needed (Ionic usually handles them, but priority 10 is high)
+      // Minimizing app (Industry Standard for Home Screen)
+      try {
+        await App.minimizeApp();
+      } catch (err) {
+        // Fallback or browser
+        console.warn('App minimization not supported', err);
+      }
+    });
 
     // Check Admin Status
     this.authService.user$.subscribe(user => {
