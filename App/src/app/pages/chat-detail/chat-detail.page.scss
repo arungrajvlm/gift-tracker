@@ -131,6 +131,15 @@ ion-footer {
 }
 
 /* Modals */
+.modal-footer {
+    --background: transparent;
+}
+
+.footer-padding {
+    padding: 16px 24px calc(16px + var(--ion-safe-area-bottom, 20px));
+    background: #0F172A;
+}
+
 .modal-content {
     --background: #0F172A;
 }
