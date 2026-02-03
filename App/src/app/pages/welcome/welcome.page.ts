@@ -46,6 +46,7 @@ export class WelcomePage implements OnInit {
 
             if (backupMetadata && backupMetadata.exists) {
                 this.backupFound = backupMetadata;
+            } else {
                 // New User (or no backup) -> Auto-redirect
                 this.router.navigate(['/home'], { replaceUrl: true });
             }

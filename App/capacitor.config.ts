@@ -10,6 +10,11 @@ const config: CapacitorConfig = {
       serverClientId: '232283150109-fl0vmtve0r82rco630qfdk1h8cabdup8.apps.googleusercontent.com',
       forceCodeForRefreshToken: false,
     },
+    Keyboard: {
+      resize: 'body',
+      style: 'dark',
+      resizeOnFullScreen: true,
+    },
   },
 };
 
