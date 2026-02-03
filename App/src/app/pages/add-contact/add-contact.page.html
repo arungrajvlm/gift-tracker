@@ -57,7 +57,10 @@
         </div>
     </div>
 
-    <div class="action-group">
+</ion-content>
+
+<ion-footer class="ion-no-border">
+    <div class="action-group" style="padding: 16px 24px calc(16px + var(--ion-safe-area-bottom)); background: #0F172A;">
         <button class="footer-btn" [class.btn-given]="initialGiftType === 'given'"
             [class.btn-received]="initialGiftType === 'received'" (click)="save()">
             Save
@@ -68,5 +71,4 @@
             Save & Next
         </button>
     </div>
-
-</ion-content>
+</ion-footer>

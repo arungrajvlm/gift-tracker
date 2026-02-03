@@ -170,7 +170,8 @@ ion-title {
       justify-content: space-between;
       align-items: flex-start;
       /* Aligns date to top if name wraps */
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      /* Increased from 6px */
       gap: 12px;
 
       .name {
@@ -179,14 +180,17 @@ ion-title {
         color: white;
         line-height: 1.2;
 
-        /* Handle long names */
+        /* Handle long names properly */
         white-space: normal;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         line-clamp: 2;
-        /* Max 2 lines */
         -webkit-box-orient: vertical;
+        overflow: hidden;
+        /* Ensure overflow is hidden */
         word-break: break-word;
+        padding-bottom: 2px;
+        /* Visual breathing room */
       }
 
       .date {

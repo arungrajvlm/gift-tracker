@@ -14,7 +14,10 @@
         <div class="logo-section">
             <div class="app-icon">🎁</div>
             <h1>GiftTracker</h1>
-            <p class="version">Version 1.0.0</p>
+            <p class="version">
+                Version {{ appInfo?.version || '1.0.0' }}
+                <span style="opacity: 0.5; font-size: 0.9em;">({{ appInfo?.build || '1' }})</span>
+            </p>
         </div>
 
         <div class="description">
@@ -22,6 +25,14 @@
                 Never forget a thoughtful gesture again. GiftTracker helps you keep track of gifts given and received,
                 ensuring you maintain meaningful connections.
             </p>
+        </div>
+
+        <div class="action-section">
+            <div class="about-item" (click)="openTutorial()">
+                <ion-icon name="book" style="color: #60A5FA;"></ion-icon>
+                <span>How to Use / Tutorial</span>
+                <ion-icon name="chevron-forward" style="color: #475569; font-size: 16px; margin-left: auto;"></ion-icon>
+            </div>
         </div>
 
         <div class="footer">

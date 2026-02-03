@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, NavController } from '@ionic/angular';
-import { arrowBack, logoGithub, globe } from 'ionicons/icons';
+import { arrowBack, logoGithub, globe, book } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+import { Router } from '@angular/router';
+import { App } from '@capacitor/app';
 
 @Component({
     selector: 'app-about',
@@ -12,12 +14,20 @@ import { addIcons } from 'ionicons';
     imports: [IonicModule, CommonModule]
 })
 export class AboutPage implements OnInit {
+    appInfo: any;
 
-    constructor(private navCtrl: NavController) {
-        addIcons({ arrowBack, logoGithub, globe });
+    constructor(private navCtrl: NavController, private router: Router) {
+        addIcons({ arrowBack, logoGithub, globe, book });
     }
 
-    ngOnInit() { }
+    async ngOnInit() {
+        try {
+            this.appInfo = await App.getInfo();
+        } catch (e) {
+            console.warn('Could not get app info', e);
+            this.appInfo = { version: '1.0.0', build: '0' }; // Fallback
+        }
+    }
 
     goBack() {
         this.navCtrl.back();
@@ -25,5 +35,9 @@ export class AboutPage implements OnInit {
 
     openGithub() {
         window.open('https://github.com/arungrajvlm/gift-tracker', '_blank');
+    }
+
+    openTutorial() {
+        this.router.navigate(['/tutorial']);
     }
 }

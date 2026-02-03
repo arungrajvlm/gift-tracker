@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, NavController, ToastController } from '@ionic/angular';
-import { arrowBack, person, gift, statsChart, star, notifications, shieldCheckmark, chevronForward, chatbubbleEllipses, logoGoogle, construct } from 'ionicons/icons';
+import { IonicModule, NavController, ToastController, LoadingController, AlertController } from '@ionic/angular';
+import { arrowBack, person, gift, statsChart, star, notifications, shieldCheckmark, chevronForward, chatbubbleEllipses, logoGoogle, construct, cloudUpload, cloudDone, personCircle } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { GiftService } from '../../services/gift.service';
 import { AuthService } from '../../services/auth.service';
@@ -17,15 +17,20 @@ import { Observable, map } from 'rxjs';
 export class ProfilePage implements OnInit {
     user$: Observable<any>;
     stats$: Observable<{ given: number; received: number; totalValue: number }>;
+    lastSync$: Observable<string | null>;
+    public imageError = false;
 
     constructor(
         private navCtrl: NavController,
         private giftService: GiftService,
         private authService: AuthService,
-        private toastCtrl: ToastController
+        private toastCtrl: ToastController,
+        private loadingController: LoadingController,
+        private alertController: AlertController
     ) {
-        addIcons({ arrowBack, person, gift, statsChart, star, notifications, shieldCheckmark, chevronForward, chatbubbleEllipses, logoGoogle, construct });
+        addIcons({ arrowBack, person, gift, statsChart, star, notifications, shieldCheckmark, chevronForward, chatbubbleEllipses, logoGoogle, construct, cloudUpload, cloudDone, personCircle });
         this.user$ = this.authService.user$;
+        this.lastSync$ = this.giftService.lastSyncTime$;
 
         // Calculate stats from all contacts
         this.stats$ = this.giftService.getAllGifts().pipe(
@@ -53,5 +58,39 @@ export class ProfilePage implements OnInit {
             icon: 'construct'
         });
         await toast.present();
+    }
+
+    async triggerBackup() {
+        const loading = await this.loadingController.create({
+            message: 'Saving to Cloud...',
+            spinner: 'circles',
+            duration: 10000
+        });
+        await loading.present();
+
+        try {
+            await this.giftService.saveDataToCloud();
+            const toast = await this.toastCtrl.create({
+                message: 'Backup Complete! Your data is safe.',
+                duration: 2000,
+                position: 'bottom',
+                color: 'success',
+                icon: 'cloud-done'
+            });
+            await toast.present();
+        } catch (error) {
+            const alert = await this.alertController.create({
+                header: 'Backup Failed',
+                message: 'Could not connect to the cloud. Please check your internet.',
+                buttons: ['OK']
+            });
+            await alert.present();
+        } finally {
+            await loading.dismiss();
+        }
+    }
+
+    handleImageError(event: any) {
+        this.imageError = true;
     }
 }

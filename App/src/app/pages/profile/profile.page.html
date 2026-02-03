@@ -16,12 +16,23 @@
             <div class="avatar-container">
                 <div class="avatar-ring">
                     <div class="avatar-inner" *ngIf="user$ | async as user; else guestAvatar">
-                        <img *ngIf="user.avatar" [src]="user.avatar" alt="Profile" />
-                        <span *ngIf="!user.avatar" class="initials">{{ user.name.substring(0,2).toUpperCase() }}</span>
+                        <!-- Show Image if exists and no error -->
+                        <ng-container *ngIf="user.avatar && !imageError; else dummyAvatar">
+                            <img [src]="user.avatar" alt="Profile" (error)="handleImageError($event)" />
+                        </ng-container>
+
+                        <!-- Fallback: Dummy Avatar -->
+                        <ng-template #dummyAvatar>
+                            <div class="avatar-fallback">
+                                <ion-icon name="person-circle" style="font-size: 80px; color: #94A3B8;"></ion-icon>
+                            </div>
+                        </ng-template>
                     </div>
                     <ng-template #guestAvatar>
                         <div class="avatar-inner">
-                            <span class="initials">GU</span>
+                            <div class="avatar-fallback">
+                                <ion-icon name="person-circle" style="font-size: 80px; color: #94A3B8;"></ion-icon>
+                            </div>
                         </div>
                     </ng-template>
                 </div>
@@ -69,6 +80,25 @@
         <!-- Settings Menu -->
         <div class="settings-group">
             <div class="group-title">Account Settings</div>
+
+            <!-- Cloud Backup New Item -->
+            <div class="setting-item" (click)="triggerBackup()">
+                <div class="setting-icon security" style="background: rgba(16, 185, 129, 0.2); color: #34D399;">
+                    <ion-icon name="cloud-upload"></ion-icon>
+                </div>
+                <div class="setting-label">
+                    <div>Sync Data</div>
+                    <div style="font-size: 11px; opacity: 0.6; font-weight: 400; margin-top: 2px;">
+                        <ng-container *ngIf="lastSync$ | async as lastSync; else noBackup">
+                            Last synced: {{ lastSync | date:'medium' }}
+                        </ng-container>
+                        <ng-template #noBackup>
+                            Not synced. Tap to sync.
+                        </ng-template>
+                    </div>
+                </div>
+                <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+            </div>
 
             <div class="setting-item" (click)="showComingSoon('Notifications')">
                 <div class="setting-icon notifications">

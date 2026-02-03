@@ -41,11 +41,11 @@ ion-content {
     max-width: 300px;
 }
 
-.links {
+.action-section {
     width: 100%;
     margin-bottom: auto;
 
-    .link-item {
+    .about-item {
         background: rgba(255, 255, 255, 0.05);
         padding: 16px 20px;
         border-radius: 16px;
@@ -55,6 +55,7 @@ ion-content {
         color: white;
         cursor: pointer;
         transition: background 0.2s;
+        border: 1px solid rgba(255, 255, 255, 0.05);
 
         &:active {
             background: rgba(255, 255, 255, 0.1);
@@ -69,7 +70,7 @@ ion-content {
             font-weight: 500;
         }
 
-        .external-icon {
+        .chevron {
             font-size: 16px;
             opacity: 0.5;
         }

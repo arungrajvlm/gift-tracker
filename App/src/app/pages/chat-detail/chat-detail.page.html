@@ -42,19 +42,26 @@
         </ng-container>
     </div>
 
-    <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" [initialBreakpoint]="0.75"
-        [breakpoints]="[0, 0.75, 1]">
+    <ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
         <ng-template>
+            <ion-header class="ion-no-border">
+                <ion-toolbar class="detail-toolbar" style="padding-top: var(--ion-safe-area-top, 20px);">
+                    <ion-buttons slot="start">
+                        <ion-button (click)="isModalOpen = false">
+                            <ion-icon name="close" slot="icon-only"></ion-icon>
+                        </ion-button>
+                    </ion-buttons>
+                    <ion-title>{{ editingGiftId ? 'Edit Transaction' : 'New Transaction' }}</ion-title>
+                    <ion-buttons slot="end">
+                        <ion-button *ngIf="editingGiftId" (click)="deleteGiftFromModal()" color="danger">
+                            <ion-icon name="trash" slot="icon-only"></ion-icon>
+                        </ion-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-header>
+
             <ion-content class="modal-content">
                 <div class="modal-padding-wrapper">
-
-                    <!-- Modal Header with Delete Action -->
-                    <div class="modal-header">
-                        <h2>{{ editingGiftId ? 'Edit Transaction' : 'New Transaction' }}</h2>
-                        <div *ngIf="editingGiftId" class="delete-icon-btn" (click)="deleteGiftFromModal()">
-                            <ion-icon name="trash"></ion-icon>
-                        </div>
-                    </div>
 
                     <!-- Toggle (Custom Buttons) -->
                     <div class="toggle-container">
@@ -90,14 +97,17 @@
                         </ion-input>
                     </div>
 
+                </div>
+            </ion-content>
+
+            <ion-footer class="ion-no-border modal-footer">
+                <div class="footer-padding">
                     <ion-button expand="block" class="save-btn" [class.given]="newGiftType === 'given'"
                         [class.received]="newGiftType === 'received'" (click)="addGift()" [disabled]="!newGiftItem">
                         {{ editingGiftId ? 'Update Gift' : 'Save Gift' }}
                     </ion-button>
-                    <!-- Delete button removed from here -->
-
                 </div>
-            </ion-content>
+            </ion-footer>
         </ng-template>
     </ion-modal>
 

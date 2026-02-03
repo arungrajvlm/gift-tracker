@@ -20,6 +20,7 @@ export class GiftService {
 
     private readonly CONTACTS_KEY = 'ionic_demo_contacts';
     private readonly GIFTS_KEY = 'ionic_demo_gifts';
+    private readonly LAST_SYNC_KEY = 'ionic_demo_last_sync';
 
     // --- Cloud Sync ---
     private dirtyCountSubject = new BehaviorSubject<number>(0);
@@ -27,6 +28,9 @@ export class GiftService {
 
     private syncStateSubject = new BehaviorSubject<'synced' | 'modified' | 'syncing' | 'error'>('synced');
     public syncState$ = this.syncStateSubject.asObservable();
+
+    private lastSyncTimeSubject = new BehaviorSubject<string | null>(null);
+    public lastSyncTime$ = this.lastSyncTimeSubject.asObservable();
 
     private readonly AUTO_SYNC_THRESHOLD = 5;
 
@@ -47,6 +51,7 @@ export class GiftService {
         // Load data from Storage
         const storedContacts = await this.storage.get(this.CONTACTS_KEY);
         const storedGifts = await this.storage.get(this.GIFTS_KEY);
+        const storedSyncTime = await this.storage.get(this.LAST_SYNC_KEY);
 
         if (storedContacts) {
             this.contactsSubject.next(JSON.parse(storedContacts));
@@ -57,6 +62,10 @@ export class GiftService {
 
         if (storedGifts) {
             this.giftsSubject.next(JSON.parse(storedGifts));
+        }
+
+        if (storedSyncTime) {
+            this.lastSyncTimeSubject.next(storedSyncTime);
         }
     }
 
@@ -184,8 +193,12 @@ export class GiftService {
                 recordCount: this.giftsSubject.value.length
             });
 
+            const now = new Date().toISOString();
             this.dirtyCountSubject.next(0);
             this.syncStateSubject.next('synced');
+            this.lastSyncTimeSubject.next(now);
+            this.storage.set(this.LAST_SYNC_KEY, now);
+
             console.log('Backup successful');
 
         } catch (error) {
