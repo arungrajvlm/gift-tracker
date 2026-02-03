@@ -1,59 +1,56 @@
-<ion-header class="ion-no-border">
-  <div class="blur-header">
-    <div class="header-title-container">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <h1>GiftTracker</h1>
-      </div>
-      <!-- Sync Status Pill -->
-      <div class="sync-pill" (click)="triggerSync()" *ngIf="syncState$ | async as state"
-        [class.st-synced]="state === 'synced'" [class.st-modified]="state === 'modified'"
-        [class.st-syncing]="state === 'syncing'" [class.st-error]="state === 'error'">
+<ion-header class="ion-no-border" translucent="true">
+  <ion-toolbar class="home-toolbar">
+    <ion-title class="ion-text-start">GiftTracker</ion-title>
 
-        <ion-icon
-          [name]="state === 'synced' ? 'cloud-done' : (state === 'modified' ? 'cloud-upload' : (state === 'error' ? 'cloud-offline' : 'sync'))"
-          [class.spin]="state === 'syncing'"></ion-icon>
-
-        <span class="status-label">
-          {{ state === 'synced' ? 'Backed Up' : (state === 'modified' ? 'Pending Backup' : (state === 'error' ? 'Sync
-          Failed' :
-          'Backing Up...')) }}
-        </span>
-      </div>
-
-      <div class="menu-btn" (click)="toggleMenu()">
-        <!-- Toggle Icon changed to Close when open -->
-        <ion-icon [name]="isMenuOpen ? 'close' : 'menu'"></ion-icon>
-      </div>
-
-      <!-- Custom Premium Menu -->
-      <div class="menu-overlay" *ngIf="isMenuOpen" (click)="toggleMenu()">
-        <div class="menu-content" (click)="$event.stopPropagation()">
-          <div class="menu-item" (click)="openProfile()">
-            <ion-icon name="person"></ion-icon>
-            <span>Profile</span>
-          </div>
-          <div class="menu-item" (click)="openAbout()">
-            <ion-icon name="help-circle"></ion-icon>
-            <span>About</span>
-          </div>
-          <div class="menu-divider"></div>
-          <div class="menu-item danger" (click)="logout()">
-            <ion-icon name="log-out-outline"></ion-icon>
-            <span>Log Out</span>
-          </div>
-          <div class="menu-divider"></div>
-          <div class="menu-item" (click)="seedData()" style="color: #FBBF24;" *ngIf="canSeed">
-            <ion-icon name="construct" style="color: #FBBF24;"></ion-icon>
-            <span>Seed Data</span>
-          </div>
+    <ion-buttons slot="end">
+      <!-- Sync Pill -->
+      <div class="sync-pill-wrapper" (click)="triggerSync()" *ngIf="syncState$ | async as state">
+        <div class="sync-pill" [class.st-synced]="state === 'synced'" [class.st-modified]="state === 'modified'"
+          [class.st-syncing]="state === 'syncing'" [class.st-error]="state === 'error'">
+          <ion-icon
+            [name]="state === 'synced' ? 'cloud-done' : (state === 'modified' ? 'cloud-upload' : (state === 'error' ? 'cloud-offline' : 'sync'))"
+            [class.spin]="state === 'syncing'"></ion-icon>
         </div>
       </div>
-    </div>
 
-    <div class="search-container">
-      <div class="custom-search">
-        <ion-icon name="search"></ion-icon>
-        <input type="text" placeholder="Search people..." (input)="onSearch($event)" [value]="searchTerm">
+      <!-- Menu Button -->
+      <ion-button (click)="toggleMenu()" class="custom-menu-btn">
+        <ion-icon [name]="isMenuOpen ? 'close' : 'menu'" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="search-toolbar">
+    <ion-searchbar placeholder="Search people..." (ionInput)="onSearch($event)" [value]="searchTerm" animated="true"
+      show-clear-button="focus" mode="ios" class="custom-searchbar">
+    </ion-searchbar>
+  </ion-toolbar>
+
+  <!-- Custom Premium Menu (Overlay) -->
+  <div class="menu-overlay" *ngIf="isMenuOpen" (click)="toggleMenu()">
+    <div class="menu-content" (click)="$event.stopPropagation()">
+      <div class="menu-item" (click)="openProfile()">
+        <ion-icon name="person"></ion-icon>
+        <span>Profile</span>
+      </div>
+      <div class="menu-item" (click)="openAbout()">
+        <ion-icon name="help-circle"></ion-icon>
+        <span>About</span>
+      </div>
+      <div class="menu-divider"></div>
+      <div class="menu-item" (click)="openTutorial()">
+        <ion-icon name="book"></ion-icon>
+        <span>How to Use</span>
+      </div>
+      <div class="menu-divider"></div>
+      <div class="menu-item danger" (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+        <span>Log Out</span>
+      </div>
+      <div class="menu-divider"></div>
+      <div class="menu-item" (click)="seedData()" style="color: #FBBF24;" *ngIf="canSeed">
+        <ion-icon name="construct" style="color: #FBBF24;"></ion-icon>
+        <span>Seed Data</span>
       </div>
     </div>
   </div>

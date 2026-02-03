@@ -1,5 +1,5 @@
 <ion-content>
-  <div class="login-container">
+  <div class="login-container" *ngIf="!isLoading">
     <div class="logo-area">
       <img src="assets/logo.png" alt="Gift Tracker" class="app-logo-img" />
       <h1 class="app-title">GiftTracker</h1>
@@ -12,12 +12,27 @@
       Continue with Google
     </button>
 
-    <!-- Dev Button Removed -->
-
     <!-- Apple Button (Optional, keeping consistent with design file comment) -->
 
     <p style="text-align: center; color: #64748B; font-size: 13px; margin-top: 32px;">
       By continuing, you agree to our Terms & Privacy Policy.<br>
     </p>
+  </div>
+
+  <!-- Skeleton Loader for Login State -->
+  <div class="login-container" *ngIf="isLoading">
+    <div class="logo-area">
+      <div class="skeleton-logo">
+        <ion-skeleton-text animated style="width: 100px; height: 100px; border-radius: 20px;"></ion-skeleton-text>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+        <ion-skeleton-text animated style="width: 60%; height: 32px; border-radius: 8px;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 40%; height: 16px; border-radius: 4px;"></ion-skeleton-text>
+      </div>
+    </div>
+
+    <div style="width: 100%; margin-top: 24px;">
+      <ion-skeleton-text animated style="width: 100%; height: 56px; border-radius: 16px;"></ion-skeleton-text>
+    </div>
   </div>
 </ion-content>

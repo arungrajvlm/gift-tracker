@@ -1,0 +1,139 @@
+/* Toolbar */
+ion-toolbar {
+    --background: transparent;
+    --border-color: rgba(255, 255, 255, 0.05);
+    padding-top: var(--ion-safe-area-top);
+}
+
+ion-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* Card List */
+.tutorial-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 16px;
+}
+
+.tutorial-card {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    transition: transform 0.2s;
+
+    &:active {
+        transform: scale(0.98);
+        background: rgba(30, 41, 59, 0.7);
+    }
+}
+
+/* Icons */
+.icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    ion-icon {
+        font-size: 24px;
+        color: white;
+    }
+
+    &.gold {
+        background: rgba(251, 191, 36, 0.15);
+        color: #FBBF24;
+
+        ion-icon {
+            color: #FBBF24;
+        }
+    }
+
+    &.blue {
+        background: rgba(59, 130, 246, 0.15);
+        color: #60A5FA;
+
+        ion-icon {
+            color: #60A5FA;
+        }
+    }
+
+    &.green {
+        background: rgba(16, 185, 129, 0.15);
+        color: #34D399;
+
+        ion-icon {
+            color: #34D399;
+        }
+    }
+
+    &.purple {
+        background: rgba(168, 85, 247, 0.15);
+        color: #A855F7;
+
+        ion-icon {
+            color: #A855F7;
+        }
+    }
+
+    &.red {
+        background: rgba(239, 68, 68, 0.15);
+        color: #F87171;
+
+        ion-icon {
+            color: #F87171;
+        }
+    }
+}
+
+/* Legend */
+.status-legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #94A3B8;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 4px 8px;
+    border-radius: 8px;
+
+    ion-icon {
+        font-size: 16px;
+    }
+}
+
+/* Text */
+.info {
+    h3 {
+        margin: 0 0 4px;
+        font-size: 18px;
+        font-weight: 700;
+        color: white;
+    }
+
+    p {
+        margin: 0;
+        font-size: 15px;
+        color: #94A3B8;
+        line-height: 1.5;
+    }
+
+    strong {
+        color: #E2E8F0;
+    }
+}

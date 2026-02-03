@@ -41,9 +41,7 @@ export class ChatDetailPage implements OnInit {
         addIcons({ arrowBack, arrowUp, arrowDown, pencil, trash, close, add, createOutline });
     }
 
-    goBack() {
-        this.navCtrl.back();
-    }
+    // goBack removed - using ion-back-button
 
     async editName() {
         if (!this.contact) return;

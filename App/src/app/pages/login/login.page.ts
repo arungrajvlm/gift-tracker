@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginPage {
     public isDev = isDevMode();
+    public isLoading = false;
 
     constructor(
         private authService: AuthService,
@@ -20,6 +21,7 @@ export class LoginPage {
     ) { }
 
     async login(provider: 'google' | 'apple') {
+        this.isLoading = true;
         try {
             await this.authService.login(provider);
             this.router.navigate(['/welcome'], { replaceUrl: true });
@@ -32,6 +34,8 @@ export class LoginPage {
                 buttons: ['OK']
             });
             await alert.present();
+        } finally {
+            this.isLoading = false;
         }
     }
 

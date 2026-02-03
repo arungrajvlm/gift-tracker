@@ -1,17 +1,17 @@
-<ion-header class="ion-no-border">
-    <div class="blur-header">
-        <div class="header-nav">
-            <ion-icon name="arrow-back" class="back-btn" (click)="goBack()"></ion-icon>
+<ion-header class="ion-no-border" translucent="true">
+    <ion-toolbar class="detail-toolbar">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home" class="custom-back-btn"></ion-back-button>
+        </ion-buttons>
 
-            <div class="header-content">
-                <div class="contact-info">
-                    <h1>{{ contact?.name }}</h1>
-                </div>
-            </div>
+        <ion-title>{{ contact?.name }}</ion-title>
 
-            <ion-icon name="create-outline" class="action-btn" (click)="editName()"></ion-icon>
-        </div>
-    </div>
+        <ion-buttons slot="end">
+            <ion-button (click)="editName()" class="action-btn">
+                <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">

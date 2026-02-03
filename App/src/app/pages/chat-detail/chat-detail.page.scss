@@ -1,28 +1,47 @@
-/* Header Matches Home */
-/* Global .header-nav styles apply */
+/* Native Detail Toolbar */
+.detail-toolbar {
+    --background: transparent;
+    --border-color: rgba(255, 255, 255, 0.05);
+    padding-top: var(--ion-safe-area-top);
+}
+
+.custom-back-btn {
+    --color: white;
+}
+
+.action-btn {
+    --color: white;
+}
+
+ion-title {
+    font-size: 20px;
+    font-weight: 700;
+}
 
 /* Chat Layout */
 .chat-container {
     padding: 24px;
-    padding-bottom: 120px;
-    /* Clear Footer */
+    padding-bottom: 24px;
+    /* Standard padding */
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    /* More spacing between bubbles */
+    gap: 16px;
+    /* Reduced gap for tighter chat feel */
 }
 
 /* Base Bubble */
 .bubble {
-    max-width: 85%;
-    padding: 16px 20px;
+    max-width: 80%;
+    padding: 12px 16px;
     border-radius: 20px;
     position: relative;
     backdrop-filter: blur(10px);
     transition: transform 0.2s;
+    margin-bottom: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
     &:active {
-        transform: scale(0.99);
+        transform: scale(0.98);
     }
 
     .bubble-label {
@@ -30,81 +49,83 @@
         text-transform: uppercase;
         font-weight: 800;
         letter-spacing: 1px;
-        margin-bottom: 8px;
-        opacity: 0.7;
-        display: block;
+        margin-bottom: 4px;
+        opacity: 0.8;
+        display: flex;
+        align-items: center;
+        gap: 4px;
     }
 
     .gift-amount {
-        font-size: 24px;
-        font-weight: 800;
+        font-size: 18px;
+        font-weight: 600;
         display: block;
-        letter-spacing: -1px;
-        line-height: 1.1;
-        margin-bottom: 4px;
+        line-height: 1.3;
     }
 
     .gift-note {
-        font-size: 15px;
-        opacity: 0.8;
-        line-height: 1.5;
+        display: block;
+        font-size: 14px;
+        opacity: 0.9;
+        margin-top: 4px;
+        line-height: 1.4;
     }
 
     .timestamp {
-        font-size: 11px;
-        margin-top: 12px;
-        opacity: 0.5;
+        font-size: 10px;
+        margin-top: 4px;
+        opacity: 0.6;
         text-align: right;
-        font-weight: 500;
+        display: block;
     }
 }
 
-/* Received (Left) - Glass/Subtle */
+/* Received (Left) */
 .bubble-received {
     align-self: flex-start;
-    background: rgba(30, 41, 59, 0.4);
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-bottom-left-radius: 4px;
+    /* Tail Effect used in apps like Telegram */
     color: #F8FAFC;
+    margin-right: auto;
 
     .bubble-label {
-        color: #10B981;
+        color: #34D399;
     }
 }
 
-/* Given (Right) - Solid/Primary to stand out OR Glass Primary */
+/* Given (Right) */
 .bubble-given {
     align-self: flex-end;
-    background: rgba(99, 102, 241, 0.15);
-    border: 1px solid rgba(99, 102, 241, 0.3);
+    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-bottom-right-radius: 4px;
+    /* Tail Effect */
     color: white;
+    margin-left: auto;
 
     .bubble-label {
-        color: #818CF8;
+        color: rgba(255, 255, 255, 0.9);
     }
 }
+
 
 /* Footer Actions - Native Bar Style */
 ion-footer {
     --background: transparent;
-    position: absolute;
-    /* Ensures it overlays content if needed, or stick to bottom */
-    bottom: 0;
-    width: 100%;
+    /* Let the div inside handle bg */
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .footer-actions {
+    /* Use safe area for bottom padding */
     padding: 16px 24px calc(16px + var(--ion-safe-area-bottom, 20px));
     display: flex;
     gap: 16px;
-    background: rgba(2, 6, 23, 0.85);
-    /* Dark Onyx Blur */
-    backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    /* Subtle separator */
+    background: #0F172A;
+    /* Solid Dark Background ensuring readability */
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
-    /* Lift it up */
 }
 
 /* Modals */
@@ -118,9 +139,7 @@ ion-footer {
     /* Ensure Delete btn is visible */
 }
 
-/* Inputs & Form Elements - Global Styles Apply */
-/* .form-label, .custom-input, .toggle-container */
-
+/* Inputs & Form Elements */
 .save-btn {
     width: 100%;
     height: 60px;

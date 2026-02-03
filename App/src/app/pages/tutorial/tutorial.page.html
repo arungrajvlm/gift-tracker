@@ -1,0 +1,87 @@
+<ion-header class="ion-no-border" translucent="true">
+    <ion-toolbar class="tutorial-toolbar">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home" text=""></ion-back-button>
+        </ion-buttons>
+        <ion-title>How to Use</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <div class="tutorial-list">
+        <!-- Step 1: Add People -->
+        <div class="tutorial-card">
+            <div class="icon-circle gold">
+                <ion-icon name="person-add"></ion-icon>
+            </div>
+            <div class="info">
+                <h3>1. Add People</h3>
+                <p>Tap the <strong>+</strong> button at the bottom right to start tracking a friend or family member.
+                </p>
+            </div>
+        </div>
+
+        <!-- Step 2: Track Gifts -->
+        <div class="tutorial-card">
+            <div class="icon-circle blue">
+                <ion-icon name="gift"></ion-icon>
+            </div>
+            <div class="info">
+                <h3>2. Track Gifts</h3>
+                <p>Tap on any person to view their history. Use the <strong>Give</strong> or <strong>Receive</strong>
+                    buttons to add new gifts.</p>
+            </div>
+        </div>
+
+        <!-- Step 3: Search -->
+        <div class="tutorial-card">
+            <div class="icon-circle purple">
+                <ion-icon name="search"></ion-icon>
+            </div>
+            <div class="info">
+                <h3>3. Find Quickly</h3>
+                <p>Use the <strong>Search Bar</strong> at the top to instantly filter your list by name or gift item.
+                </p>
+            </div>
+        </div>
+
+        <!-- Step 4: Edit & Delete -->
+        <div class="tutorial-card">
+            <div class="icon-circle red">
+                <ion-icon name="create"></ion-icon>
+            </div>
+            <div class="info">
+                <h3>4. Edit & Delete</h3>
+                <p>Inside a profile, tap the <strong>Edit (Pencil)</strong> icon to rename or delete a person. <br>Tap a
+                    gift bubble to edit or delete a transaction.</p>
+            </div>
+        </div>
+
+        <!-- Step 5: Cloud Sync -->
+        <div class="tutorial-card">
+            <div class="icon-circle green">
+                <ion-icon name="cloud-upload"></ion-icon>
+            </div>
+            <div class="info">
+                <h3>5. Cloud Sync</h3>
+                <p>Tap the <strong>Cloud Icon</strong> in the header to backup your data.</p>
+                <div class="status-legend">
+                    <div class="legend-item">
+                        <ion-icon name="cloud-done" style="color: #34D399;"></ion-icon> <span>Synced & Safe</span>
+                    </div>
+                    <div class="legend-item">
+                        <ion-icon name="cloud" style="color: #FBBF24;"></ion-icon> <span>Changes Pending</span>
+                    </div>
+                    <div class="legend-item">
+                        <ion-icon name="sync" class="spin" style="color: #60A5FA;"></ion-icon> <span>Syncing...</span>
+                    </div>
+                    <div class="legend-item">
+                        <ion-icon name="cloud-offline" style="color: #F87171;"></ion-icon> <span>Network/Error</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ion-content>

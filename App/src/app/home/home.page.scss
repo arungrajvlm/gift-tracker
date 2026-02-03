@@ -2,124 +2,125 @@ ion-content {
   --background: transparent;
 }
 
-.blur-header {
-  background: rgba(2, 6, 23, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  padding-bottom: 16px;
+/* Native Toolbar Styles */
+ion-toolbar {
+  --background: transparent;
+  --border-color: rgba(255, 255, 255, 0.05);
 }
 
-.header-title-container {
-  padding: calc(24px + var(--ion-safe-area-top)) 24px 0;
+.home-toolbar {
+  padding-top: var(--ion-safe-area-top);
+  /* Extra padding for status bar if needed, though ion-header usually handles it */
+}
+
+ion-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  padding-inline-start: 16px;
+}
+
+/* Sync Pill in Toolbar */
+.sync-pill-wrapper {
+  margin-right: 8px;
+}
+
+.sync-pill {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  backdrop-filter: blur(10px);
 
-  h1 {
-    margin: 0;
-    padding-left: 8px;
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -1px;
+  ion-icon {
+    font-size: 18px;
   }
 
-  .sync-pill {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: 24px;
-    cursor: pointer;
-    margin-right: 8px;
-    transition: all 0.3s ease;
-    border: 1px solid transparent;
-    backdrop-filter: blur(10px);
-
-    ion-icon {
-      font-size: 18px;
-    }
-
-    .status-label {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-    }
-
-    .spin {
-      animation: spin 2s linear infinite;
-    }
-
-    /* States */
-    &.st-synced {
-      background: rgba(16, 185, 129, 0.15);
-      border-color: rgba(16, 185, 129, 0.2);
-      color: #34D399;
-      /* Emerald */
-    }
-
-    &.st-modified {
-      background: rgba(251, 191, 36, 0.15);
-      border-color: rgba(251, 191, 36, 0.25);
-      color: #FBBF24;
-      /* Amber */
-      animation: pulse-glow 2s infinite;
-    }
-
-    &.st-syncing {
-      background: rgba(59, 130, 246, 0.15);
-      border-color: rgba(59, 130, 246, 0.2);
-      color: #60A5FA;
-      /* Blue */
-    }
-
-    &.st-error {
-      background: rgba(239, 68, 68, 0.15);
-      border-color: rgba(239, 68, 68, 0.2);
-      color: #F87171;
-      /* Red */
-    }
+  .spin {
+    animation: spin 2s linear infinite;
   }
 
-  @keyframes pulse-glow {
-    0% {
-      box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.2);
-    }
-
-    70% {
-      box-shadow: 0 0 0 6px rgba(251, 191, 36, 0);
-    }
-
-    100% {
-      box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
-    }
+  /* States */
+  &.st-synced {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.2);
+    color: #34D399;
   }
 
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-
-    100% {
-      transform: rotate(360deg);
-    }
+  &.st-modified {
+    background: rgba(251, 191, 36, 0.15);
+    border-color: rgba(251, 191, 36, 0.25);
+    color: #FBBF24;
+    animation: pulse-glow 2s infinite;
   }
 
-  .menu-btn {
-    width: 48px;
+  &.st-syncing {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.2);
+    color: #60A5FA;
+  }
+
+  &.st-error {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: #F87171;
+  }
+}
+
+.custom-menu-btn {
+  --color: white;
+  margin-right: 8px;
+}
+
+/* Custom Searchbar */
+.search-toolbar {
+  --min-height: 60px;
+  padding-bottom: 8px;
+}
+
+.custom-searchbar {
+  --background: rgba(255, 255, 255, 0.05);
+  --color: white;
+  --placeholder-color: #64748B;
+  --icon-color: #64748B;
+  --border-radius: 16px;
+  --box-shadow: none;
+  padding-inline: 16px;
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 48px;
+
+  .searchbar-input-container {
     height: 48px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    transition: background 0.2s;
+  }
+}
 
-    &:active {
-      background: rgba(255, 255, 255, 0.1);
-    }
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.2);
+  }
+
+  70% {
+    box-shadow: 0 0 0 6px rgba(251, 191, 36, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -180,9 +181,9 @@ ion-content {
 
         /* Handle long names */
         white-space: normal;
-        overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 2;
+        line-clamp: 2;
         /* Max 2 lines */
         -webkit-box-orient: vertical;
         word-break: break-word;
@@ -312,37 +313,7 @@ ion-content {
   }
 }
 
-.search-container {
-  padding: 0 24px;
-  margin-top: 16px;
-}
-
-.custom-search {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  ion-icon {
-    color: #64748B;
-    font-size: 20px;
-  }
-
-  input {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: white;
-    width: 100%;
-    font-size: 16px;
-
-    &::placeholder {
-      color: #475569;
-    }
-  }
-}
+/* Search Removed - Used ion-searchbar */
 
 .empty-state {
   text-align: center;

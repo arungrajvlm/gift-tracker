@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync } from 'ionicons/icons';
+import { add, search, close, menu, person, helpCircle, logOutOutline, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync, book } from 'ionicons/icons';
 import { Router, RouterModule } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { AuthService } from '../services/auth.service';
@@ -50,7 +50,7 @@ export class HomePage implements OnInit {
     private toastController: ToastController,
     private cdr: ChangeDetectorRef
   ) {
-    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync });
+    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync, book });
 
     this.syncState$ = this.giftService.syncState$;
 
@@ -136,6 +136,12 @@ export class HomePage implements OnInit {
 
   trackByContact(index: number, contact: Contact): string {
     return contact.id;
+  }
+
+  openTutorial() {
+    this.isMenuOpen = false;
+    this.router.navigate(['/tutorial']);
+    this.cdr.markForCheck();
   }
 
   logout() {
