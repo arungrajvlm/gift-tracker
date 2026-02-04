@@ -97,9 +97,17 @@ export class HomePage implements OnInit {
       const lowerTerm = term.toLowerCase();
 
       this.allFilteredContacts = contacts.filter(contact => {
-        const matchesName = contact.name.toLowerCase().includes(lowerTerm);
-        const matchesGift = contact.lastGift?.item.toLowerCase().includes(lowerTerm);
-        return matchesName || matchesGift;
+        // Token Based Search (AND Logic)
+        const tokens = lowerTerm.split(/\s+/).filter(t => t.length > 0);
+
+        // Check if ALL tokens are present in either name OR gift
+        // Note: We check tokens against the COMBINED string of Name + Gift to allow cross-field search if desired
+        // Or strictly: Every token must be in (Name OR Gift).
+        // Let's go with: Every token must be found in the Contact's searchable text (Name + Gift Item)
+
+        const searchableText = (contact.name + ' ' + (contact.lastGift?.item || '')).toLowerCase();
+
+        return tokens.every(token => searchableText.includes(token));
       }).sort((a, b) => a.name.localeCompare(b.name));
 
       // Reset pagination
