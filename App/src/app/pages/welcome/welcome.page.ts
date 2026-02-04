@@ -19,6 +19,7 @@ export class WelcomePage implements OnInit {
     private alertCtrl = inject(AlertController);
 
     isLoading = true;
+    loadingMessage = 'Checking for backups...';
     backupFound: { date?: string; count?: number } | null = null;
     userName: string = 'User';
     userEmail: string = '';
@@ -75,6 +76,7 @@ export class WelcomePage implements OnInit {
         }
 
         this.isLoading = true;
+        this.loadingMessage = 'Restoring...';
         try {
             await this.giftService.restoreDataFromCloud();
             this.router.navigate(['/home'], { replaceUrl: true });

@@ -13,7 +13,7 @@
         <!-- Loading State -->
         <div class="loading-state" *ngIf="isLoading">
             <ion-spinner name="crescent" color="primary"></ion-spinner>
-            <p>Restoring...</p>
+            <p>{{ loadingMessage }}</p>
         </div>
 
         <!-- Content State -->
