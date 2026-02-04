@@ -64,7 +64,8 @@ export class ProfilePage implements OnInit {
         const loading = await this.loadingController.create({
             message: 'Saving to Cloud...',
             spinner: 'circles',
-            duration: 10000
+            duration: 10000,
+            cssClass: 'custom-loading'
         });
         await loading.present();
 
