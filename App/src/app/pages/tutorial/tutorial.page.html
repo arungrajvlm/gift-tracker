@@ -11,13 +11,13 @@
 
     <div class="tutorial-list">
         <!-- Intro / Thank You -->
-        <div class="tutorial-card intro-card"
-            style="background: linear-gradient(135deg, #1e293b, #0f172a); border-color: rgba(255,255,255,0.1);">
-            <div class="icon-circle" style="background: rgba(16, 185, 129, 0.2); color: #34D399;">
+        <!-- Intro / Thank You -->
+        <div class="tutorial-card intro-card">
+            <div class="icon-circle">
                 <ion-icon name="heart"></ion-icon>
             </div>
             <div class="info">
-                <h3 style="color: #34D399;">Welcome to Gift Tracker!</h3>
+                <h3>Welcome to Gift Tracker!</h3>
                 <p>Thank you for using the app.</p>
             </div>
         </div>
@@ -94,13 +94,16 @@
                 </div>
             </div>
         </div>
-        <div class="tutorial-card" style="background: transparent; border: none; padding: 0;">
-            <ion-button expand="block" shape="round" color="primary" class="get-started-btn" (click)="finish()"
-                style="height: 56px; font-weight: 700; font-size: 18px; margin-top: 10px;">
-                Get Started
-                <ion-icon slot="end" name="arrow-forward"></ion-icon>
-            </ion-button>
-        </div>
     </div>
 
 </ion-content>
+
+<ion-footer *ngIf="isFirstRun" class="ion-no-border">
+    <ion-toolbar style="--background: transparent; padding: 0 8px 8px;">
+        <ion-button expand="block" shape="round" color="primary" class="get-started-btn" (click)="finish()"
+            style="height: 56px; font-weight: 700; font-size: 18px;">
+            Get Started
+            <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-footer>

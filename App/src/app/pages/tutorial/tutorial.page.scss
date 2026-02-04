@@ -138,3 +138,61 @@ ion-title {
         color: #E2E8F0;
     }
 }
+
+/* Lovable Intro Card specific overrides */
+.intro-card {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(219, 39, 119, 0.2)) !important;
+    border: 1px solid rgba(236, 72, 153, 0.3) !important;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 32px 24px;
+    gap: 16px;
+
+    .icon-circle {
+        background: rgba(236, 72, 153, 0.2) !important;
+        color: #F472B6 !important;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        animation: heartbeat 1.5s ease-in-out infinite;
+
+        ion-icon {
+            font-size: 32px;
+            color: #F472B6 !important;
+        }
+    }
+
+    .info h3 {
+        color: #F472B6 !important;
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .info p {
+        color: #FBCFE8 !important;
+        font-size: 16px;
+    }
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+    }
+
+    14% {
+        transform: scale(1.1);
+    }
+
+    28% {
+        transform: scale(1);
+    }
+
+    42% {
+        transform: scale(1.1);
+    }
+
+    70% {
+        transform: scale(1);
+    }
+}

@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { book, arrowBack, personAdd, gift, cloudUpload, search, create, cloudDone, cloud, sync, cloudOffline, heart, arrowForward } from 'ionicons/icons';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-tutorial',
@@ -12,10 +12,20 @@ import { RouterModule } from '@angular/router';
     standalone: true,
     imports: [IonicModule, CommonModule, RouterModule]
 })
-export class TutorialPage {
+export class TutorialPage implements OnInit {
+    isFirstRun = false;
 
-    constructor(private navCtrl: NavController) {
+    constructor(
+        private navCtrl: NavController,
+        private route: ActivatedRoute
+    ) {
         addIcons({ book, arrowBack, personAdd, gift, cloudUpload, search, create, cloudDone, cloud, sync, cloudOffline, heart, arrowForward });
+    }
+
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.isFirstRun = params['isFirstRun'] === 'true';
+        });
     }
 
     finish() {

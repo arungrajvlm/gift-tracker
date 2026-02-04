@@ -159,7 +159,7 @@ export class HomePage implements OnInit {
   async ngOnInit() {
     const seen = await this.giftService.checkTutorialStatus();
     if (!seen) {
-      this.router.navigate(['/tutorial']);
+      this.router.navigate(['/tutorial'], { queryParams: { isFirstRun: 'true' } });
     }
   }
 
