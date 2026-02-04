@@ -56,13 +56,13 @@ ion-content {
 
 /* Highlight Style */
 .highlight {
-    background: var(--ion-color-primary);
-    /* Indigo */
-    color: white;
+    background: #FDE047;
+    /* High Contrast Yellow */
+    color: black;
     font-weight: 700;
     border-radius: 4px;
     padding: 0 4px;
-    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    box-shadow: 0 0 10px rgba(253, 224, 71, 0.5);
 }
 
 /* Custom Alert Styling */

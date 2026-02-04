@@ -242,6 +242,19 @@ ion-title {
   }
 }
 
+/* Search Mode: Expand Text */
+.real-list.is-searching {
+
+  .card-info .top-row .name,
+  .card-info .bottom-row .gift-preview span {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    /* Show full text */
+    word-break: break-all;
+    /* Ensure long words don't overflow */
+  }
+}
+
 /* Design FAB */
 .design-fab {
   margin-bottom: calc(24px + var(--ion-safe-area-bottom, 20px));

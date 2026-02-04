@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <div class="real-list" *ngIf="!isLoading">
+    <div class="real-list" *ngIf="!isLoading" [class.is-searching]="searchTerm && searchTerm.length > 0">
 
       <div class="premium-card" *ngFor="let contact of displayedContacts; trackBy: trackByContact"
         (click)="openChat(contact.id)">
@@ -96,7 +96,8 @@
       </div>
 
       <!-- Empty State -->
-      <div class="empty-state" *ngIf="allFilteredContacts.length === 0">
+      <!-- Empty State (No Data) -->
+      <div class="empty-state" *ngIf="allFilteredContacts.length === 0 && !searchTerm">
         <img src="assets/logo.png" alt="Zero" class="empty-state-logo">
         <p class="empty-title">No Gifts Yet</p>
         <p class="empty-subtitle">Tap + to add your first entry.</p>
@@ -105,6 +106,13 @@
           <ion-icon name="add" slot="start"></ion-icon>
           Add Person
         </ion-button>
+      </div>
+
+      <!-- Empty State (No Search Results) -->
+      <div class="empty-state" *ngIf="allFilteredContacts.length === 0 && searchTerm">
+        <ion-icon name="search" class="empty-state-logo" style="font-size: 64px; opacity: 0.3;"></ion-icon>
+        <p class="empty-title">No Results Found</p>
+        <p class="empty-subtitle">No matches for "{{ searchTerm }}"</p>
       </div>
 
       <ion-infinite-scroll threshold="25%" (ionInfinite)="loadData($event)">
