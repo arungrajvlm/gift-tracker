@@ -87,6 +87,22 @@ export class HomePage implements OnInit {
       this.cdr.markForCheck();
     });
 
+    // Sync Error Handler
+    this.syncState$.pipe(
+      debounceTime(1000), // Prevent rapid fires
+    ).subscribe(async state => {
+      if (state === 'error') {
+        const toast = await this.toastController.create({
+          message: 'Sync failed: Check network connection.',
+          duration: 3000,
+          color: 'danger',
+          icon: 'cloud-offline',
+          position: 'bottom'
+        });
+        await toast.present();
+      }
+    });
+
     // Combine contacts and search term for filtering
     combineLatest([
       this.giftService.getContactsWithLastGift(),

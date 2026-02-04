@@ -32,7 +32,7 @@ export class GiftService {
     private lastSyncTimeSubject = new BehaviorSubject<string | null>(null);
     public lastSyncTime$ = this.lastSyncTimeSubject.asObservable();
 
-    private readonly AUTO_SYNC_THRESHOLD = 5;
+    private readonly AUTO_SYNC_THRESHOLD = 20;
 
     // Inject Firestore & Auth
     private firestore = inject(Firestore);
@@ -331,7 +331,9 @@ export class GiftService {
 
         if (current >= this.AUTO_SYNC_THRESHOLD) {
             console.log('Auto-Sync threshold reached. Backing up...');
-            this.saveDataToCloud();
+            this.saveDataToCloud().catch(err => {
+                console.warn('Auto-Sync failed (handled):', err);
+            });
         }
     }
 
