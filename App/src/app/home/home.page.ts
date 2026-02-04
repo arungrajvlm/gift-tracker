@@ -27,16 +27,6 @@ export class HomePage implements OnInit {
   // pagination state
   allFilteredContacts: Contact[] = [];
   displayedContacts: Contact[] = [];
-  isCheckingTutorial = true;
-  isLoading = true;
-
-  searchTerm$ = new BehaviorSubject<string>('');
-  searchTerm = '';
-  isMenuOpen = false;
-
-  private pageSize = 20;
-  private currentPage = 0;
-
   loader: any;
   canSeed = false;
 
@@ -157,21 +147,7 @@ export class HomePage implements OnInit {
   }
 
 
-  async ngOnInit() {
-    try {
-      const seen = await this.giftService.checkTutorialStatus();
-      if (!seen) {
-        this.router.navigate(['/tutorial'], { queryParams: { isFirstRun: 'true' } });
-      } else {
-        this.isCheckingTutorial = false;
-        this.cdr.markForCheck();
-      }
-    } catch (error) {
-      console.error('Tutorial check failed. Defaulting to Home.', error);
-      this.isCheckingTutorial = false;
-      this.cdr.markForCheck();
-    }
-  }
+  ngOnInit() { }
 
   ionViewWillLeave() {
     this.isMenuOpen = false;

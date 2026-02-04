@@ -12,23 +12,9 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
     standalone: true,
     imports: [IonicModule, CommonModule, RouterModule]
 })
-export class TutorialPage implements OnInit {
-    isFirstRun = false;
+export class TutorialPage {
 
-    constructor(
-        private navCtrl: NavController,
-        private route: ActivatedRoute
-    ) {
+    constructor(private navCtrl: NavController) {
         addIcons({ book, arrowBack, personAdd, gift, cloudUpload, search, create, cloudDone, cloud, sync, cloudOffline, heart, arrowForward });
-    }
-
-    ngOnInit() {
-        this.route.queryParams.subscribe(params => {
-            this.isFirstRun = params['isFirstRun'] === 'true';
-        });
-    }
-
-    finish() {
-        this.navCtrl.navigateRoot('/home');
     }
 }

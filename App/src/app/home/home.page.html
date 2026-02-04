@@ -1,132 +1,130 @@
-<ng-container *ngIf="!isCheckingTutorial">
-  <ion-header class="ion-no-border" translucent="true">
-    <ion-toolbar class="home-toolbar">
-      <ion-title class="ion-text-start">GiftTracker</ion-title>
+<ion-header class="ion-no-border" translucent="true">
+  <ion-toolbar class="home-toolbar">
+    <ion-title class="ion-text-start">GiftTracker</ion-title>
 
-      <ion-buttons slot="end">
-        <!-- Sync Pill -->
-        <div class="sync-pill-wrapper" (click)="triggerSync()" *ngIf="syncState$ | async as state">
-          <div class="sync-pill" [class.st-synced]="state === 'synced'" [class.st-modified]="state === 'modified'"
-            [class.st-syncing]="state === 'syncing'" [class.st-error]="state === 'error'">
-            <ion-icon
-              [name]="state === 'synced' ? 'cloud-done' : (state === 'modified' ? 'cloud-upload' : (state === 'error' ? 'cloud-offline' : 'sync'))"
-              [class.spin]="state === 'syncing'"></ion-icon>
+    <ion-buttons slot="end">
+      <!-- Sync Pill -->
+      <div class="sync-pill-wrapper" (click)="triggerSync()" *ngIf="syncState$ | async as state">
+        <div class="sync-pill" [class.st-synced]="state === 'synced'" [class.st-modified]="state === 'modified'"
+          [class.st-syncing]="state === 'syncing'" [class.st-error]="state === 'error'">
+          <ion-icon
+            [name]="state === 'synced' ? 'cloud-done' : (state === 'modified' ? 'cloud-upload' : (state === 'error' ? 'cloud-offline' : 'sync'))"
+            [class.spin]="state === 'syncing'"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Menu Button -->
+      <ion-button (click)="toggleMenu()" class="custom-menu-btn">
+        <ion-icon [name]="isMenuOpen ? 'close' : 'menu'" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="search-toolbar">
+    <ion-searchbar placeholder="Search people..." (ionInput)="onSearch($event)" [value]="searchTerm" animated="true"
+      show-clear-button="focus" mode="ios" class="custom-searchbar">
+    </ion-searchbar>
+  </ion-toolbar>
+
+  <!-- Custom Premium Menu (Overlay) -->
+  <div class="menu-overlay" *ngIf="isMenuOpen" (click)="toggleMenu()">
+    <div class="menu-content" (click)="$event.stopPropagation()">
+      <div class="menu-item" (click)="openProfile()">
+        <ion-icon name="person"></ion-icon>
+        <span>Profile</span>
+      </div>
+      <div class="menu-item" (click)="openAbout()">
+        <ion-icon name="help-circle"></ion-icon>
+        <span>About</span>
+      </div>
+      <div class="menu-divider"></div>
+      <div class="menu-item" (click)="openTutorial()">
+        <ion-icon name="book"></ion-icon>
+        <span>How to Use</span>
+      </div>
+      <div class="menu-divider"></div>
+      <div class="menu-item danger" (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+        <span>Log Out</span>
+      </div>
+      <div class="menu-divider"></div>
+      <div class="menu-item" (click)="seedData()" style="color: #FBBF24;" *ngIf="canSeed">
+        <ion-icon name="cloud-download-outline" style="color: #FBBF24;"></ion-icon>
+        <span>Import Data</span>
+      </div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="premium-list-container">
+
+    <!-- Skeleton Loader -->
+    <div class="skeleton-list" *ngIf="isLoading">
+      <div class="premium-card-loader" *ngFor="let item of [1,2,3,4,5]">
+        <ion-skeleton-text animated style="width: 100%; height: 80px; border-radius: 24px;"></ion-skeleton-text>
+      </div>
+    </div>
+
+    <div class="real-list" *ngIf="!isLoading" [class.is-searching]="searchTerm && searchTerm.length > 0">
+
+      <div class="premium-card" *ngFor="let contact of displayedContacts; trackBy: trackByContact"
+        (click)="openChat(contact.id)">
+        <div class="card-content">
+          <div class="avatar-large" [style.background]="contact.avatarColor">
+            {{ contact.initials }}
+          </div>
+
+          <div class="card-info">
+            <div class="top-row">
+              <span class="name" [innerHTML]="contact.name | highlight:searchTerm"></span>
+              <span class="date" *ngIf="contact.lastGift">{{ contact.lastGift.date | date:'MMM d' }}</span>
+            </div>
+
+            <div class="bottom-row">
+              <div class="gift-preview" *ngIf="contact.lastGift">
+                <ion-icon [name]="contact.lastGift.type === 'given' ? 'arrow-up-circle' : 'arrow-down-circle'"
+                  [class]="contact.lastGift.type"></ion-icon>
+                <span [innerHTML]="contact.lastGift.item | highlight:searchTerm"></span>
+              </div>
+              <span class="empty-text" *ngIf="!contact.lastGift">No history</span>
+
+              <ion-icon name="chevron-forward" class="chevron"></ion-icon>
+            </div>
           </div>
         </div>
+      </div>
 
-        <!-- Menu Button -->
-        <ion-button (click)="toggleMenu()" class="custom-menu-btn">
-          <ion-icon [name]="isMenuOpen ? 'close' : 'menu'" slot="icon-only"></ion-icon>
+      <!-- Empty State -->
+      <!-- Empty State (No Data) -->
+      <div class="empty-state" *ngIf="allFilteredContacts.length === 0 && !searchTerm">
+        <img src="assets/logo.png" alt="Zero" class="empty-state-logo">
+        <p class="empty-title">No Gifts Yet</p>
+        <p class="empty-subtitle">Tap + to add your first entry.</p>
+
+        <ion-button mode="ios" (click)="addContact()" class="empty-action-btn">
+          <ion-icon name="add" slot="start"></ion-icon>
+          Add Person
         </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-
-    <ion-toolbar class="search-toolbar">
-      <ion-searchbar placeholder="Search people..." (ionInput)="onSearch($event)" [value]="searchTerm" animated="true"
-        show-clear-button="focus" mode="ios" class="custom-searchbar">
-      </ion-searchbar>
-    </ion-toolbar>
-
-    <!-- Custom Premium Menu (Overlay) -->
-    <div class="menu-overlay" *ngIf="isMenuOpen" (click)="toggleMenu()">
-      <div class="menu-content" (click)="$event.stopPropagation()">
-        <div class="menu-item" (click)="openProfile()">
-          <ion-icon name="person"></ion-icon>
-          <span>Profile</span>
-        </div>
-        <div class="menu-item" (click)="openAbout()">
-          <ion-icon name="help-circle"></ion-icon>
-          <span>About</span>
-        </div>
-        <div class="menu-divider"></div>
-        <div class="menu-item" (click)="openTutorial()">
-          <ion-icon name="book"></ion-icon>
-          <span>How to Use</span>
-        </div>
-        <div class="menu-divider"></div>
-        <div class="menu-item danger" (click)="logout()">
-          <ion-icon name="log-out-outline"></ion-icon>
-          <span>Log Out</span>
-        </div>
-        <div class="menu-divider"></div>
-        <div class="menu-item" (click)="seedData()" style="color: #FBBF24;" *ngIf="canSeed">
-          <ion-icon name="cloud-download-outline" style="color: #FBBF24;"></ion-icon>
-          <span>Import Data</span>
-        </div>
       </div>
+
+      <!-- Empty State (No Search Results) -->
+      <div class="empty-state" *ngIf="allFilteredContacts.length === 0 && searchTerm">
+        <ion-icon name="search" class="empty-state-logo" style="font-size: 64px; opacity: 0.3;"></ion-icon>
+        <p class="empty-title">No Results Found</p>
+        <p class="empty-subtitle">No matches for "{{ searchTerm }}"</p>
+      </div>
+
+      <ion-infinite-scroll threshold="25%" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
     </div>
-  </ion-header>
+  </div>
 
-  <ion-content>
-    <div class="premium-list-container">
-
-      <!-- Skeleton Loader -->
-      <div class="skeleton-list" *ngIf="isLoading">
-        <div class="premium-card-loader" *ngFor="let item of [1,2,3,4,5]">
-          <ion-skeleton-text animated style="width: 100%; height: 80px; border-radius: 24px;"></ion-skeleton-text>
-        </div>
-      </div>
-
-      <div class="real-list" *ngIf="!isLoading" [class.is-searching]="searchTerm && searchTerm.length > 0">
-
-        <div class="premium-card" *ngFor="let contact of displayedContacts; trackBy: trackByContact"
-          (click)="openChat(contact.id)">
-          <div class="card-content">
-            <div class="avatar-large" [style.background]="contact.avatarColor">
-              {{ contact.initials }}
-            </div>
-
-            <div class="card-info">
-              <div class="top-row">
-                <span class="name" [innerHTML]="contact.name | highlight:searchTerm"></span>
-                <span class="date" *ngIf="contact.lastGift">{{ contact.lastGift.date | date:'MMM d' }}</span>
-              </div>
-
-              <div class="bottom-row">
-                <div class="gift-preview" *ngIf="contact.lastGift">
-                  <ion-icon [name]="contact.lastGift.type === 'given' ? 'arrow-up-circle' : 'arrow-down-circle'"
-                    [class]="contact.lastGift.type"></ion-icon>
-                  <span [innerHTML]="contact.lastGift.item | highlight:searchTerm"></span>
-                </div>
-                <span class="empty-text" *ngIf="!contact.lastGift">No history</span>
-
-                <ion-icon name="chevron-forward" class="chevron"></ion-icon>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Empty State -->
-        <!-- Empty State (No Data) -->
-        <div class="empty-state" *ngIf="allFilteredContacts.length === 0 && !searchTerm">
-          <img src="assets/logo.png" alt="Zero" class="empty-state-logo">
-          <p class="empty-title">No Gifts Yet</p>
-          <p class="empty-subtitle">Tap + to add your first entry.</p>
-
-          <ion-button mode="ios" (click)="addContact()" class="empty-action-btn">
-            <ion-icon name="add" slot="start"></ion-icon>
-            Add Person
-          </ion-button>
-        </div>
-
-        <!-- Empty State (No Search Results) -->
-        <div class="empty-state" *ngIf="allFilteredContacts.length === 0 && searchTerm">
-          <ion-icon name="search" class="empty-state-logo" style="font-size: 64px; opacity: 0.3;"></ion-icon>
-          <p class="empty-title">No Results Found</p>
-          <p class="empty-subtitle">No matches for "{{ searchTerm }}"</p>
-        </div>
-
-        <ion-infinite-scroll threshold="25%" (ionInfinite)="loadData($event)">
-          <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
-        </ion-infinite-scroll>
-
-      </div>
-    </div>
-
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="design-fab">
-      <ion-fab-button (click)="addContact()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
-  </ion-content>
-</ng-container>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="design-fab">
+    <ion-fab-button (click)="addContact()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
