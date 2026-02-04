@@ -418,4 +418,19 @@ export class GiftService {
             console.error('Seeding Error', e);
         }
     }
+    async clearLocalData() {
+        console.log('Clearing local application data...');
+        // 1. Clear In-Memory State
+        this.contactsSubject.next([]);
+        this.giftsSubject.next([]);
+        this.lastSyncTimeSubject.next(null);
+        this.syncStateSubject.next('synced');
+        this.dirtyCountSubject.next(0);
+
+        // 2. Clear Persistent Storage
+        await this.storage.remove(this.CONTACTS_KEY);
+        await this.storage.remove(this.GIFTS_KEY);
+        await this.storage.remove(this.LAST_SYNC_KEY);
+        console.log('Local data cleared.');
+    }
 }

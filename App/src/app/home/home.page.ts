@@ -9,7 +9,7 @@ import { Router, RouterModule } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { AuthService } from '../services/auth.service';
 import { Contact } from '../models/data.models';
-import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject, firstValueFrom } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { HighlightPipe } from '../pipes/highlight.pipe';
 import { environment } from 'src/environments/environment';
@@ -165,11 +165,74 @@ export class HomePage implements OnInit {
     this.cdr.markForCheck();
   }
 
-  logout() {
-    this.authService.logout();
-    this.isMenuOpen = false;
-    this.cdr.markForCheck();
-    this.router.navigate(['/login']);
+  async logout() {
+    // Check for unsynced changes
+    const dirtyCount = await firstValueFrom(this.giftService.dirtyCount$);
+
+    if (dirtyCount > 0) {
+      const alert = await this.alertController.create({
+        header: 'Unsynced Changes',
+        message: `You have ${dirtyCount} unsynced changes. sync now to avoid data loss?`,
+        buttons: [
+          {
+            text: 'Discard Changes',
+            role: 'destructive',
+            handler: () => {
+              this.performLogout();
+            }
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel'
+          },
+          {
+            text: 'Sync & Logout',
+            handler: async () => {
+              const loading = await this.loadingController.create({
+                message: 'Syncing...',
+                duration: 10000
+              });
+              await loading.present();
+              try {
+                await this.giftService.saveDataToCloud();
+                await loading.dismiss();
+                this.performLogout();
+              } catch (err) {
+                await loading.dismiss();
+                const errorAlert = await this.alertController.create({
+                  header: 'Sync Failed',
+                  message: 'Could not sync data. Check your connection.',
+                  buttons: ['OK']
+                });
+                await errorAlert.present();
+              }
+            }
+          }
+        ]
+      });
+      await alert.present();
+      return;
+    }
+
+    this.performLogout();
+  }
+
+  async performLogout() {
+    const loading = await this.loadingController.create({
+      message: 'Logging out...',
+      duration: 5000
+    });
+    await loading.present();
+
+    try {
+      await this.giftService.clearLocalData(); // Ensure old data is gone
+      await this.authService.logout();
+      this.isMenuOpen = false;
+      this.cdr.markForCheck();
+      this.router.navigate(['/login'], { replaceUrl: true });
+    } finally {
+      await loading.dismiss();
+    }
   }
 
   async seedData() {
