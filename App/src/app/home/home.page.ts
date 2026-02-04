@@ -221,7 +221,8 @@ export class HomePage implements OnInit {
             handler: async () => {
               const loading = await this.loadingController.create({
                 message: 'Syncing...',
-                duration: 10000
+                duration: 10000,
+                cssClass: 'custom-loading'
               });
               await loading.present();
               try {
@@ -251,7 +252,8 @@ export class HomePage implements OnInit {
   async performLogout() {
     const loading = await this.loadingController.create({
       message: 'Logging out...',
-      duration: 5000
+      duration: 5000,
+      cssClass: 'custom-loading'
     });
     await loading.present();
 
