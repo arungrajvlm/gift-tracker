@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { book, arrowBack, personAdd, gift, cloudUpload, search, create, cloudDone, cloud, sync, cloudOffline, heart } from 'ionicons/icons';
+import { book, arrowBack, personAdd, gift, cloudUpload, search, create, cloudDone, cloud, sync, cloudOffline, heart, arrowForward } from 'ionicons/icons';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -14,7 +14,11 @@ import { RouterModule } from '@angular/router';
 })
 export class TutorialPage {
 
-    constructor() {
-        addIcons({ book, arrowBack, personAdd, gift, cloudUpload, search, create, cloudDone, cloud, sync, cloudOffline, heart });
+    constructor(private navCtrl: NavController) {
+        addIcons({ book, arrowBack, personAdd, gift, cloudUpload, search, create, cloudDone, cloud, sync, cloudOffline, heart, arrowForward });
+    }
+
+    finish() {
+        this.navCtrl.navigateRoot('/home');
     }
 }
