@@ -27,6 +27,7 @@ export class HomePage implements OnInit {
   // pagination state
   allFilteredContacts: Contact[] = [];
   displayedContacts: Contact[] = [];
+  isCheckingTutorial = true;
   isLoading = true;
 
   searchTerm$ = new BehaviorSubject<string>('');
@@ -160,6 +161,9 @@ export class HomePage implements OnInit {
     const seen = await this.giftService.checkTutorialStatus();
     if (!seen) {
       this.router.navigate(['/tutorial'], { queryParams: { isFirstRun: 'true' } });
+    } else {
+      this.isCheckingTutorial = false;
+      this.cdr.markForCheck();
     }
   }
 

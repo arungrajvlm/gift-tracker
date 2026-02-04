@@ -21,6 +21,7 @@ export class GiftService {
     private readonly CONTACTS_KEY = 'ionic_demo_contacts';
     private readonly GIFTS_KEY = 'ionic_demo_gifts';
     private readonly LAST_SYNC_KEY = 'ionic_demo_last_sync';
+    private readonly DIRTY_COUNT_KEY = 'ionic_demo_dirty_count';
 
     // --- Cloud Sync ---
     private dirtyCountSubject = new BehaviorSubject<number>(0);
@@ -52,6 +53,8 @@ export class GiftService {
         const storedContacts = await this.storage.get(this.CONTACTS_KEY);
         const storedGifts = await this.storage.get(this.GIFTS_KEY);
         const storedSyncTime = await this.storage.get(this.LAST_SYNC_KEY);
+        const storedDirtyCount = await this.storage.get(this.DIRTY_COUNT_KEY);
+
 
         if (storedContacts) {
             this.contactsSubject.next(JSON.parse(storedContacts));
@@ -66,6 +69,14 @@ export class GiftService {
 
         if (storedSyncTime) {
             this.lastSyncTimeSubject.next(storedSyncTime);
+        }
+
+        if (storedDirtyCount) {
+            const count = parseInt(storedDirtyCount, 10) || 0;
+            this.dirtyCountSubject.next(count);
+            if (count > 0) {
+                this.syncStateSubject.next('modified');
+            }
         }
     }
 
@@ -202,6 +213,7 @@ export class GiftService {
             this.syncStateSubject.next('synced');
             this.lastSyncTimeSubject.next(now);
             this.storage.set(this.LAST_SYNC_KEY, now);
+            this.storage.set(this.DIRTY_COUNT_KEY, 0);
 
             console.log('Backup successful');
 
@@ -328,6 +340,7 @@ export class GiftService {
         const current = this.dirtyCountSubject.value + 1;
         this.dirtyCountSubject.next(current);
         this.syncStateSubject.next('modified');
+        this.storage.set(this.DIRTY_COUNT_KEY, current);
 
         if (current >= this.AUTO_SYNC_THRESHOLD) {
             console.log('Auto-Sync threshold reached. Backing up...');
@@ -462,6 +475,7 @@ export class GiftService {
         await this.storage.remove(this.CONTACTS_KEY);
         await this.storage.remove(this.GIFTS_KEY);
         await this.storage.remove(this.LAST_SYNC_KEY);
+        await this.storage.remove(this.DIRTY_COUNT_KEY);
         // await this.storage.remove(this.IMPORT_KEY); // Optional: keep import status across clear? User asked "If seed clicked once don't show it again". Usually 'Clear Data' resets everything. Let's clear it.
         await this.storage.remove(this.IMPORT_KEY);
         console.log('Local data cleared.');
