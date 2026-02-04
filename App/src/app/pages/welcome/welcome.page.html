@@ -62,6 +62,28 @@
                     Skip Restore
                 </div>
             </div>
+
+            <!-- No Backup Found UI -->
+            <div class="backup-found-container" *ngIf="!backupFound">
+                <h2>Welcome!</h2>
+                <p class="subtitle">Ready to start tracking your gifts?</p>
+
+                <div class="info-card">
+                    <div class="info-row">
+                        <ion-icon name="person-circle-outline"></ion-icon>
+                        <div class="info-text">
+                            <span class="label">Signed in as</span>
+                            <span class="value">{{ userName }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spacer"></div>
+
+                <button class="restore-btn" (click)="startFreshOnNoBackup()">
+                    Get Started
+                </button>
+            </div>
         </div>
 
     </div>

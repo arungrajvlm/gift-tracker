@@ -21,6 +21,16 @@ export class LoginPage {
     ) { }
 
     async login(provider: 'google' | 'apple') {
+        if (!navigator.onLine) {
+            const alert = await this.alertController.create({
+                header: 'No Internet Connection',
+                message: 'Please check your internet settings and try again.',
+                buttons: ['OK']
+            });
+            await alert.present();
+            return;
+        }
+
         this.isLoading = true;
         try {
             await this.authService.login(provider);
@@ -28,9 +38,23 @@ export class LoginPage {
         } catch (error: any) {
             console.error('Login failed', error);
 
+            let message = 'An unexpected error occurred. Please try again.';
+
+            // Map common Firebase errors to user-friendly messages
+            if (error.code === 'auth/popup-closed-by-user' || error.message?.includes('closed')) {
+                message = 'Sign-in cancelled.';
+            } else if (error.code === 'auth/network-request-failed') {
+                message = 'Network error. Please check your connection.';
+            } else if (error.code === 'auth/invalid-credential') {
+                message = 'Invalid credentials. Please try again.';
+            } else if (error.message) {
+                // Fallback to error message if present but cleaner
+                message = error.message.replace('Firebase:', '').trim();
+            }
+
             const alert = await this.alertController.create({
                 header: 'Sign In Failed',
-                message: 'Could not sign in with Google. Please check your network or configuration. ' + (error.error?.message || error.message || JSON.stringify(error)),
+                message: message,
                 buttons: ['OK']
             });
             await alert.present();

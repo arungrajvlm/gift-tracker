@@ -55,8 +55,6 @@ export class AuthService {
                 }
             } catch (error: any) {
                 console.error('Firebase Login Error:', error);
-                // SHOW FULL ERROR OBJECT
-                alert('Login Failed: ' + JSON.stringify(error, Object.getOwnPropertyNames(error)));
                 throw error;
             }
         } else {

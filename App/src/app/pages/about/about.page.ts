@@ -25,7 +25,7 @@ export class AboutPage implements OnInit {
             this.appInfo = await App.getInfo();
         } catch (e) {
             console.warn('Could not get app info', e);
-            this.appInfo = { version: '1.0.0', build: '0' }; // Fallback
+            this.appInfo = { version: '-.-.-', build: '0' }; // Fallback
         }
     }
 

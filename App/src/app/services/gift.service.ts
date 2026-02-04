@@ -172,6 +172,10 @@ export class GiftService {
             return;
         }
 
+        if (!navigator.onLine) {
+            throw new Error('No Internet connection');
+        }
+
         this.syncStateSubject.next('syncing');
 
         try {
@@ -212,6 +216,14 @@ export class GiftService {
         const user = this.auth.currentUser;
         if (!user) return null;
 
+        if (!navigator.onLine) {
+            console.warn('Check backup skipped: Offline');
+            // We return null implies "no backup found" or "can't check". 
+            // Better to handle in UI, but here we just fail gracefully or throw?
+            // User requested ALERT. Throwing allows UI to Alert.
+            throw new Error('No Internet connection');
+        }
+
         try {
             const userDocRef = doc(this.firestore, `users/${user.uid}/backups/data`);
             const docSnap = await getDoc(userDocRef);
@@ -235,6 +247,10 @@ export class GiftService {
     async restoreDataFromCloud() {
         const user = this.auth.currentUser;
         if (!user) return;
+
+        if (!navigator.onLine) {
+            throw new Error('No Internet connection');
+        }
 
         this.syncStateSubject.next('syncing');
 
@@ -263,7 +279,35 @@ export class GiftService {
         }
     }
 
-    private async saveContacts(contacts: Contact[], markDirty = true) {
+    async archiveRemoteBackup() {
+        const user = this.auth.currentUser;
+        if (!user) return;
+
+        try {
+            const userDocRef = doc(this.firestore, `users/${user.uid}/backups/data`);
+            const docSnap = await getDoc(userDocRef);
+
+            if (docSnap.exists()) {
+                console.log('Archiving remote backup before starting fresh...');
+                const data = docSnap.data();
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const archiveRef = doc(this.firestore, `users/${user.uid}/backups/history/${timestamp}_skipped`);
+
+                await setDoc(archiveRef, data);
+                console.log('Backup archived successfully at:', archiveRef.path);
+            } else {
+                console.log('No existing backup to archive.');
+            }
+        } catch (error) {
+            console.error('Failed to archive backup:', error);
+            // We do NOT block the flow here, just log it. 
+            // Better to let user proceed than get stuck on an error if archive fails.
+        }
+    }
+
+
+
+    public async saveContacts(contacts: Contact[], markDirty = true) {
         await this.storage.set(this.CONTACTS_KEY, JSON.stringify(contacts));
         this.contactsSubject.next(contacts);
         if (markDirty) this.incrementDirty();
