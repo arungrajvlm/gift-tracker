@@ -76,9 +76,11 @@ export class HomePage implements OnInit {
     });
 
     // Check Admin Status
-    this.authService.user$.subscribe(user => {
+    // Check Admin Status & Import Status
+    this.authService.user$.subscribe(async user => {
       if (user && user.email && environment.adminEmails.includes(user.email)) {
-        this.canSeed = true;
+        const imported = await this.giftService.hasImported();
+        this.canSeed = !imported;
       } else {
         this.canSeed = false;
       }
@@ -245,7 +247,7 @@ export class HomePage implements OnInit {
 
   async seedData() {
     const alert = await this.alertController.create({
-      header: 'Seed Data',
+      header: 'Import Data',
       message: 'This will populate the app with your custom dataset from the remote server. Continue?',
       cssClass: 'seed-alert-class',
       buttons: [
@@ -254,11 +256,13 @@ export class HomePage implements OnInit {
           role: 'cancel'
         },
         {
-          text: 'Seed',
+          text: 'Import',
           handler: () => {
-            this.giftService.seedCustomData();
-            this.isMenuOpen = false;
-            this.cdr.markForCheck();
+            this.giftService.seedCustomData().then(() => {
+              this.canSeed = false; // Hide immediately
+              this.isMenuOpen = false;
+              this.cdr.markForCheck();
+            });
           }
         }
       ]

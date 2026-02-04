@@ -334,6 +334,13 @@ export class GiftService {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 
+    private readonly IMPORT_KEY = 'ionic_demo_imported';
+
+    async hasImported(): Promise<boolean> {
+        const val = await this.storage.get(this.IMPORT_KEY);
+        return !!val;
+    }
+
     async seedCustomData() {
         console.log('Seeding Custom Data from Remote...');
 
@@ -413,6 +420,7 @@ export class GiftService {
         try {
             await this.saveContacts(newContacts);
             await this.saveGifts(newGifts);
+            await this.storage.set(this.IMPORT_KEY, true); // Mark as imported
             console.log(`Seeded ${newContacts.length} contacts and ${newGifts.length} gifts from custom JSON.`);
         } catch (e) {
             console.error('Seeding Error', e);
@@ -431,6 +439,8 @@ export class GiftService {
         await this.storage.remove(this.CONTACTS_KEY);
         await this.storage.remove(this.GIFTS_KEY);
         await this.storage.remove(this.LAST_SYNC_KEY);
+        // await this.storage.remove(this.IMPORT_KEY); // Optional: keep import status across clear? User asked "If seed clicked once don't show it again". Usually 'Clear Data' resets everything. Let's clear it.
+        await this.storage.remove(this.IMPORT_KEY);
         console.log('Local data cleared.');
     }
 }
