@@ -27,6 +27,15 @@ export class HomePage implements OnInit {
   // pagination state
   allFilteredContacts: Contact[] = [];
   displayedContacts: Contact[] = [];
+  isLoading = true;
+
+  searchTerm$ = new BehaviorSubject<string>('');
+  searchTerm = '';
+  isMenuOpen = false;
+
+  private pageSize = 20;
+  private currentPage = 0;
+
   loader: any;
   canSeed = false;
 
