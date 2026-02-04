@@ -97,7 +97,8 @@ export class HomePage implements OnInit {
           duration: 3000,
           color: 'danger',
           icon: 'cloud-offline',
-          position: 'bottom'
+          position: 'bottom',
+          buttons: [{ icon: 'close', role: 'cancel' }]
         });
         await toast.present();
       }
@@ -314,7 +315,8 @@ export class HomePage implements OnInit {
         position: 'top',
         color: 'success',
         icon: 'cloud-done',
-        cssClass: 'custom-toast'
+        cssClass: 'custom-toast',
+        buttons: [{ icon: 'close', role: 'cancel' }]
       });
       await toast.present();
       return;

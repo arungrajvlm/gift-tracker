@@ -43,7 +43,8 @@ export class AddContactPage {
                 duration: 2000,
                 position: 'top', // Top makes it more visible
                 color: 'success',
-                icon: 'checkmark-circle'
+                icon: 'checkmark-circle',
+                buttons: [{ icon: 'close', role: 'cancel' }]
             });
             await toast.present();
             this.router.navigate(['/home'], { replaceUrl: true });
@@ -65,7 +66,8 @@ export class AddContactPage {
                 duration: 2000,
                 position: 'top',
                 color: 'success',
-                icon: 'person-add'
+                icon: 'person-add',
+                buttons: [{ icon: 'close', role: 'cancel' }]
             });
             await toast.present();
         }
