@@ -39,8 +39,14 @@ export class GiftService {
     private firestore = inject(Firestore);
     private auth = inject(Auth);
 
+    private initPromise: Promise<void>;
+
     constructor(private storage: Storage, private http: HttpClient) {
-        this.init();
+        this.initPromise = this.init();
+    }
+
+    private async ensureReady() {
+        await this.initPromise;
     }
 
     // ... rest of init and basic CRUD ...
@@ -357,6 +363,7 @@ export class GiftService {
     private readonly IMPORT_KEY = 'ionic_demo_imported';
 
     async hasImported(): Promise<boolean> {
+        await this.ensureReady();
         const val = await this.storage.get(this.IMPORT_KEY);
         return !!val;
     }
@@ -364,6 +371,7 @@ export class GiftService {
     private readonly TUTORIAL_KEY = 'ionic_demo_tutorial_seen';
 
     async checkTutorialStatus(): Promise<boolean> {
+        await this.ensureReady();
         const seen = await this.storage.get(this.TUTORIAL_KEY);
         if (!seen) {
             await this.storage.set(this.TUTORIAL_KEY, true);

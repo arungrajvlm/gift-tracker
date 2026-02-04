@@ -158,10 +158,16 @@ export class HomePage implements OnInit {
 
 
   async ngOnInit() {
-    const seen = await this.giftService.checkTutorialStatus();
-    if (!seen) {
-      this.router.navigate(['/tutorial'], { queryParams: { isFirstRun: 'true' } });
-    } else {
+    try {
+      const seen = await this.giftService.checkTutorialStatus();
+      if (!seen) {
+        this.router.navigate(['/tutorial'], { queryParams: { isFirstRun: 'true' } });
+      } else {
+        this.isCheckingTutorial = false;
+        this.cdr.markForCheck();
+      }
+    } catch (error) {
+      console.error('Tutorial check failed. Defaulting to Home.', error);
       this.isCheckingTutorial = false;
       this.cdr.markForCheck();
     }
