@@ -42,6 +42,10 @@ export class AuthService {
 
     async login(provider: 'google' | 'apple') {
         if (provider === 'google') {
+            if (!navigator.onLine) {
+                alert('No Internet Connection. Please check your network and try again.');
+                return;
+            }
             try {
                 if (Capacitor.isNativePlatform()) {
                     // NATIVE: Use System Google Dialog (No Chrome Tab)

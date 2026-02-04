@@ -283,6 +283,11 @@ export class GiftService {
         const user = this.auth.currentUser;
         if (!user) return;
 
+        if (!navigator.onLine) {
+            console.warn('Skipping archive backup: No Internet');
+            return;
+        }
+
         try {
             const userDocRef = doc(this.firestore, `users/${user.uid}/backups/data`);
             const docSnap = await getDoc(userDocRef);
@@ -342,6 +347,11 @@ export class GiftService {
     }
 
     async seedCustomData() {
+        if (!navigator.onLine) {
+            alert('No Internet Connection. Cannot import data.');
+            return;
+        }
+
         console.log('Seeding Custom Data from Remote...');
 
         let response: any = null;
