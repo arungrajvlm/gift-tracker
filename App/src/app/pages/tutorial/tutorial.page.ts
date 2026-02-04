@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { book, arrowBack, personAdd, gift, cloudUpload, search, create, cloudDone, cloud, sync, cloudOffline } from 'ionicons/icons';
+import { book, arrowBack, personAdd, gift, cloudUpload, search, create, cloudDone, cloud, sync, cloudOffline, heart } from 'ionicons/icons';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -15,6 +15,6 @@ import { RouterModule } from '@angular/router';
 export class TutorialPage {
 
     constructor() {
-        addIcons({ book, arrowBack, personAdd, gift, cloudUpload, search, create, cloudDone, cloud, sync, cloudOffline });
+        addIcons({ book, arrowBack, personAdd, gift, cloudUpload, search, create, cloudDone, cloud, sync, cloudOffline, heart });
     }
 }

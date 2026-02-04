@@ -98,7 +98,8 @@ ion-title {
 /* Legend */
 .status-legend {
     display: flex;
-    gap: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
     margin-top: 12px;
 }
 

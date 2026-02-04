@@ -156,7 +156,12 @@ export class HomePage implements OnInit {
   }
 
 
-  ngOnInit() { }
+  async ngOnInit() {
+    const seen = await this.giftService.checkTutorialStatus();
+    if (!seen) {
+      this.router.navigate(['/tutorial']);
+    }
+  }
 
   ionViewWillLeave() {
     this.isMenuOpen = false;

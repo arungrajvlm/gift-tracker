@@ -348,6 +348,17 @@ export class GiftService {
         return !!val;
     }
 
+    private readonly TUTORIAL_KEY = 'ionic_demo_tutorial_seen';
+
+    async checkTutorialStatus(): Promise<boolean> {
+        const seen = await this.storage.get(this.TUTORIAL_KEY);
+        if (!seen) {
+            await this.storage.set(this.TUTORIAL_KEY, true);
+            return false; // Not seen yet
+        }
+        return true; // Already seen
+    }
+
     async seedCustomData() {
         if (!navigator.onLine) {
             alert('No Internet Connection. Cannot import data.');
