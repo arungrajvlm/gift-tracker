@@ -93,24 +93,24 @@ export class GiftService {
         return this.contactsSubject.value.find(c => c.id === id);
     }
 
-    addContact(contact: Omit<Contact, 'id'>): string {
+    async addContact(contact: Omit<Contact, 'id'>): Promise<string> {
         const id = Date.now().toString();
         const newContact = { ...contact, id };
         const current = this.contactsSubject.value;
 
-        this.saveContacts([...current, newContact]);
+        await this.saveContacts([...current, newContact]);
         return id;
     }
 
-    deleteContact(id: string) {
+    async deleteContact(id: string) {
         const contacts = this.contactsSubject.value.filter(c => c.id !== id);
         const gifts = this.giftsSubject.value.filter(g => g.contactId !== id);
 
-        this.saveContacts(contacts);
-        this.saveGifts(gifts);
+        await this.saveContacts(contacts);
+        await this.saveGifts(gifts);
     }
 
-    updateContactName(id: string, name: string) {
+    async updateContactName(id: string, name: string) {
         const contacts = this.contactsSubject.value;
         const contactIndex = contacts.findIndex(c => c.id === id);
         if (contactIndex > -1) {
@@ -122,7 +122,7 @@ export class GiftService {
                 initials: trimmedName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
             };
             contacts[contactIndex] = updatedContact;
-            this.saveContacts(contacts);
+            await this.saveContacts(contacts);
         }
     }
 
@@ -137,20 +137,20 @@ export class GiftService {
         );
     }
 
-    addGift(gift: Omit<Gift, 'id'>) {
+    async addGift(gift: Omit<Gift, 'id'>) {
         const id = Date.now().toString();
         const newGift = { ...gift, id };
         const current = this.giftsSubject.value;
 
-        this.saveGifts([...current, newGift]);
+        await this.saveGifts([...current, newGift]);
     }
 
-    updateGift(gift: Gift) {
+    async updateGift(gift: Gift) {
         const gifts = this.giftsSubject.value;
         const index = gifts.findIndex(g => g.id === gift.id);
         if (index > -1) {
             gifts[index] = gift;
-            this.saveGifts(gifts);
+            await this.saveGifts(gifts);
         }
     }
 
@@ -158,9 +158,9 @@ export class GiftService {
         return this.gifts$;
     }
 
-    deleteGift(id: string) {
+    async deleteGift(id: string) {
         const gifts = this.giftsSubject.value.filter(g => g.id !== id);
-        this.saveGifts(gifts);
+        await this.saveGifts(gifts);
     }
 
     // --- Sync Methods ---

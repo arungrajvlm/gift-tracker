@@ -6,7 +6,7 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { GiftService } from '../../services/gift.service';
 import { addIcons } from 'ionicons';
-import { close, arrowUp, arrowDown } from 'ionicons/icons';
+import { close, arrowUp, arrowDown, checkmarkCircle, personAdd } from 'ionicons/icons';
 
 @Component({
     selector: 'app-add-contact',
@@ -32,36 +32,46 @@ export class AddContactPage {
         private router: Router,
         private giftService: GiftService,
         private toastCtrl: ToastController
-    ) { }
+    ) {
+        addIcons({ close, arrowUp, arrowDown, checkmarkCircle, personAdd });
+    }
 
-    save() {
-        if (this.processSave()) {
+    async save() {
+        if (await this.processSave()) {
+            const toast = await this.toastCtrl.create({
+                message: 'Person saved successfully',
+                duration: 2000,
+                position: 'top', // Top makes it more visible
+                color: 'success',
+                icon: 'checkmark-circle'
+            });
+            await toast.present();
             this.router.navigate(['/home'], { replaceUrl: true });
         }
     }
 
     async saveAndNext() {
-        if (this.processSave()) {
-            // Reset Form
+        if (await this.processSave()) {
+            // Reset Form (keep type)
             this.name = '';
             this.initialGiftItem = '';
             this.initialGiftPrice = null;
             this.initialGiftNote = '';
             this.initialGiftDate = new Date().toISOString();
-            // NOTE: We do NOT reset initialGiftType here, so it persists for the next entry.
 
             // Feedback
             const toast = await this.toastCtrl.create({
-                message: 'Person saved. Ready for next.',
+                message: 'Saved! Ready for next person.',
                 duration: 2000,
                 position: 'top',
-                color: 'success'
+                color: 'success',
+                icon: 'person-add'
             });
-            toast.present();
+            await toast.present();
         }
     }
 
-    private processSave(): boolean {
+    private async processSave(): Promise<boolean> {
         if (!this.name.trim()) return false;
 
         // Generate random avatar gradient
@@ -74,14 +84,15 @@ export class AddContactPage {
 
         const initials = this.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
-        const contactId = this.giftService.addContact({
+        // Await the new async service method
+        const contactId = await this.giftService.addContact({
             name: this.name,
             initials,
             avatarColor
         });
 
         if (this.initialGiftItem.trim()) {
-            this.giftService.addGift({
+            await this.giftService.addGift({
                 contactId,
                 item: this.initialGiftItem,
                 type: this.initialGiftType,

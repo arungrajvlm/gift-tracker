@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, IonContent, NavController, AlertController, ActionSheetController } from '@ionic/angular';
+import { IonicModule, IonContent, NavController, AlertController, ActionSheetController, ToastController, LoadingController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { arrowBack, arrowDownOutline, giftOutline, send, arrowUp, arrowDown, pencil, trash, trashOutline, close, add, createOutline } from 'ionicons/icons';
+import { arrowBack, arrowDownOutline, giftOutline, send, arrowUp, arrowDown, pencil, trash, trashOutline, close, add, createOutline, checkmarkCircle } from 'ionicons/icons';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GiftService } from '../../services/gift.service';
 import { Contact, Gift } from '../../models/data.models';
@@ -31,17 +31,31 @@ export class ChatDetailPage implements OnInit {
     newGiftDate = new Date().toISOString();
     editingGiftId: string | null = null;
 
+    isSaving = false;
+
     constructor(
         private route: ActivatedRoute,
         private giftService: GiftService,
         private navCtrl: NavController,
         private alertCtrl: AlertController,
-        private actionSheetCtrl: ActionSheetController
+        private actionSheetCtrl: ActionSheetController,
+        private toastCtrl: ToastController,
+        private loadingCtrl: LoadingController
     ) {
-        addIcons({ arrowBack, arrowUp, arrowDown, pencil, trash, close, add, createOutline });
+        addIcons({ arrowBack, arrowUp, arrowDown, pencil, trash, close, add, createOutline, checkmarkCircle });
     }
 
-    // goBack removed - using ion-back-button
+    async showSuccessToast(message: string) {
+        const toast = await this.toastCtrl.create({
+            message: message,
+            duration: 2000,
+            color: 'success',
+            position: 'top',
+            icon: 'checkmark-circle',
+            cssClass: 'custom-toast'
+        });
+        await toast.present();
+    }
 
     async editName() {
         if (!this.contact) return;
@@ -62,7 +76,6 @@ export class ChatDetailPage implements OnInit {
                     role: 'destructive',
                     cssClass: 'alert-delete-btn',
                     handler: () => {
-                        // Close this alert and open delete confirmation
                         this.deletePerson();
                     }
                 },
@@ -72,10 +85,20 @@ export class ChatDetailPage implements OnInit {
                 },
                 {
                     text: 'Save',
-                    handler: (data) => {
+                    handler: async (data) => {
                         if (data.name && data.name.trim() !== '') {
-                            this.giftService.updateContactName(this.contact!.id, data.name);
+                            // Show loading for better feedback 
+                            const loading = await this.loadingCtrl.create({
+                                message: 'Saving...',
+                                duration: 2000
+                            });
+                            await loading.present();
+
+                            await this.giftService.updateContactName(this.contact!.id, data.name);
                             this.contact = this.giftService.getContact(this.contact!.id);
+
+                            await loading.dismiss();
+                            this.showSuccessToast('Contact name updated');
                         }
                     }
                 }
@@ -100,8 +123,8 @@ export class ChatDetailPage implements OnInit {
                 {
                     text: 'Delete',
                     role: 'destructive',
-                    handler: () => {
-                        this.giftService.deleteContact(this.contact!.id);
+                    handler: async () => {
+                        await this.giftService.deleteContact(this.contact!.id);
                         this.navCtrl.navigateBack('/home');
                     }
                 }
@@ -137,8 +160,8 @@ export class ChatDetailPage implements OnInit {
                 {
                     text: 'Delete',
                     role: 'destructive',
-                    handler: () => {
-                        this.giftService.deleteGift(gift.id);
+                    handler: async () => {
+                        await this.giftService.deleteGift(gift.id);
                     }
                 }
             ]
@@ -155,8 +178,6 @@ export class ChatDetailPage implements OnInit {
         this.newGiftDate = new Date().toISOString();
         this.isModalOpen = true;
     }
-
-    // ... ngOnInit and scroll ...
 
     ngOnInit() {
         this.route.paramMap.subscribe(params => {
@@ -190,9 +211,9 @@ export class ChatDetailPage implements OnInit {
                 {
                     text: 'Delete',
                     role: 'destructive',
-                    handler: () => {
+                    handler: async () => {
                         if (this.editingGiftId) {
-                            this.giftService.deleteGift(this.editingGiftId);
+                            await this.giftService.deleteGift(this.editingGiftId);
                             this.isModalOpen = false;
                             this.editingGiftId = null;
                         }
@@ -203,12 +224,14 @@ export class ChatDetailPage implements OnInit {
         await alert.present();
     }
 
-    addGift() {
+    async addGift() {
         if (!this.newGiftItem.trim() || !this.contact) return;
+
+        this.isSaving = true;
 
         if (this.editingGiftId) {
             // Update existing
-            this.giftService.updateGift({
+            await this.giftService.updateGift({
                 id: this.editingGiftId,
                 contactId: this.contact.id,
                 item: this.newGiftItem,
@@ -217,9 +240,10 @@ export class ChatDetailPage implements OnInit {
                 price: this.newGiftPrice || undefined,
                 note: this.newGiftNote || undefined
             });
+            this.showSuccessToast('Gift updated');
         } else {
             // Create new
-            this.giftService.addGift({
+            await this.giftService.addGift({
                 contactId: this.contact.id,
                 item: this.newGiftItem,
                 type: this.newGiftType,
@@ -227,7 +251,10 @@ export class ChatDetailPage implements OnInit {
                 price: this.newGiftPrice || undefined,
                 note: this.newGiftNote || undefined
             });
+            this.showSuccessToast('Gift added');
         }
+
+        this.isSaving = false;
 
         // Reset and Close
         this.newGiftItem = '';

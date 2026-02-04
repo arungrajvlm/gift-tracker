@@ -103,8 +103,10 @@
             <ion-footer class="ion-no-border modal-footer">
                 <div class="footer-padding">
                     <ion-button expand="block" class="save-btn" [class.given]="newGiftType === 'given'"
-                        [class.received]="newGiftType === 'received'" (click)="addGift()" [disabled]="!newGiftItem">
-                        {{ editingGiftId ? 'Update Gift' : 'Save Gift' }}
+                        [class.received]="newGiftType === 'received'" (click)="addGift()"
+                        [disabled]="!newGiftItem || isSaving">
+                        <span *ngIf="!isSaving">{{ editingGiftId ? 'Update Gift' : 'Save Gift' }}</span>
+                        <ion-spinner *ngIf="isSaving" name="crescent"></ion-spinner>
                     </ion-button>
                 </div>
             </ion-footer>
