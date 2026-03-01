@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { Network } from '@capacitor/network';
+import { getAvatarColorFromName } from '../utils/avatar.util';
 
 @Injectable({
     providedIn: 'root'
@@ -64,7 +65,13 @@ export class GiftService {
 
 
         if (storedContacts) {
-            this.contactsSubject.next(JSON.parse(storedContacts));
+            const parsedContacts: Contact[] = JSON.parse(storedContacts);
+            // Upgrade all loaded contacts to use deterministic colors
+            const upgradedContacts = parsedContacts.map(c => ({
+                ...c,
+                avatarColor: getAvatarColorFromName(c.name)
+            }));
+            this.contactsSubject.next(upgradedContacts);
         } else {
             // Start fresh for new users
             this.saveContacts([], false);
@@ -137,7 +144,8 @@ export class GiftService {
             const updatedContact = {
                 ...contacts[contactIndex],
                 name: trimmedName,
-                initials: trimmedName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
+                initials: trimmedName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase(),
+                avatarColor: getAvatarColorFromName(trimmedName)
             };
             contacts[contactIndex] = updatedContact;
             await this.saveContacts(contacts);
@@ -285,8 +293,12 @@ export class GiftService {
                 const content = JSON.parse(data['content']);
 
                 if (content.contacts && content.gifts) {
-                    // Restore
-                    await this.saveContacts(content.contacts, false); // false = don't mark dirty
+                    // Restore and enforce deterministic colors
+                    const restoredContacts = content.contacts.map((c: Contact) => ({
+                        ...c,
+                        avatarColor: getAvatarColorFromName(c.name)
+                    }));
+                    await this.saveContacts(restoredContacts, false); // false = don't mark dirty
                     await this.saveGifts(content.gifts, false);
                     this.syncStateSubject.next('synced');
                     console.log('Restore successful');
@@ -418,14 +430,12 @@ export class GiftService {
             }
             const cid = this.generateId();
 
-            // Generate Avatar Color
-            const colors = [['#6366f1', '#8b5cf6'], ['#14b8a6', '#2dd4bf'], ['#f43f5e', '#fb7185'], ['#f59e0b', '#fbbf24'], ['#10b981', '#34d399']];
-            const rand = colors[Math.floor(Math.random() * colors.length)];
-            const avatarColor = `linear-gradient(135deg, ${rand[0]}, ${rand[1]})`;
-
             // Initials
             const trimmedName = item.person_full_name.trim();
             const initials = trimmedName.substring(0, 1).toUpperCase();
+
+            // Generate Avatar Color deterministically
+            const avatarColor = getAvatarColorFromName(trimmedName);
 
             newContacts.push({
                 id: cid,
