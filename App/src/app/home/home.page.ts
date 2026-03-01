@@ -33,7 +33,7 @@ export class HomePage implements OnInit {
   searchTerm = '';
   isMenuOpen = false;
 
-  private pageSize = 20;
+  private pageSize = 50;
   private currentPage = 0;
   private lastSearchTerm: string | null = null;
   infiniteScrollDisabled = false;
