@@ -9,6 +9,7 @@ import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { Network } from '@capacitor/network';
 import { getAvatarColorFromName } from '../utils/avatar.util';
+import * as LZString from 'lz-string';
 
 @Injectable({
     providedIn: 'root'
@@ -215,11 +216,13 @@ export class GiftService {
             };
 
             const jsonString = JSON.stringify(backupData);
+            const compressed = LZString.compressToUTF16(jsonString);
             const userDocRef = doc(this.firestore, `users/${user.uid}/backups/data`);
 
-            // Save as a single "blob" string to save write costs (1 Write)
+            // Save as a compressed string to bypass 1MB Firestore limit and save costs
             await setDoc(userDocRef, {
-                content: jsonString,
+                content: compressed,
+                isCompressed: true,
                 updatedAt: new Date().toISOString(),
                 recordCount: this.giftsSubject.value.length
             });
@@ -290,7 +293,14 @@ export class GiftService {
 
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                const content = JSON.parse(data['content']);
+                let rawContent = data['content'];
+
+                // Handle decompression if needed
+                if (data['isCompressed']) {
+                    rawContent = LZString.decompressFromUTF16(rawContent);
+                }
+
+                const content = JSON.parse(rawContent);
 
                 if (content.contacts && content.gifts) {
                     // Restore and enforce deterministic colors
