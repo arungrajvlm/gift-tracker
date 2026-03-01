@@ -119,7 +119,7 @@ export class GiftService {
     }
 
     async addContact(contact: Omit<Contact, 'id'>): Promise<string> {
-        const id = Date.now().toString();
+        const id = this.generateId();
         const newContact = { ...contact, id };
         const current = this.contactsSubject.value;
 
@@ -164,7 +164,7 @@ export class GiftService {
     }
 
     async addGift(gift: Omit<Gift, 'id'>) {
-        const id = Date.now().toString();
+        const id = this.generateId();
         const newGift = { ...gift, id };
         const current = this.giftsSubject.value;
 
