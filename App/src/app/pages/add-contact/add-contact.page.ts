@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { GiftService } from '../../services/gift.service';
 import { addIcons } from 'ionicons';
 import { close, arrowUp, arrowDown, checkmarkCircle, personAdd } from 'ionicons/icons';
+import { getAvatarColorFromName } from '../../utils/avatar.util';
 
 @Component({
     selector: 'app-add-contact',
@@ -76,13 +77,9 @@ export class AddContactPage {
     private async processSave(): Promise<boolean> {
         if (!this.name.trim()) return false;
 
-        // Generate random avatar gradient
-        const colors = [
-            ['#6366f1', '#8b5cf6'], ['#14b8a6', '#2dd4bf'], ['#f43f5e', '#fb7185'],
-            ['#f59e0b', '#fbbf24'], ['#10b981', '#34d399']
-        ];
-        const rand = colors[Math.floor(Math.random() * colors.length)];
-        const avatarColor = `linear-gradient(135deg, ${rand[0]}, ${rand[1]})`;
+        // Generate deterministic avatar gradient
+        const trimmedName = this.name.trim();
+        const avatarColor = getAvatarColorFromName(trimmedName);
 
         const initials = this.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
