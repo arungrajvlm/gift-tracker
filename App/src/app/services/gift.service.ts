@@ -504,4 +504,40 @@ export class GiftService {
         await this.storage.remove(this.IMPORT_KEY);
         console.log('Local data cleared.');
     }
+
+    async generateStressTestData() {
+        const newContacts: Contact[] = [];
+        const newGifts: Gift[] = [];
+
+        for (let i = 1; i <= 4000; i++) {
+            const cid = this.generateId();
+            const name = `Stress Tester ${i}`;
+            const initials = 'ST';
+            const avatarColor = getAvatarColorFromName(name);
+
+            newContacts.push({
+                id: cid,
+                name: name,
+                initials: initials,
+                avatarColor
+            });
+
+            newGifts.push({
+                id: this.generateId(),
+                contactId: cid,
+                type: i % 2 === 0 ? 'given' : 'received',
+                item: `Test Gift ${i}`,
+                price: Math.floor(Math.random() * 500) + 10,
+                date: new Date().toISOString(),
+                note: 'Generated for stress testing'
+            });
+        }
+
+        const currentContacts = this.contactsSubject.value;
+        const currentGifts = this.giftsSubject.value;
+
+        await this.saveContacts([...currentContacts, ...newContacts]);
+        await this.saveGifts([...currentGifts, ...newGifts]);
+        console.log('4000 stress test records injected.');
+    }
 }

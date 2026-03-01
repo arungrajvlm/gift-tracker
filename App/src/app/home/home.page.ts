@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, AlertController, LoadingController, ToastController, Platform } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { add, search, close, menu, person, helpCircle, logOutOutline, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync, book } from 'ionicons/icons';
+import { add, search, close, menu, person, helpCircle, logOutOutline, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync, book, flashOutline } from 'ionicons/icons';
 import { Router, RouterModule } from '@angular/router';
 import { GiftService } from '../services/gift.service';
 import { AuthService } from '../services/auth.service';
@@ -54,7 +54,7 @@ export class HomePage implements OnInit {
     private cdr: ChangeDetectorRef,
     private platform: Platform
   ) {
-    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync, book });
+    addIcons({ add, search, person, helpCircle, logOutOutline, close, menu, construct, arrowUpCircle, arrowDownCircle, chevronForward, cloudDone, cloudUpload, cloudOffline, sync, book, flashOutline });
 
     this.syncState$ = this.giftService.syncState$;
 
@@ -359,5 +359,30 @@ export class HomePage implements OnInit {
     } finally {
       await loading.dismiss();
     }
+  }
+
+  async injectStressData() {
+    this.isMenuOpen = false;
+    this.cdr.markForCheck();
+
+    const loading = await this.loadingController.create({
+      message: 'Generating 4000 records...',
+      spinner: 'circles',
+      cssClass: 'custom-loading'
+    });
+    await loading.present();
+
+    await this.giftService.generateStressTestData();
+
+    await loading.dismiss();
+    const toast = await this.toastController.create({
+      message: '4000 Records injected successfully.',
+      duration: 2000,
+      position: 'top',
+      color: 'success',
+      icon: 'flash-outline'
+    });
+    await toast.present();
+    this.cdr.markForCheck();
   }
 }
