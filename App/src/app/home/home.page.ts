@@ -160,6 +160,10 @@ export class HomePage implements OnInit {
   }
 
   loadData(event: any) {
+    if (this.isLoading) {
+      event.target.complete();
+      return;
+    }
     this.currentPage++;
     this.updateDisplayedContacts();
     event.target.complete();
@@ -193,7 +197,8 @@ export class HomePage implements OnInit {
   }
 
   trackByContact(index: number, contact: Contact): string {
-    return contact.id;
+    // Return ID + Last Gift ID for accurate tracking to prevent unnecessarily destroying and re-rendering DOM elements
+    return contact.id + (contact.lastGift ? `_${contact.lastGift.item}_${contact.lastGift.date}` : '');
   }
 
   openTutorial() {
