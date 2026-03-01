@@ -57,7 +57,13 @@ export class HomePage implements OnInit {
     this.syncState$ = this.giftService.syncState$;
 
     // Handle android hardware back button
-    this.platform.backButton.subscribeWithPriority(10, async () => {
+    this.platform.backButton.subscribeWithPriority(10, async (processNextHandler) => {
+      // If we are not on the home page, let the default back button handler take over
+      if (this.router.url !== '/home' && this.router.url !== '/') {
+        processNextHandler();
+        return;
+      }
+
       // If menu is open, close it
       if (this.isMenuOpen) {
         this.isMenuOpen = false;
