@@ -35,6 +35,8 @@ export class HomePage implements OnInit {
 
   private pageSize = 20;
   private currentPage = 0;
+  private lastSearchTerm: string | null = null;
+  infiniteScrollDisabled = false;
 
   loader: any;
   canSeed = false;
@@ -121,6 +123,9 @@ export class HomePage implements OnInit {
       this.isLoading = true;
       const lowerTerm = term.toLowerCase();
 
+      const termChanged = this.lastSearchTerm !== lowerTerm;
+      this.lastSearchTerm = lowerTerm;
+
       this.allFilteredContacts = contacts.filter(contact => {
         // Token Based Search (AND Logic)
         const tokens = lowerTerm.split(/\s+/).filter(t => t.length > 0);
@@ -135,8 +140,10 @@ export class HomePage implements OnInit {
         return tokens.every(token => searchableText.includes(token));
       }).sort((a, b) => a.name.localeCompare(b.name));
 
-      // Reset pagination
-      this.currentPage = 0;
+      // Reset pagination ONLY if search term changed
+      if (termChanged) {
+        this.currentPage = 0;
+      }
       this.updateDisplayedContacts();
 
       this.isLoading = false;
@@ -148,6 +155,7 @@ export class HomePage implements OnInit {
     const start = 0;
     const end = (this.currentPage + 1) * this.pageSize;
     this.displayedContacts = this.allFilteredContacts.slice(start, end);
+    this.infiniteScrollDisabled = this.displayedContacts.length >= this.allFilteredContacts.length;
     this.cdr.markForCheck();
   }
 
@@ -155,11 +163,7 @@ export class HomePage implements OnInit {
     this.currentPage++;
     this.updateDisplayedContacts();
     event.target.complete();
-
-    if (this.displayedContacts.length >= this.allFilteredContacts.length) {
-      event.target.disabled = true;
-    }
-    this.cdr.markForCheck();
+    // Re-evaluating disable condition occurs inside updateDisplayedContacts() directly now.
   }
 
 
