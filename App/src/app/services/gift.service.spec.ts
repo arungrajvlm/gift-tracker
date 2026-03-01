@@ -15,13 +15,13 @@ describe('GiftService', () => {
         expect(service).toBeTruthy();
     });
 
-    it('should add a contact', () => {
+    it('should add a contact', async () => {
         const contact = {
             name: 'John Doe',
             initials: 'JD',
             avatarColor: 'red'
         };
-        const id = service.addContact(contact);
+        const id = await service.addContact(contact);
         expect(id).toBeDefined();
 
         const retrieved = service.getContact(id);
@@ -29,8 +29,8 @@ describe('GiftService', () => {
         expect(retrieved?.name).toBe('John Doe');
     });
 
-    it('should add a gift for a contact', (done) => {
-        const contactId = service.addContact({ name: 'Alice', initials: 'A', avatarColor: 'blue' });
+    it('should add a gift for a contact', async (done) => {
+        const contactId = await service.addContact({ name: 'Alice', initials: 'A', avatarColor: 'blue' });
 
         const gift = {
             contactId,
@@ -39,7 +39,7 @@ describe('GiftService', () => {
             date: new Date().toISOString()
         };
 
-        service.addGift(gift);
+        await service.addGift(gift);
 
         service.getGiftsForContact(contactId).subscribe(gifts => {
             expect(gifts.length).toBe(1);
@@ -50,10 +50,10 @@ describe('GiftService', () => {
     });
 
     // Test for new feature: update contact name
-    it('should update contact name', () => {
-        const id = service.addContact({ name: 'Bob', initials: 'B', avatarColor: 'green' });
+    it('should update contact name', async () => {
+        const id = await service.addContact({ name: 'Bob', initials: 'B', avatarColor: 'green' });
 
-        service.updateContactName(id, 'Bobby');
+        await service.updateContactName(id, 'Bobby');
 
         const updated = service.getContact(id);
         expect(updated?.name).toBe('Bobby');

@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
+import { Network } from '@capacitor/network';
 
 @Injectable({
     providedIn: 'root'
@@ -189,7 +190,8 @@ export class GiftService {
             return;
         }
 
-        if (!navigator.onLine) {
+        const networkStatus = await Network.getStatus();
+        if (!networkStatus.connected) {
             throw new Error('No Internet connection');
         }
 
@@ -234,7 +236,8 @@ export class GiftService {
         const user = this.auth.currentUser;
         if (!user) return null;
 
-        if (!navigator.onLine) {
+        const networkStatus = await Network.getStatus();
+        if (!networkStatus.connected) {
             console.warn('Check backup skipped: Offline');
             // We return null implies "no backup found" or "can't check". 
             // Better to handle in UI, but here we just fail gracefully or throw?
@@ -266,7 +269,8 @@ export class GiftService {
         const user = this.auth.currentUser;
         if (!user) return;
 
-        if (!navigator.onLine) {
+        const networkStatus = await Network.getStatus();
+        if (!networkStatus.connected) {
             throw new Error('No Internet connection');
         }
 
@@ -301,7 +305,8 @@ export class GiftService {
         const user = this.auth.currentUser;
         if (!user) return;
 
-        if (!navigator.onLine) {
+        const networkStatus = await Network.getStatus();
+        if (!networkStatus.connected) {
             console.warn('Skipping archive backup: No Internet');
             return;
         }
@@ -381,7 +386,8 @@ export class GiftService {
     }
 
     async seedCustomData() {
-        if (!navigator.onLine) {
+        const networkStatus = await Network.getStatus();
+        if (!networkStatus.connected) {
             alert('No Internet Connection. Cannot import data.');
             return;
         }
