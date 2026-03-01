@@ -4,7 +4,8 @@
         <!-- Logo / Icon Area -->
         <div class="logo-area">
             <div class="icon-circle" [class.has-image]="userPhoto">
-                <img *ngIf="userPhoto" [src]="userPhoto" alt="Profile" />
+                <img *ngIf="userPhoto" [src]="userPhoto" referrerpolicy="no-referrer" alt="Profile"
+                    (error)="userPhoto = null" />
                 <ion-icon *ngIf="!userPhoto" name="gift-outline"></ion-icon>
             </div>
             <h1>GiftTracker</h1>

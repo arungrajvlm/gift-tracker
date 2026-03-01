@@ -16,9 +16,9 @@
             <div class="avatar-container">
                 <div class="avatar-ring">
                     <div class="avatar-inner" *ngIf="user$ | async as user; else guestAvatar">
-                        <!-- Show Image if exists and no error -->
                         <ng-container *ngIf="user.avatar && !imageError; else dummyAvatar">
-                            <img [src]="user.avatar" alt="Profile" (error)="handleImageError($event)" />
+                            <img [src]="user.avatar" referrerpolicy="no-referrer" alt="Profile"
+                                (error)="handleImageError($event)" />
                         </ng-container>
 
                         <!-- Fallback: Dummy Avatar -->
