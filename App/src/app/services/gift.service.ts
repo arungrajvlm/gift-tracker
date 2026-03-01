@@ -519,7 +519,7 @@ export class GiftService {
         const newContacts: Contact[] = [];
         const newGifts: Gift[] = [];
 
-        for (let i = 1; i <= 4000; i++) {
+        for (let i = 1; i <= 15000; i++) {
             const cid = this.generateId();
             const name = `Stress Tester ${i}`;
             const initials = 'ST';
@@ -548,6 +548,6 @@ export class GiftService {
 
         await this.saveContacts([...currentContacts, ...newContacts]);
         await this.saveGifts([...currentGifts, ...newGifts]);
-        console.log('4000 stress test records injected.');
+        console.log('15,000 stress test records injected.');
     }
 }

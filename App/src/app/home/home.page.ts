@@ -366,7 +366,7 @@ export class HomePage implements OnInit {
     this.cdr.markForCheck();
 
     const loading = await this.loadingController.create({
-      message: 'Generating 4000 records...',
+      message: 'Generating 15,000 records...',
       spinner: 'circles',
       cssClass: 'custom-loading'
     });
@@ -376,7 +376,7 @@ export class HomePage implements OnInit {
 
     await loading.dismiss();
     const toast = await this.toastController.create({
-      message: '4000 Records injected successfully.',
+      message: '15,000 Records injected successfully.',
       duration: 2000,
       position: 'top',
       color: 'success',
